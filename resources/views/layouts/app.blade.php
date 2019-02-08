@@ -32,6 +32,7 @@
 
     <!-- Custom Theme Style -->
     <link href="{{ asset('') }}panel/build/css/custom.min.css" rel="stylesheet">
+    <link href="{{ asset('') }}panel/build/css/custom.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">
@@ -264,7 +265,7 @@
         <!-- /footer content -->
       </div>
     </div>
-
+    @yield('footer')
     <!-- jQuery -->
      <script src="{{ asset('') }}panel/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->

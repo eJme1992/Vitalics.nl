@@ -4253,3 +4253,24 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
     background-color: #ffff !important;
 }
 /** /bootstrap-datetimepicker **/
+/*Sofia*/
+.mg-b{
+  margin-bottom:1.5em;
+}
+
+#preview .img-p{
+    display: block;
+    margin: 0 auto;
+    width:150px;
+    height: 150px;
+    background: #fff;
+    border: 1px solid rgba(52, 73, 94, 0.44);
+    padding: 4px;
+    z-index: 1000;
+}
+.update-btn{
+    width:200px;
+    height: auto;
+    display: block;
+    margin: 1.5em auto;
+}
