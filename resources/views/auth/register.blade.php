@@ -1,9 +1,9 @@
 @extends('layouts.login')
 
 @section('content')
- <div id="register" class="animate form registration_form"> <!--La clase del tema-->
 
-<div class="container">
+
+<div  id="register " class=" animate form registration_form">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -76,5 +76,5 @@
         </div>
     </div>
 </div>
-</div>
+
 @endsection
