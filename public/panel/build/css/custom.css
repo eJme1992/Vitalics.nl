@@ -4260,17 +4260,34 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
 
 #preview .img-p{
     display: block;
-    margin: 0 auto;
-    width:150px;
-    height: 150px;
+    margin: 1.5em auto;
+    width:156px;
+    height: 156px;
     background: #fff;
     border: 1px solid rgba(52, 73, 94, 0.44);
     padding: 4px;
-    z-index: 1000;
+    z-index: 1000
+
 }
 .update-btn{
     width:200px;
     height: auto;
     display: block;
     margin: 1.5em auto;
+}
+.img-prueba{
+    display: block;
+    margin: 1em auto;
+    width: 156px;
+    height: 156px;
+}
+.btn-profile{
+    background-color: #2A3F54;
+    color:#fff !important;
+    display: block;
+    margin:0 auto;
+}
+.btn-profile:hover{ color: #fff !important; }
+.hide{
+    display: none;
 }
