@@ -18,6 +18,9 @@ Route::get('/', function () {
 Route::get('/view-register', function () {
     return view('usuarios.register');
 });
+Route::get('/edit-company', function () {
+    return view('empresa.editar-empresa');
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

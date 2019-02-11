@@ -15,11 +15,11 @@
       </div>
       <div class="col-md-6 mg-b">
          <p>Name:</p>
-         <input type="text" class="form-control" name="user-name" value="User Name">
+         <input type="text" class="form-control" name="user-name" value="Name">
       </div>
       <div class="col-md-6 mg-b">
          <p>Lastname</p>
-         <input type="text" name="user-name"  class="form-control" value="User Lastname">
+         <input type="text" name="user-name"  class="form-control" value="Lastname">
       </div>
       <div class="col-md-6 mg-b">
          <p> Email</p>
