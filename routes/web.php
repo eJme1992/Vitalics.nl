@@ -24,3 +24,9 @@ Route::get('/edit-company', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::resource('empresa', 'EmpresasController');
+Route::post('registrar_empresa', 'EmpresasController@store')
+
+Route::resource('empresa', 'UsersController');
