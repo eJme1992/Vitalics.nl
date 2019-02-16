@@ -26,7 +26,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::resource('empresa', 'EmpresasController');
-Route::post('registrar_empresa', 'EmpresasController@store')
+Route::resource('empresas', 'EmpresasController');
+Route::post('registrar_empresa', 'EmpresasController@store');
 
-Route::resource('empresa', 'UsersController');
+Route::resource('usuarios', 'UsersController');
