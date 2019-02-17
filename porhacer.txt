@@ -1,0 +1,8 @@
+Necesitamos una vista que muestre servicios:
+Los servicios son como productos, van a tener una foto, un costo, nombre descripcion
+Vista 1.1 Una Vista que se vea el detalle
+
+Vista2: Una vista que muestre usuarios de la empresa, debe tener foto, nombre y cargo un boton de ver
+
+Vista3: Una vista que muestre el perfil de cada usuario debe contener, servicios en los que este inscripto, informacion completa dle usuario
+debe tener los puntos que posee y los puntos que ha gastado

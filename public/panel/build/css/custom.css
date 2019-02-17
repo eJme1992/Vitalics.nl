@@ -4304,3 +4304,50 @@ background-color: #fff;
 border-radius: 25px;
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+.btn-profile-list{
+    display: block;
+    margin: 0.5em auto;
+    width:100px;
+    height:auto;
+    background-color: #2A3F54;
+}
+.card-profile{
+    background-color: #fff;
+    padding:1em;
+    width:90%; 
+    border: 1px solid #ccc;
+}
+.img-profile-list{
+    display: block; 
+    margin:0 auto; 
+    width:100%;
+}
+.justify-content-center{
+-ms-flex-pack: center !important;
+justify-content: center !important;
+}
+.pagination{
+    display: -ms-flexbox;
+display: flex;
+padding-left: 0;
+list-style: none;
+border-radius: .25rem
+}
+.card-title{
+    text-align: center;
+}
+.card-text{text-align: center;}
+.view-boton{
+    margin:2em 0;
+    width: 200px;
+    float:right;
+}
+.view-boton i{
+    padding:0 0.5em;
+    text-align: center;
+}
+.txt-cost{
+    text-align: center;
+    font-size: 1.2em;
+    color:#ff0000;
+}

@@ -21,6 +21,12 @@ Route::get('/view-register', function () {
 Route::get('/edit-company', function () {
     return view('empresa.editar-empresa');
 });
+Route::get('/user-empresa', function () {
+    return view('usuarios.user-empresa');
+});
+Route::get('/services', function () {
+    return view('servicios.services-list');
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

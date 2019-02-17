@@ -13,7 +13,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+      
     }
 
     /**
@@ -23,7 +23,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+           return view ('usuarios.user-create');
+
     }
 
     /**
@@ -34,7 +35,21 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->ajax()) {
+       
+       $validatedData = $request->validate(['name' => 'required', 'password' => 'required', 'birthdate' => 'required', 'model' => 'required', 'email' => 'required', 'nationality' => 'required', 'phone' => 'required', 'address' => 'required', ]);
+
+       $Cliente->usuarios()->create([
+           'nombre'     => $request->input('nombre'),
+           'apellido'   => $request->input('apellido'),
+           'cargo'      => $request->input('cargo'),
+           'tipo'       => $request->input('tipo'),
+           'correo'     => $request->input('correo'),
+           'telefono'   => $request->input('telefono'),
+        ]);
+      return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);
+    }
+
     }
 
     /**
