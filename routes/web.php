@@ -27,12 +27,14 @@ Route::get('/user-empresa', function () {
 Route::get('/services', function () {
     return view('servicios.services-list');
 });
+
+//Rutas de autentificacion url
 Auth::routes();
-
+//Home Url
 Route::get('/home', 'HomeController@index')->name('home');
-
-
+//Empresas URL 
 Route::resource('empresas', 'EmpresasController');
-Route::post('registrar_empresa', 'EmpresasController@store');
-
+Route::post('registrar_empresa', 'EmpresasController@nuevaempresa');
+Route::get('listadeempresas', 'EmpresasController@todasmisempresas');
+//Usuario Url
 Route::resource('usuarios', 'UsersController');
