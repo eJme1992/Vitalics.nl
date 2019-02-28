@@ -128,7 +128,7 @@
                                  <li><a href="form.html">Nuevo empleado</a></li>
                               </ul>
                            </li>
-                           <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Shop</span></a></li>
+                           <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Store points</span></a></li>
                         </ul>
                         @else
                         <ul class="nav side-menu">
@@ -147,9 +147,12 @@
                                  <li><a href="form.html">Nuevo empleado</a></li>
                               </ul>
                            </li>
-                           <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Shop</span></a></li>
+                           <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Store points</span></a></li>
                         </ul>
                         @endif
+                         <ul class="nav side-menu">
+                           <li><a href="{{url('/')}}"><i class="fas fa-shopping-cart"></i> Shop</span></a></li>
+                        </ul>
                      </div>
                   </div>
                   <!-- /sidebar menu -->
