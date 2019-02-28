@@ -8,7 +8,7 @@ class Empresa extends Model
 {
       
     public function usuario(){
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User', 'empresa_user');
     }
 
       protected $fillable = [

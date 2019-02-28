@@ -133,7 +133,7 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
+                    <li><a href="{{route('usuarios.edit', Auth::user()->id)}}"> Profile</a></li>
                     <li>
                       <a href="javascript:;">
                         <span class="badge bg-red pull-right">50%</span>
@@ -307,9 +307,12 @@
     <!-- bootstrap-daterangepicker -->
      <script src="{{ asset('') }}panel/vendors/moment/min/moment.min.js"></script>
      <script src="{{ asset('') }}panel/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+     <script src="{{ asset('') }}panel/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+     <script src="{{asset('')}}panel/vendors/validator/validator.js"></script>
 
     <!-- Custom Theme Scripts -->
      <script src="{{ asset('') }}panel/build/js/custom.min.js"></script>
+     
     
   </body>
 </html>

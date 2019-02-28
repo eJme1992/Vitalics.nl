@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use DB;
+use App\User;
+use App\Empresa;
 
 class UsersController extends Controller
 {
@@ -72,6 +77,26 @@ class UsersController extends Controller
     public function edit($id)
     {
         //
+        $usuario = DB::table('users')->where('id',$id)->get();
+
+        foreach($usuario as $user){
+
+            if($user->model == 'natural'){
+                
+                $message = '';
+                return view('usuarios.edit-user', compact(['usuario', 'message']));
+
+            }elseif($user->model == 'juridico'){
+
+                $user = User::findOrFail($id);
+                $empresa = $user->empresa;
+
+                $message = '';
+                return view('usuarios.editar-empresa', compact(['usuario', 'message','empresa']));
+
+            }
+        }
+
     }
 
     /**
@@ -84,6 +109,124 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $usuario = DB::table('users')->where('id',$id)->get();
+
+        foreach($usuario as $user){
+            if($user->model == 'natural'){
+
+                if($request->password == ''){
+
+
+                    if ($request->file('profile')) {
+                        # code...
+                        $path = Storage::disk('public')->put('img', $request->file('profile'));
+            
+                        $profile = asset($path);
+                        DB::table('users')->where('id',$id)
+                            ->update([
+                                'profile' => $profile,
+                            ]);
+                    }
+
+                    DB::table('users')->where('id',$id)
+                        ->update([
+                            'name' => $request->name,
+                            'birthdate' => $request->birthdate,
+                            'nationality' => $request->nationality,
+                            'phone' => $request->phone,
+                            'address' => $request->address,
+                            'email' => $request->email,
+                        ]);
+
+                    return back();
+
+                }else{
+
+                    if($request->password == $request->password2){
+
+                        DB::table('users')->where('id',$id)
+                        ->update([
+
+                            'password' => Hash::make($request->password),
+
+                        ]);
+                        $message = 'Las contraseñas no coinciden';
+                        return back()->with('message',$message);
+
+                    }else{
+
+                        $message = 'Las contraseñas no coinciden';
+                        return back()->with('message',$message);
+
+                    }
+                   
+                }
+
+
+
+            }else{
+                // EMPRESA
+
+                 $user = User::findOrFail($id);
+                 $empresa = $user->empresa;
+
+                 foreach($empresa as $empresa){
+                     $id_empresa = $empresa->id;
+                 }
+                 $empresa = Empresa::findOrFail($id_empresa);
+
+                 if($request->password == ''){
+
+
+                    if ($request->file('profile')) {
+                        # code...
+                        $path = Storage::disk('public')->put('img/programa', $request->file('profile'));
+            
+                        $profile = asset($path);
+                        DB::table('users')->where('id',$id)
+                            ->update([
+                                'profile' => $profile,
+                            ]);
+                    }
+                    
+                    $empresa->rif =     $request->rif;
+                    $empresa->descripcion =  $request->descripcion;
+                    $empresa->save(); 
+
+                    $user->name = $request->name;
+                    $user->email = $request->email;
+                    $user->phone = $request->phone;
+                    $user->address =$request->address;
+                    $user->nationality = $request->nationality;
+                    $user->save();
+
+                    return back();
+
+                }else{
+
+                    if($request->password == $request->password2){
+
+                        DB::table('users')->where('id',$id)
+                        ->update([
+
+                            'password' => Hash::make($request->password),
+
+                        ]);
+                        $message = 'Las contraseñas no coinciden';
+                        return back()->with('message',$message);
+
+                    }else{
+
+                        $message = 'Las contraseñas no coinciden';
+                        return back()->with('message',$message);
+
+                    }
+                   
+                }
+
+            }
+        }
+        
     }
 
     /**

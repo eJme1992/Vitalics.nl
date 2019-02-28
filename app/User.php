@@ -11,7 +11,7 @@ class User extends Authenticatable
     use Notifiable;
 
     public function empresa(){
-        return $this->belongsToMany('App\Empresa');
+        return $this->belongsToMany('App\Empresa', 'empresa_user');
     }
 
 
@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','model'
+        'name', 'email', 'password','model', 'birthdate', 'natinality','phone','address','profile'
     ];
 
     /**
