@@ -44,7 +44,36 @@
          -webkit-font-smoothing: antialiased;
          -moz-osx-font-smoothing: grayscale;
          }
+         .logo{
+            width: 100%;
+            display: block;
+         }
+         .logo2{
+            width: 85%;
+            display: none;
+         }
+         @media only screen and (max-width: 600px) {
+         .logo {
+          display: none;
+          }
+          .logo2{
+            display: block;
+         }
+          }
       </style>
+      <script type="text/javascript">
+      function myFunction() {
+        var x = document.getElementById("logo");
+        var y = document.getElementById("logo2");
+       if (x.style.display === "none") {
+        x.style.display = "block";
+        y.style.display = "none";
+       } else {
+        x.style.display = "none";
+        y.style.display = "block";
+       }
+}
+      </script>
    </head>
    <body class="nav-md">
       <div class="container body">
@@ -53,7 +82,8 @@
                <div class="left_col scroll-view">
                   <div class="navbar nav_title" style="border: 0;">
                      <a href="{{ url('/') }}" class="site_title">
-                     <img src="{{url('/')}}/panel/logo.png" width="100%">
+                     <img src="{{url('/')}}/panel/logo.png" class="logo" id="logo">
+                     <img src="{{url('/')}}/panel/logo2.png" class="logo2" id="logo2">
                      </a>
                   </div>
                   <div class="clearfix"></div>
@@ -146,7 +176,7 @@
                <div class="nav_menu">
                   <nav>
                      <div class="nav toggle">
-                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        <a id="menu_toggle" onclick="myFunction()"><i class="fa fa-bars"></i></a>
                      </div>
                      <ul class="nav navbar-nav navbar-right">
                         <li class="">
