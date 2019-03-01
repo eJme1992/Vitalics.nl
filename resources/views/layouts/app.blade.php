@@ -93,7 +93,7 @@
                         @if(Auth::user()->profile == '')
                         <img src="{{url('/')}}/img/profile.png" class="img-circle profile_img" >
                         @else
-                        <img src="{{Auth::user()->profile }}"   alt="{{ Auth::user()->name }}" class="img-circle profile_img">
+                        <img src="{{url('/')}}{{Auth::user()->profile }}"   alt="{{ Auth::user()->name }}" class="img-circle profile_img">
                         @endif
                      </div>
                      <div class="profile_info">

@@ -64,12 +64,12 @@ class EmpresasController extends Controller
                 $fn = new FuncionesRepetitivas();
                 $name = $fn->limpiarCaracteresEspeciales($name);
                 $file->move(public_path() . '/img/programa/', $name);
+                $name = '/img/programa/'.$name;
         }else{
           $name = public_path() . "/img/programa/profile.png";
         }
 
         $empresa = new Empresa();
-        $empresa->nombre =       $request->input('nombre');
         $empresa->rif =          $request->input('rif');
         $empresa->descripcion =  $request->input('descripcion');
         $empresa->save();     
@@ -78,7 +78,7 @@ class EmpresasController extends Controller
         $user->name = $request->input('nombre');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
-        $user->model = "juridica";
+        $user->model = "juridico";
         $user->phone = $request->input('phone');
         $user->address =$request->input('address');
         $user->profile = $name;

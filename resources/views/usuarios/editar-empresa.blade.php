@@ -11,7 +11,7 @@
             <div class="clearfix"></div>
             </div>
             <div class="x_content">
-            @foreach($usuario as $user)
+           
             
 
             <form action="{{route('usuarios.update', $user->id)}}" enctype="multipart/form-data" method='POST' class="form-horizontal form-label-left input_mask">
@@ -38,7 +38,7 @@
                   <input type="text" class="form-control" value="{{$user->email}}" name='email' id="inputSuccess3" placeholder="Email" required='required' >
                   <span class="fa fa-envelope form-control-feedback right" aria-hidden="true"></span>
                </div>
-                @foreach($empresa as $empresa)
+            
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
                   <input type="text"  value="{{$empresa->rif}}"  class="form-control disabled has-feedback-left" id="inputSuccess2" placeholder="Rif" required disabled>
                   <span class="fa fa-barcode form-control-feedback left" aria-hidden="true"></span>
@@ -70,7 +70,7 @@
                     <button type="submit" class="btn btn-success btn-lg left">Submit</button>
                 </div>
                 </div>
-               @endforeach
+          
 
             </form>
             </div>
@@ -122,7 +122,7 @@
     </div>
    </div>
 </div>
-@endforeach
+
 @endsection
 @section('footer')
 <script type="text/javascript">

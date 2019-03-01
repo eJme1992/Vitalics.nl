@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use App\FuncionesRepetitivas;
 use DB;
 use App\User;
 use App\Empresa;
@@ -77,26 +78,35 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
-        $usuario = DB::table('users')->where('id',$id)->get();
+        
+         
+        $user = User::where('id',$id)->first();
 
-        foreach($usuario as $user){
+        
 
             if($user->model == 'natural'){
                 
                 $message = '';
-                return view('usuarios.edit-user', compact(['usuario', 'message']));
+                return view('usuarios.edit-user', compact(['user', 'message']));
 
             }elseif($user->model == 'juridico'){
 
                 $user = User::findOrFail($id);
-                $empresa = $user->empresa;
+            
+                $empresa = Empresa::
+                join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->
+                join('users', 'users.id', '=', 'empresa_user.empresa_id')->
+                select('empresas.*')->
+                where('users.id', $id)->
+                where('users.model','juridico')->
+                first();
 
+          
                 $message = '';
-                return view('usuarios.editar-empresa', compact(['usuario', 'message','empresa']));
+                return view('usuarios.editar-empresa', compact(['user', 'message','empresa']));
 
             }
-        }
+        
 
     }
 
@@ -118,7 +128,7 @@ class UsersController extends Controller
                 if($request->password == ''){
 
 
-                    if ($request->file('profile')) {
+                   /* if ($request->file('profile')) {
                         # code...
                         $path = Storage::disk('public')->put('img', $request->file('profile'));
             
@@ -127,6 +137,17 @@ class UsersController extends Controller
                             ->update([
                                 'profile' => $profile,
                             ]);
+                    }*/
+
+                    if ($request->file('profile')) {
+                    $file = $request->file('profile');
+                    $name = time() . $file->getClientOriginalName();  
+                    $fn = new FuncionesRepetitivas();
+                    $name = $fn->limpiarCaracteresEspeciales($name);
+                    $file->move(public_path() . '/img/programa/', $name);
+                    $name = '/img/programa/'.$name;
+                    DB::table('users')->where('id',$id)
+                    ->update(['profile' => $name,]);
                     }
 
                     DB::table('users')->where('id',$id)
@@ -136,6 +157,7 @@ class UsersController extends Controller
                             'nationality' => $request->nationality,
                             'phone' => $request->phone,
                             'address' => $request->address,
+                            'email' => $request->email,
                             'email' => $request->email,
                         ]);
 
@@ -180,14 +202,14 @@ class UsersController extends Controller
 
 
                     if ($request->file('profile')) {
-                        # code...
-                        $path = Storage::disk('public')->put('img/programa', $request->file('profile'));
-            
-                        $profile = asset($path);
-                        DB::table('users')->where('id',$id)
-                            ->update([
-                                'profile' => $profile,
-                            ]);
+                    $file = $request->file('profile');
+                    $name = time() . $file->getClientOriginalName();  
+                    $fn = new FuncionesRepetitivas();
+                    $name = $fn->limpiarCaracteresEspeciales($name);
+                    $file->move(public_path() . '/img/programa/', $name);
+                    $name = '/img/programa/'.$name;
+                    DB::table('users')->where('id',$id)
+                    ->update(['profile' => $name,]);
                     }
                     
                     // $empresa->rif =     $request->rif;
