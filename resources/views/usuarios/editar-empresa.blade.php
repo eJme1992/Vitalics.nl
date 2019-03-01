@@ -25,13 +25,13 @@
                 <img src="{{$user->profile}}"   class="img-prueba" id="img-prueba">
                 @endif
                 <div  id="preview"></div>
-                <button  type="button" id="change-photo" class="btn btn-profile">Change profile photo</button>
+                <button  type="button" id="change-photo" class="btn btn-profile">Change Logo</button>
                 <input type="file" class="form-control hide" name="profile" id="photo"  />
                 <center>
             </div>
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
-                  <input type="text"  value="{{$user->name}}" name='name' class="form-control has-feedback-left" id="inputSuccess2" placeholder="Name" required>
-                  <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                  <input type="text"  value="{{$user->name}}" name='name' class="form-control has-feedback-left" id="inputSuccess2" placeholder="Company's Name" required>
+                  <span class="fa fa-briefcase form-control-feedback left" aria-hidden="true"></span>
                </div>
 
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
@@ -40,7 +40,7 @@
                </div>
                 @foreach($empresa as $empresa)
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
-                  <input type="text"  value="{{$empresa->rif}}" name='rif' class="form-control has-feedback-left" id="inputSuccess2" placeholder="Rif" required>
+                  <input type="text"  value="{{$empresa->rif}}"  class="form-control disabled has-feedback-left" id="inputSuccess2" placeholder="Rif" required disabled>
                   <span class="fa fa-barcode form-control-feedback left" aria-hidden="true"></span>
                </div>
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">

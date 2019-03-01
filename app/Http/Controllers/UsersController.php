@@ -66,6 +66,7 @@ class UsersController extends Controller
     public function show($id)
     {
         //
+        return view('usuarios.show');
     }
 
     /**
@@ -189,7 +190,7 @@ class UsersController extends Controller
                             ]);
                     }
                     
-                    $empresa->rif =     $request->rif;
+                    // $empresa->rif =     $request->rif;
                     $empresa->descripcion =  $request->descripcion;
                     $empresa->save(); 
 

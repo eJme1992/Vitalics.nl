@@ -117,15 +117,15 @@
                            <li>
                               <a><i class="fas fa-user"></i> Employees <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
-                                 <li><a href="form.html">Roster</a></li>
-                                 <li><a href="form.html">Invite employees</a></li>
+                                 <li><a href="#">Roster</a></li>
+                                 <li><a href="#">Invite employees</a></li>
                               </ul>
                            </li>
                            <li>
                               <a><i class="fas fa-suitcase"></i> Services <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
-                                 <li><a href="form.html">Mis empleados</a></li>
-                                 <li><a href="form.html">Nuevo empleado</a></li>
+                                 <li><a href="#">Mis empleados</a></li>
+                                 <li><a href="#">Nuevo empleado</a></li>
                               </ul>
                            </li>
                            <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Store points</span></a></li>
@@ -136,15 +136,15 @@
                            <li>
                               <a><i class="fas fa-user"></i> Employees <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
-                                 <li><a href="form.html">Roster</a></li>
-                                 <li><a href="form.html">Invite employees</a></li>
+                                 <li><a href="#">Roster</a></li>
+                                 <li><a href="#">Invite employees</a></li>
                               </ul>
                            </li>
                            <li>
                               <a><i class="fas fa-suitcase"></i> Services <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
-                                 <li><a href="form.html">Mis empleados</a></li>
-                                 <li><a href="form.html">Nuevo empleado</a></li>
+                                 <li><a href="#">Mis empleados</a></li>
+                                 <li><a href="#">Nuevo empleado</a></li>
                               </ul>
                            </li>
                            <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Store points</span></a></li>
@@ -203,10 +203,9 @@
                         <span class=" fa fa-angle-down"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-usermenu pull-right">
-                           <li><a href="{{route('usuarios.edit', Auth::user()->id)}}"> Profile</a></li>
+                           <li><a href="{{route('usuarios.show', Auth::user()->id)}}"> Profile</a></li>
                            <li>
-                              <a href="javascript:;">
-                              <span class="badge bg-red pull-right">50%</span>
+                              <a href="{{route('usuarios.edit', Auth::user()->id)}}">
                               <span>Settings</span>
                               </a>
                            </li>
