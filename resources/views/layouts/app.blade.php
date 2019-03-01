@@ -90,11 +90,13 @@
                   <!-- menu profile quick info -->
                   <div class="profile clearfix">
                      <div class="profile_pic">
+                        <a href="{{route('usuarios.show', Auth::user()->id)}}">
                         @if(Auth::user()->profile == '')
                         <img src="{{url('/')}}/img/profile.png" class="img-circle profile_img" >
                         @else
                         <img src="{{url('/')}}{{Auth::user()->profile }}"   alt="{{ Auth::user()->name }}" class="img-circle profile_img">
                         @endif
+                       </a>
                      </div>
                      <div class="profile_info">
                         @if(Auth::user()->model == 'juridico')
@@ -102,7 +104,9 @@
                         @else
                         <span><b>User type:</b> employee</span>
                         @endif
+                        <a href="{{route('usuarios.show', Auth::user()->id)}}">
                         <h2>{{ Auth::user()->name }}</h2>
+                        </a>
                      </div>
                   </div>
                   <!-- /menu profile quick info -->
