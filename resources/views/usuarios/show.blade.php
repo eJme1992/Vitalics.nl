@@ -3,32 +3,68 @@
 <div class="container"  style=' padding:10px;'>
     <div class="row " style='background-color: #424E5C;'>
         <div class="col-md-3" >
-            <img src="{{url('/')}}/img/profile.png" class="img-prueba"  id="img-prueba">
+             @if($user->profile == '')
+                <img src="{{url('/')}}/img/profile.png" class="img-prueba img-circle"  id="img-prueba">
+                @else
+                <img src="{{$user->profile}}"   class="img-prueba img-circle" id="img-prueba">
+                @endif
         </div>
         <div class="col-md-9 " style='border-left:#B6BEC9 2px solid;'>
+            @if($user->model=='natural')
             <div class="container" style='color:white; padding-left:10px;'>
                 <div class="row">
-                    <center>
-                        <h3 >Joe Doe</h3><br>
-                    </center>
+                   
+                        <h2>{{$user->name}}</h2><br>
+                    
                 </div>
                 <div class="row" style='font-size:17px; '>
                     <div class="col-md-6">
-                        D.N.I.: 22222222<br>
+                        Birthdate: {{$user->birthdate}}<br>
                         Edad: 32 años<br>
-                        Cargo: Gerente<br>
+                        Nationality: {{$user->nationality}}<br>
                     </div>
                     <div class="col-md-6">
-                        Phone: 22222222<br>
-                        Email: email@email.com<br>
-                        Nationality: De su pais<br>
+                        Phone: {{$user->phone}}<br>
+                        Email: {{$user->email}}<br>
+                        
                     </div>
                 </div>
                 <div class="row " style='font-size:17px;'>
-                    <div class='col-md-12'>Direccion: Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, quam.</div>
+                    <div class='col-md-12'>Direccion: {{$user->address}}</div>
+                </div>
+            </div>
+           @else
+            <div class="container" style='color:white; padding-left:10px;'>
+                <div class="row">
+                   
+                 <h2 style="display:inline;">{{$user->name}} :</h2> <span> {{$empresa->descripcion}}</span><br><br>
+                    
+                </div>
+                <div class="row" style='font-size:17px; '>
+                    <div class="col-md-6">
+                        RIF : {{$empresa->rif}}<hr>
+
+                        
+                        Phone : {{$user->phone}}<br>
+                        Email : {{$user->email}}<br>
+                    </div>
+                    <div class="col-md-6">
+                        Nationality : {{$user->nationality}}<hr>                      
+                    </div>
+                </div>
+                <div class="row " style='font-size:17px;'>
+                
                 </div>
             </div>
         </div>
+
+
+           @endif
+
+
+
+        </div>
+
     </div>
     <div class="row" >
         <div class="col-md-8">
