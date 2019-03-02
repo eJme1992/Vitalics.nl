@@ -128,8 +128,22 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
-        return view('usuarios.show');
+
+    $user = User::where('id',$id)->first();
+    if($user->model=='juridico'){
+    $empresa = Empresa::
+                join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->
+                join('users', 'users.id', '=', 'empresa_user.empresa_id')->
+                select('empresas.*')->
+                where('users.id', $id)->
+                where('users.model','juridico')->
+                first(); 
+                return view('usuarios.show', compact(['user','empresa']));      
+     }else{
+      $empresas = $user->empresa();
+      return view('usuarios.show', compact(['user','empresas']));
+     }           
+    
     }
 
     /**

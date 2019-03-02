@@ -3,32 +3,69 @@
 <div class="container"  style=' padding:10px;'>
     <div class="row " style='background-color: #424E5C;'>
         <div class="col-md-3" >
-            <img src="{{url('/')}}/img/profile.png" class="img-prueba"  id="img-prueba">
+             @if($user->profile == '')
+                <img src="{{url('/')}}/img/profile.png" class="img-prueba img-circle"  id="img-prueba">
+                @else
+                <img src="{{$user->profile}}"   class="img-prueba img-circle" id="img-prueba">
+                @endif
         </div>
         <div class="col-md-9 " style='border-left:#B6BEC9 2px solid;'>
+            @if($user->model=='natural')
             <div class="container" style='color:white; padding-left:10px;'>
                 <div class="row">
-                    <center>
-                        <h3 >Joe Doe</h3><br>
-                    </center>
+                   
+                        <h2>{{$user->name}}</h2><br>
+                    
                 </div>
                 <div class="row" style='font-size:17px; '>
                     <div class="col-md-6">
-                        D.N.I.: 22222222<br>
+                        Birthdate: {{$user->birthdate}}<br>
                         Edad: 32 años<br>
-                        Cargo: Gerente<br>
+                        Nationality: {{$user->nationality}}<br>
                     </div>
                     <div class="col-md-6">
-                        Phone: 22222222<br>
-                        Email: email@email.com<br>
-                        Nationality: De su pais<br>
+                        Phone: {{$user->phone}}<br>
+                        Email: {{$user->email}}<br>
+                        
                     </div>
                 </div>
                 <div class="row " style='font-size:17px;'>
-                    <div class='col-md-12'>Direccion: Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, quam.</div>
+                    <div class='col-md-12'>Direccion: {{$user->address}}</div>
+                </div>
+            </div>
+           @else
+            <div class="container" style='color:white; padding-left:10px;'>
+                <div class="row">
+                   
+                 <h2 style="display:inline;">{{$user->name}} </h2> <span>-{{$empresa->descripcion}}</span><br><br>
+                    
+                </div>
+                <div class="row" style='font-size:17px; '>
+                    <div class="col-md-6">
+                        RIF : {{$empresa->rif}}<hr>
+
+                        
+                        Phone : {{$user->phone}}<br>
+                        Email : {{$user->email}}<br>
+                    </div>
+                    <div class="col-md-6">
+                        Nationality : {{$user->nationality}}<hr>
+                        Address :  {{$user->address}}                   
+                    </div>
+                </div>
+                <div class="row " style='font-size:17px;'>
+                
                 </div>
             </div>
         </div>
+
+
+           @endif
+
+
+
+        </div>
+
     </div>
     <div class="row" >
         <div class="col-md-8">
@@ -129,25 +166,7 @@
             <div>
                 
                 <ul class="list-unstyled top_profiles scroll-view">
-                    <li class="media event">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user aero"></i>
-                    </a>
-                    <div class="media-body">
-                        <a class="title" href="#">Puntos Otorgados </a>
-                        <h3><strong>200 </strong></h3> 
-                    </div>
-                    </li>
-                    <li class="media event">
-                    <a class="pull-left border-green profile_thumb">
-                        <i class="fa fa-user green"></i>
-                    </a>
-                    <div class="media-body">
-                        <a class="title" href="#">Puntos Comprados</a>
-                        <h3><strong>30 </strong></h3> 
-                    </div>
-                    </li>
-                    <li class="media event">
+                       <li class="media event">
                         <a class="pull-left border-blue profile_thumb">
                             <i class="fa fa-user blue"></i>
                         </a>
@@ -156,6 +175,28 @@
                         <h3><strong>230 </strong></h3> 
                     </div>
                     </li>
+                    <li class="media event">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user aero"></i>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="#">Puntos Comprados</a>
+                        <h3><strong>30 </strong></h3> 
+                    </div>
+                    </li>
+                     @if($user->model=='natural')
+                    <li class="media event">
+                    <a class="pull-left border-green profile_thumb">
+                        <i class="fa fa-user green"></i>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="#">Puntos Otorgados </a>
+                        <h3><strong>200 </strong></h3> 
+                        
+                    </div>
+                    </li>
+                    @endif
+                 
                     
                 </ul>
             </div>
