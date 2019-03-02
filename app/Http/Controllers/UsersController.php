@@ -19,6 +19,7 @@ class UsersController extends Controller
      */
     public function index()
     {
+        return view('usuarios.register');
       
     }
 
@@ -27,12 +28,73 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function crearusuario(Request $request)
     {
-           return view ('usuarios.user-create');
+        $validatedData = $request->validate([
+            'name' => 'string|required',
+            'email' => 'required|email',
+            'birthdate' => 'required',
+            'phone' => 'required|numeric',
+            'estado' => 'required',
+            'cargo' => 'required',
+            'nationality' => 'required',
+            'address' => 'required|string',
+        ]);
+
+        $email = User::where('email', $request->email)->count(); #Busco el email en la bd
+
+        if($email > 0 ){ #Verifico si se encontró una coincidencia
+
+            $user = User::where('email', $request->email)->first(); #Lo encuentro
+
+            ##
+            ##  Y HAGO EL PROCESO DE ENVIARLE UNA NOTIFICACION
+            ##
+            dd($user);
+        }else{ #Si no hay coincidencias
+
+            $user = new User();
+
+            if ($request->file('profile')) {
+                # guardo la foto con ruta relativa...
+                $path = Storage::disk('public')->put('img/programa', $request->file('profile'));
+    
+                $user->profile = $path;
+            }
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->birthdate = $request->birthdate;
+            $user->model = "natural";
+            $user->address =$request->address;
+            $user->password = Hash::make('123456');
+            $user->nationality = $request->nationality;
+            $user->save();
+            #Creo el nuevo usuario
+
+            ##
+            ##  FALTA GUARDAR EL CARGO Y PEGARLO A LA EMPRESA
+            ##
+
+            dd($user);
+
+        }
 
     }
 
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+           return view('usuarios.user-create');
+
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -119,15 +181,20 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $validatedData = $request->validate([
+            'email' => 'unique:users|email',
+        ]);
+
         $usuario = DB::table('users')->where('id',$id)->get();
+
 
         foreach($usuario as $user){
             if($user->model == 'natural'){
 
                 if($request->password == ''){
 
-
+                   
                    /* if ($request->file('profile')) {
                         # code...
                         $path = Storage::disk('public')->put('img', $request->file('profile'));
@@ -164,24 +231,28 @@ class UsersController extends Controller
                     return back();
 
                 }else{
+                    
+                    $validatedData = $request->validate([
+                        'password' => 'confirmed',
+                    ]);
 
-                    if($request->password == $request->password2){
+                    // if($request->password == $request->password2){
 
-                        DB::table('users')->where('id',$id)
-                        ->update([
+                    DB::table('users')->where('id',$id)
+                    ->update([
 
-                            'password' => Hash::make($request->password),
+                        'password' => Hash::make($request->password),
 
-                        ]);
-                        $message = 'Las contraseñas no coinciden';
-                        return back()->with('message',$message);
+                    ]);
+                    $message = 'Las contraseñas no coinciden';
+                    return back()->with('message',$message);
 
-                    }else{
+                    // }else{
 
-                        $message = 'Las contraseñas no coinciden';
-                        return back()->with('message',$message);
+                        // $message = 'Las contraseñas no coinciden';
+                        // return back()->with('message',$message);
 
-                    }
+                    // }
                    
                 }
 
@@ -227,23 +298,27 @@ class UsersController extends Controller
 
                 }else{
 
-                    if($request->password == $request->password2){
+                    $validatedData = $request->validate([
+                        'password' => 'confirmed',
+                    ]);
 
-                        DB::table('users')->where('id',$id)
-                        ->update([
+                    // if($request->password == $request->password2){
 
-                            'password' => Hash::make($request->password),
+                    DB::table('users')->where('id',$id)
+                    ->update([
 
-                        ]);
-                        $message = 'Las contraseñas no coinciden';
-                        return back()->with('message',$message);
+                        'password' => Hash::make($request->password),
 
-                    }else{
+                    ]);
+                    $message = 'Contraseñas cambiadas exitosamente';
+                    return back()->with('message',$message);
 
-                        $message = 'Las contraseñas no coinciden';
-                        return back()->with('message',$message);
+                    // }else{
 
-                    }
+                    //     $message = 'Las contraseñas no coinciden';
+                    //     return back()->with('message',$message);
+
+                    // }
                    
                 }
 

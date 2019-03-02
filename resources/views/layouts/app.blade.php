@@ -129,7 +129,7 @@
                               <a><i class="fas fa-suitcase"></i> Services <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
                                  <li><a href="#">Mis empleados</a></li>
-                                 <li><a href="#">Nuevo empleado</a></li>
+                                 <li><a href="{{route('usuarios.nuevo')}}">Nuevo empleado</a></li>
                               </ul>
                            </li>
                            <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Store points</span></a></li>

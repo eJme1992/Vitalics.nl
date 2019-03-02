@@ -1,7 +1,19 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-
+   @if ($errors->any())
+      <div class="alert alert-danger alert-dismissible fade in" role="alert">
+         <ul>
+               @foreach ($errors->all() as $error)
+                  <li>
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                     {{ $error }}
+                  </li>
+               @endforeach
+         </ul>
+      </div>
+   @endif
    <div class="row">
     <div class="col-md-7 col-xs-12">
         <div class="x_panel">
@@ -11,8 +23,7 @@
             <div class="clearfix"></div>
             </div>
             <div class="x_content">
-            @foreach($usuario as $user)
-
+            
             <form action="{{route('usuarios.update', $user->id)}}" enctype="multipart/form-data" method='POST' class="form-horizontal form-label-left input_mask">
                @csrf
                 @method('PUT')
@@ -60,6 +71,7 @@
                   <span class="fa fa-map-marker form-control-feedback left" aria-hidden="true"></span>
                </div>
 
+
                 <div class="form-group">
                 <div class="col-xs-12 ">
                     <button type="submit" class="btn btn-success btn-lg left">Submit</button>
@@ -95,7 +107,7 @@
                <div class="row">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12">Repeat Password</label>
                   <div class="col-md-9 col-sm-9 col-xs-12">
-                     <input type="password" name='password2' class="form-control" required>
+                     <input type="password" name='password_confirmation' id="password-confirm"  class="form-control" required>
                   </div>
                </div>
                @if($message != '')
@@ -116,7 +128,6 @@
     </div>
    </div>
 </div>
-@endforeach
 @endsection
 @section('footer')
 <script type="text/javascript">
