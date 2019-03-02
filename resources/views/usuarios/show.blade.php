@@ -37,7 +37,7 @@
             <div class="container" style='color:white; padding-left:10px;'>
                 <div class="row">
                    
-                 <h2 style="display:inline;">{{$user->name}} :</h2> <span> {{$empresa->descripcion}}</span><br><br>
+                 <h2 style="display:inline;">{{$user->name}} </h2> <span>-{{$empresa->descripcion}}</span><br><br>
                     
                 </div>
                 <div class="row" style='font-size:17px; '>
@@ -49,7 +49,8 @@
                         Email : {{$user->email}}<br>
                     </div>
                     <div class="col-md-6">
-                        Nationality : {{$user->nationality}}<hr>                      
+                        Nationality : {{$user->nationality}}<hr>
+                        Address :  {{$user->address}}                   
                     </div>
                 </div>
                 <div class="row " style='font-size:17px;'>
@@ -165,25 +166,7 @@
             <div>
                 
                 <ul class="list-unstyled top_profiles scroll-view">
-                    <li class="media event">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user aero"></i>
-                    </a>
-                    <div class="media-body">
-                        <a class="title" href="#">Puntos Otorgados </a>
-                        <h3><strong>200 </strong></h3> 
-                    </div>
-                    </li>
-                    <li class="media event">
-                    <a class="pull-left border-green profile_thumb">
-                        <i class="fa fa-user green"></i>
-                    </a>
-                    <div class="media-body">
-                        <a class="title" href="#">Puntos Comprados</a>
-                        <h3><strong>30 </strong></h3> 
-                    </div>
-                    </li>
-                    <li class="media event">
+                       <li class="media event">
                         <a class="pull-left border-blue profile_thumb">
                             <i class="fa fa-user blue"></i>
                         </a>
@@ -192,6 +175,28 @@
                         <h3><strong>230 </strong></h3> 
                     </div>
                     </li>
+                    <li class="media event">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user aero"></i>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="#">Puntos Comprados</a>
+                        <h3><strong>30 </strong></h3> 
+                    </div>
+                    </li>
+                     @if($user->model=='natural')
+                    <li class="media event">
+                    <a class="pull-left border-green profile_thumb">
+                        <i class="fa fa-user green"></i>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="#">Puntos Otorgados </a>
+                        <h3><strong>200 </strong></h3> 
+                        
+                    </div>
+                    </li>
+                    @endif
+                 
                     
                 </ul>
             </div>
