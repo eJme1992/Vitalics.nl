@@ -1,20 +1,10 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-   @if ($errors->any())
-      <div class="alert alert-danger alert-dismissible fade in" role="alert">
-         <ul>
-               @foreach ($errors->all() as $error)
-                  <li>
-                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                    </button>
-                     {{ $error }}
-                  </li>
-               @endforeach
-         </ul>
-      </div>
-   @endif
+   
    <div class="row">
+      @include('usuarios.partials.error')
+      @include('usuarios.partials.message')
     <div class="col-md-7 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
@@ -110,16 +100,13 @@
                      <input type="password" name='password_confirmation' id="password-confirm"  class="form-control" required>
                   </div>
                </div>
-               @if($message != '')
-               <span class="label label-danger">{{$message}}</span>
-               @endif
                <div class="row">
-               <div class="col-xs-8"></div>
-               <div class='col-xs-1'>
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-lg left">Submit</button>
+                  <div class="col-xs-8"></div>
+                  <div class='col-xs-1'>
+                     <div class="form-group">
+                     <button type="submit" class="btn btn-success btn-lg left">Submit</button>
+                     </div>
                   </div>
-                </div>
                </div>
                
             </form>

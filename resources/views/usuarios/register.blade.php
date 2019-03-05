@@ -86,19 +86,25 @@
       <div class="alert alert-info fade in" role="alert">
          Por favor, rellene el formulario para registrar un nuevo empleado.
       </div>
-      @if ($errors->any())
-         <div class="alert alert-danger alert-dismissible fade in" role="alert">
+      @include('usuarios.partials.error')
+
+      @if(Session::has('message'))
+         <div class="alert alert-info alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                <span aria-hidden="true">×</span>
             </button>
-            <ul>
-                  @foreach ($errors->all() as $error)
-                     <li>
-                        
-                        {{ $error }}
-                     </li>
-                  @endforeach
-            </ul>
+            @if(Session::has('user'))
+            El usuario <strong>{{Session::get('user')}}<strong> ya está registrado en nuestro sistema, ¿Desea enviarle una invitación? <br>
+            <form action="{{route('notificacion.store')}}" method='POST'>
+               @csrf
+               @method('POST')
+               <input type="hidden" name='user' value="{{Session::get('user')}}">
+               <button type='submit' class='btn btn-success'>Si</button>
+            </form>
+            @else
+               {{Session::get('message')}}
+            @endif
+
          </div>
       @endif
    </div>

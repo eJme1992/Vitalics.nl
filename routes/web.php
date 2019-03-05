@@ -39,4 +39,6 @@ Route::get('listadeempresas', 'EmpresasController@todasmisempresas');
 //Usuario Url
 Route::resource('usuarios', 'UsersController');
 Route::post('usuarios/nuevo', 'UsersController@crearusuario')->name('usuarios.nuevo');
+Route::resource('notificacion', 'NotificacionController');
+
 

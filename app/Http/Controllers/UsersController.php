@@ -9,6 +9,7 @@ use App\FuncionesRepetitivas;
 use DB;
 use App\User;
 use App\Empresa;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -19,7 +20,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('usuarios.register');
+        $message = '';
+        return view('usuarios.register',compact(['message']));
       
     }
 
@@ -48,9 +50,12 @@ class UsersController extends Controller
             $user = User::where('email', $request->email)->first(); #Lo encuentro
 
             ##
-            ##  Y HAGO EL PROCESO DE ENVIARLE UNA NOTIFICACION
+            ##  SE DEVUELVE UN MENSAJE PARA ENVIAR UNA INVITACION
             ##
-            dd($user);
+
+            $message = 'existe';
+            return back()->with('message', $message)->with('user', $user->email);
+
         }else{ #Si no hay coincidencias
 
             $user = new User();
@@ -83,6 +88,8 @@ class UsersController extends Controller
 
     }
 
+    
+   
 
     /**
      * Show the form for creating a new resource.
@@ -129,20 +136,22 @@ class UsersController extends Controller
     public function show($id)
     {
 
-    $user = User::where('id',$id)->first();
-    if($user->model=='juridico'){
-    $empresa = Empresa::
+        $user = User::where('id',$id)->first();
+        if($user->model == 'juridico'){
+            $empresa = Empresa::
                 join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->
                 join('users', 'users.id', '=', 'empresa_user.empresa_id')->
                 select('empresas.*')->
                 where('users.id', $id)->
                 where('users.model','juridico')->
                 first(); 
-                return view('usuarios.show', compact(['user','empresa']));      
-     }else{
-      $empresas = $user->empresa();
-      return view('usuarios.show', compact(['user','empresas']));
-     }           
+
+            return view('usuarios.show', compact(['user','empresa']));  
+
+        }else{
+            $empresas = $user->empresa();
+            return view('usuarios.show', compact(['user','empresas']));
+        }           
     
     }
 
@@ -158,30 +167,28 @@ class UsersController extends Controller
          
         $user = User::where('id',$id)->first();
 
-        
-
-            if($user->model == 'natural'){
-                
-                $message = '';
-                return view('usuarios.edit-user', compact(['user', 'message']));
-
-            }elseif($user->model == 'juridico'){
-
-                $user = User::findOrFail($id);
+        if($user->model == 'natural'){
             
-                $empresa = Empresa::
-                join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->
-                join('users', 'users.id', '=', 'empresa_user.empresa_id')->
-                select('empresas.*')->
-                where('users.id', $id)->
-                where('users.model','juridico')->
-                first();
+            $message = '';
+            return view('usuarios.edit-user', compact(['user', 'message']));
 
-          
-                $message = '';
-                return view('usuarios.editar-empresa', compact(['user', 'message','empresa']));
+        }elseif($user->model == 'juridico'){
 
-            }
+            $user = User::findOrFail($id);
+        
+            $empresa = Empresa::
+            join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->
+            join('users', 'users.id', '=', 'empresa_user.empresa_id')->
+            select('empresas.*')->
+            where('users.id', $id)->
+            where('users.model','juridico')->
+            first();
+
+        
+            $message = '';
+            return view('usuarios.editar-empresa', compact(['user', 'message','empresa']));
+
+        }
         
 
     }
@@ -242,7 +249,8 @@ class UsersController extends Controller
                             'email' => $request->email,
                         ]);
 
-                    return back();
+                    $message = 'Datos actualizados exitosamente';
+                    return back()->with('message', $message);
 
                 }else{
                     
@@ -258,7 +266,9 @@ class UsersController extends Controller
                         'password' => Hash::make($request->password),
 
                     ]);
-                    $message = 'Las contraseñas no coinciden';
+
+                    $message = 'Contraseña guardada exitosamente';
+
                     return back()->with('message',$message);
 
                     // }else{
@@ -281,6 +291,7 @@ class UsersController extends Controller
                  foreach($empresa as $empresa){
                      $id_empresa = $empresa->id;
                  }
+
                  $empresa = Empresa::findOrFail($id_empresa);
 
                  if($request->password == ''){
@@ -308,7 +319,8 @@ class UsersController extends Controller
                     $user->nationality = $request->nationality;
                     $user->save();
 
-                    return back();
+                    $message = 'Datos actualizados exitosamente';
+                    return back()->with('message', $message);
 
                 }else{
 

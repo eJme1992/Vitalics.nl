@@ -1,20 +1,10 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-   @if ($errors->any())
-   <div class="alert alert-danger alert-dismissible fade in" role="alert">
-         <ul>
-            @foreach ($errors->all() as $error)
-               <li>
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                  </button>
-                  {{ $error }}
-               </li>
-            @endforeach
-         </ul>
-      </div>
-   @endif
+     
    <div class="row">
+       @include('usuarios.partials.error')
+      @include('usuarios.partials.message')
     <div class="col-md-7 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
