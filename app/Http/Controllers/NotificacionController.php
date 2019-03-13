@@ -42,10 +42,12 @@ class NotificacionController extends Controller
           
         $user = User::where('email', $request->user)->first(); #Busco el email en la bd
         $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')
-                        ->join('users', 'users.id', '=', 'empresa_user.empresa_id')
-                        ->select('empresas.*')
-                        ->where('empresas.id', Auth::user()->id)
-                        ->first(); 
+                ->join('users', 'users.id', '=', 'empresa_user.user_id')
+                ->select('empresas.*')
+                ->where('users.id', Auth::user()->id)
+                ->where('users.model','juridico')->first(); 
+
+        
         $mensaje = 'La empresa '.Auth::user()->name.' quiere invitarte a ser parte de sus empleados';
         $enlace = 'notificacion/'.$empresa->id;
 
@@ -71,9 +73,10 @@ class NotificacionController extends Controller
     public function show($id) #El id es el de la empresa
     {
         $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')
-                        ->join('users', 'users.id', '=', 'empresa_user.empresa_id')
+                        ->join('users', 'users.id', '=', 'empresa_user.user_id')
                         ->select('empresas.*')
-                        ->where('empresas.id', Auth::user()->id)
+                        ->where('empresas.id', $id)
+                        ->where('users.model', 'juridico')
                         ->first(); #BUSCO LA EMPRESA
                     
         $notificacion = DB::table('notificacion')
@@ -105,7 +108,35 @@ class NotificacionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        DB::table('notificacion')->where('id',$id)
+        ->update([
+            'estado' => 'visto'
+        ]);
+
+        if($request->respuesta != 'aceptar'){
+
+            DB::table('empresa_user')->where([
+                ['user_id', '=', Auth::user()->id],
+                ['empresa_id', '=', $request->idEmpresa]
+            ])->update([
+                'estado' => 'rechazado'
+            ]);
+
+            return redirect()->route('home')->with('message','Has rechazado la invitacion.');
+
+        }else{
+
+            DB::table('empresa_user')->where([
+                ['user_id', '=', Auth::user()->id],
+                ['empresa_id', '=', $request->idEmpresa]
+            ])->update([
+                'estado' => 'activo'
+            ]);
+
+            return redirect()->route('home')->with('message','Has aceptado la invitacion.');
+
+        }
     }
 
     /**

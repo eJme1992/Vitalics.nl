@@ -32,10 +32,15 @@
                   <input type="text" class="form-control"  name='email' id="inputSuccess3" placeholder="Email" required='required' >
                   <span class="fa fa-envelope form-control-feedback right" aria-hidden="true"></span>
                </div>
-
+<!-- 
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
                   <input type="text"  data-inputmask="'mask': '9999-99-99'" class="form-control has-feedback-left" id="inputSuccess4" name='birthdate' placeholder="Birthdate" required>
                   <span class="fa fa-birthday-cake form-control-feedback left" aria-hidden="true"></span>
+               </div> -->
+
+               <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
+                  <input type="text"  name='cargo' class="form-control has-feedback-left" id="inputSuccess2" placeholder="Cargo" required>
+                  <span class="fa fa-briefcase form-control-feedback left" aria-hidden="true"></span>
                </div>
 
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
@@ -43,17 +48,6 @@
                   <span class="fa fa-phone form-control-feedback right" aria-hidden="true"></span>
                </div>
                
-               <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
-                  <select name="estado" class="form-control has-feedback-left" required>
-                     <option value="activo">Activo</option>
-                     <option value="inactivo">Inactivo</option>
-                  </select>
-                  <span class="fa fa-check-square-o form-control-feedback left" aria-hidden="true"></span>
-               </div>
-               <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
-                  <input type="text"  name='cargo' class="form-control " id="inputSuccess2" placeholder="Cargo" required>
-                  <span class="fa fa-briefcase form-control-feedback right" aria-hidden="true"></span>
-               </div>
                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                   <select name="nationality" class="form-control has-feedback-left" required>
                      @include('layouts.paises')

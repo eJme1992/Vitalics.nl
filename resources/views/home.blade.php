@@ -13,8 +13,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-           
+                    @include('usuarios.partials.message')
+               
                 </div>
             </div>
         </div>

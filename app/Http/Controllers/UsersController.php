@@ -35,9 +35,9 @@ class UsersController extends Controller
         $validatedData = $request->validate([
             'name' => 'string|required',
             'email' => 'required|email',
-            'birthdate' => 'required',
+            // 'birthdate' => 'required',
             'phone' => 'required|numeric',
-            'estado' => 'required',
+            // 'estado' => 'required',
             'cargo' => 'required',
             'nationality' => 'required',
             'address' => 'required|string',
@@ -48,6 +48,21 @@ class UsersController extends Controller
         if($email > 0 ){ #Verifico si se encontró una coincidencia
 
             $user = User::where('email', $request->email)->first(); #Lo encuentro
+            $empresa = User::where('id', Auth::user()->id)->first();
+            foreach($empresa->empresa as $empresa){
+                $empresaID = $empresa->id;
+            }
+            DB::table('empresa_user')->insert([
+                'user_id' => $user->id,         ##
+                'empresa_id' => $empresaID,     ##  CREO LA RELACION
+                'cargo' => $request->cargo,     ##
+                'estado' => 'invitado'
+            ]);
+
+            // $empresa->empresa()->attach([
+            //     'cargo' => $request->cargo,
+            //     'estado' => 'invitado'
+            // ]);
 
             ##
             ##  SE DEVUELVE UN MENSAJE PARA ENVIAR UNA INVITACION
@@ -178,7 +193,7 @@ class UsersController extends Controller
         
             $empresa = Empresa::
             join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->
-            join('users', 'users.id', '=', 'empresa_user.empresa_id')->
+            join('users', 'users.id', '=', 'empresa_user.user_id')->
             select('empresas.*')->
             where('users.id', $id)->
             where('users.model','juridico')->

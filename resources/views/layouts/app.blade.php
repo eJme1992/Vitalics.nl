@@ -23,6 +23,7 @@
       <link href="{{ asset('') }}panel/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
       <!-- JQVMap -->
       <link href="{{ asset('') }}panel/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+      <link href="{{ asset('') }}panel/vendors/starrr/dist/starrr.css" rel="stylesheet">
       <!-- bootstrap-daterangepicker -->
       <link href="{{ asset('') }}panel/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
       <!-- Custom Theme Style -->
@@ -228,9 +229,28 @@
                         <li role="presentation" class="dropdown">
                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                            <i class="fa fa-envelope-o"></i>
-                           <span class="badge bg-green">6</span>
+                           @if(countNoti(Auth::user()->id) > 0 )
+                           <span class="badge bg-green">{{ countNoti(Auth::user()->id) }}</span>
+                           @endif
                            </a>
                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                              @if( $notificaciones = notificaciones(Auth::user()->id))
+
+                                 @foreach($notificaciones as $notificacion)
+
+                                    <li>
+                                       <a href="{{url($notificacion->url)}}">
+                                          <span class="message">
+                                             {{$notificacion->mensaje}}
+                                          </span>
+                                       </a>
+                                    </li>
+
+                                 @endforeach
+                              @else
+                                 No hay notificaciones
+                              @endif
+
                               <li>
                                  <a>
                                  <span class="image"><img src="{{ asset('') }}panel/production/images/img.jpg" alt="Profile Image" /></span>
@@ -345,6 +365,8 @@
       <script src="{{ asset('') }}panel/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
       <script src="{{ asset('') }}panel/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
       <!-- bootstrap-daterangepicker -->
+      <script src="{{ asset('') }}panel/vendors/starrr/dist/starrr.js"></script>
+      <script src="{{ asset('') }}panel/vendors/switchery/dist/switchery.min.js"></script>
       <script src="{{ asset('') }}panel/vendors/moment/min/moment.min.js"></script>
       <script src="{{ asset('') }}panel/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
       <script src="{{ asset('') }}panel/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
