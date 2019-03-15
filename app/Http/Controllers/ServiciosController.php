@@ -61,6 +61,9 @@ class ServiciosController extends Controller
     public function index()
     {
         //
+       $servicios = Servicio::paginate();
+
+        return view('servicios.services-list',compact(['servicios']));
     }
 
     /**
