@@ -6,7 +6,7 @@
              @if($user->profile == '')
                 <img src="{{url('/')}}/img/profile.png" class="img-prueba img-circle"  id="img-prueba">
                 @else
-                <img src="{{$user->profile}}"   class="img-prueba img-circle" id="img-prueba">
+                <img src="{{url('/')}}{{$user->profile}}"   class="img-prueba img-circle" id="img-prueba">
                 @endif
         </div>
         <div class="col-md-9 " style='border-left:#B6BEC9 2px solid;'>

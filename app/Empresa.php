@@ -8,7 +8,8 @@ class Empresa extends Model
 {
       
     public function usuario(){
-        return $this->belongsToMany('App\User', 'empresa_user');
+        return $this->belongsToMany('App\User', 'empresa_user')
+                    ->withPivot('empresa_id','cargo','estado');
     }
 
       protected $fillable = [

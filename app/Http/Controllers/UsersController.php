@@ -48,14 +48,17 @@ class UsersController extends Controller
         ]);
 
         $email = User::where('email', $request->email)->count(); #Busco el email en la bd
-
+        $empresa = User::where('id', Auth::user()->id)->first();
+        foreach($empresa->empresa as $empresa){
+            $empresaID = $empresa->id;
+        }
         if($email > 0 ){ #Verifico si se encontró una coincidencia
 
             $user = User::where('email', $request->email)->first(); #Lo encuentro
-            $empresa = User::where('id', Auth::user()->id)->first();
-            foreach($empresa->empresa as $empresa){
-                $empresaID = $empresa->id;
-            }
+            // $empresa = User::where('id', Auth::user()->id)->first();
+            // foreach($empresa->empresa as $empresa){
+            //     $empresaID = $empresa->id;
+            // }
             DB::table('empresa_user')->insert([
                 'user_id' => $user->id,         ##
                 'empresa_id' => $empresaID,     ##  CREO LA RELACION
@@ -85,7 +88,7 @@ class UsersController extends Controller
                 # guardo la foto con ruta relativa...
                 $path = Storage::disk('public')->put('img/programa', $request->file('profile'));
     
-                $user->profile = $path;
+                $user->profile = '/'.$path;
             }
 
             $user->name = $request->name;

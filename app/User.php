@@ -11,7 +11,9 @@ class User extends Authenticatable
     use Notifiable;
 
     public function empresa(){
-        return $this->belongsToMany('App\Empresa', 'empresa_user');
+        return $this->belongsToMany('App\Empresa', 'empresa_user')
+                    ->withPivot('user_id','cargo','estado');
+
     }
 
 

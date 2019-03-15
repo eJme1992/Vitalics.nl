@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\FuncionesRepetitivas;
 use App\Empresa;
 use App\User;
+use Auth;
 class EmpresasController extends Controller
 {
 
@@ -21,9 +22,30 @@ class EmpresasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index()## Mis empleados
     {
-       
+        $empresa = User::where(['id' => Auth::user()->id, 'model' => 'juridico'])->first();
+        foreach($empresa->empresa as $e){
+            $empresaID = $e->id;
+        }
+        // $e = Empresa::where('id', $empresaID)->first();
+        // $usuarios = $e->usuario;
+
+        // foreach($usuarios as $user){
+        //     dd($user->pivot->cargo);
+        // }
+        $usuarios = User::
+            join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
+            join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
+            select('users.*','empresa_user.*')->
+            where('empresas.id', $empresaID)->
+            where('users.model','natural')->
+            paginate(6);
+
+
+        // dd($usuarios);
+
+        return view('empresa.empleados', compact(['usuarios']));
     }
 
      public function todasmisempresas()

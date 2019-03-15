@@ -122,15 +122,15 @@
                            <li>
                               <a><i class="fas fa-user"></i> Employees <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
-                                 <li><a href="#">Roster</a></li>
-                                 <li><a href="#">Invite employees</a></li>
+                                 <li><a href="{{route('empresas.index')}}">Roster</a></li>
+                                 <li><a href="{{route('usuarios.index')}}">Invite employees</a></li>
                               </ul>
                            </li>
                            <li>
                               <a><i class="fas fa-suitcase"></i> Services <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
-                                 <li><a href="#">Mis empleados</a></li>
-                                 <li><a href="{{route('usuarios.index')}}">Nuevo empleado</a></li>
+                                 <li><a href="#">Mis servicios</a></li>
+                                 <li><a href="#">Nuevo empleado</a></li>
                               </ul>
                            </li>
                            <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Store points</span></a></li>
