@@ -53,6 +53,11 @@ class ServiciosController extends Controller
         return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);
          
     }
+    public function verservicio($id)
+    {
+        $servicio = Servicio::where('id',$id)->first();
+        return response()->json(['datos' => $servicio, 'status' => 'ok'], 200);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -61,7 +66,7 @@ class ServiciosController extends Controller
     public function index()
     {
         //
-       $servicios = Servicio::paginate();
+        $servicios = Servicio::paginate();
 
         return view('servicios.services-list',compact(['servicios']));
     }

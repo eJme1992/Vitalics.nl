@@ -39,7 +39,9 @@ Route::get('listadeempresas', 'EmpresasController@todasmisempresas');
 //Vamos a app/Http/Kernerl.php y desactivamos la línea \App\Http\Middleware\VerifyCsrfToken::class,
 Route::resource('servicios', 'serviciosController');
 Route::post('registrar_servicio', 'serviciosController@nuevoservicio');
+Route::post('editar_servicio', 'serviciosController@editservicio');
 Route::get('listadeservicios', 'serviciosController@todosmisservicios');
+Route::get('verservicio/{id}', 'serviciosController@verservicio');
 //Usuario Url
 Route::resource('usuarios', 'UsersController');
 Route::post('usuarios/nuevo', 'UsersController@crearusuario')->name('usuarios.nuevo');
