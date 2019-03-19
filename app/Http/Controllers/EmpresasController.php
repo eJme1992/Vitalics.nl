@@ -50,7 +50,12 @@ class EmpresasController extends Controller
 
      public function todasmisempresas()
     {
-       $empresas = Empresa::all();
+      $empresas = User::
+            join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
+            join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
+            select('users.*','empresa_user.*','empresas.id AS id_empresa','empresas.rif')->
+
+            where('users.model','juridico')->get();
        return response()->json($empresas,200);
     }
 
