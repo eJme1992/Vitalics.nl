@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\FuncionesRepetitivas;
 use App\Servicio;
 use App\User;
+use DB;
+
 class ServiciosController extends Controller
 {
 
@@ -74,6 +76,130 @@ class ServiciosController extends Controller
     public function create()
     {
         //
+    }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filtros(Request $request)
+    {
+        if(!$request->input('filtros')){
+
+            $servicios = DB::table('servicios')
+                        ->where('nombre', 'like', $request->buscar.'%')
+                        ->paginate();
+
+            return view('servicios.services-list', compact(['servicios']));
+
+        }else{ #Si esta usando algun filtro pasara por aqui
+
+            // dd($request);
+            if ($request->input('filtros.price') == true AND $request->input('filtros.fecha') == true AND $request->input('filtros.tipo') == true) { #ACTIVOS TODOS
+
+                $price = explode(';', $request->price);
+
+                $fecha = explode('-', $request->fecha);
+                $fI = trim($fecha[0]);
+                $fF = trim($fecha[1]);
+                $fechaI = converFecha($fI);
+                $fechaF = converFecha($fF);
+
+                $servicios = DB::table('servicios')
+                        ->where(['tipo' => $request->tipo])
+                        ->whereBetween('create_at', [$fechaI, $fechaF])
+                        ->whereBetween('costo', [$price[0], $price[1]])->paginate();
+
+                return view('servicios.services-list', compact(['servicios']));
+
+
+            }elseif ($request->input('filtros.price') == true AND $request->input('filtros.fecha') == true) { ##PRECIO Y FECHA
+                
+                $price = explode(';', $request->price);
+
+                $fecha = explode('-', $request->fecha);
+                $fI = trim($fecha[0]);
+                $fF = trim($fecha[1]);
+                $fechaI = converFecha($fI);
+                $fechaF = converFecha($fF);
+
+                $servicios = DB::table('servicios')
+                        ->whereBetween('create_at', [$fechaI, $fechaF])
+                        ->whereBetween('costo', [$price[0], $price[1]])->paginate();
+
+                return view('servicios.services-list', compact(['servicios']));
+
+
+            }elseif ($request->input('filtros.tipo') == true AND $request->input('filtros.fecha') == true) { ##FECHA Y TIPO
+
+                $fecha = explode('-', $request->fecha);
+                $fI = trim($fecha[0]);
+                $fF = trim($fecha[1]);
+                $fechaI = converFecha($fI);
+                $fechaF = converFecha($fF);
+
+                $servicios = DB::table('servicios')
+                                ->where(['tipo' => $request->tipo])
+                                ->whereBetween('create_at', [$fechaI, $fechaF])->paginate();
+
+                return view('servicios.services-list', compact(['servicios']));
+
+
+            }elseif ($request->input('filtros.price') == true AND $request->input('filtros.tipo') == true) { ##PRECIO Y TIPO
+                $price = explode(';', $request->price);
+
+                $servicios = DB::table('servicios')
+                        ->where(['tipo' => $request->tipo])
+                        ->whereBetween('costo', [$price[0], $price[1]])->paginate();
+
+                return view('servicios.services-list', compact(['servicios']));
+
+
+            }elseif ($request->input('filtros.fecha')) {#si se activo solo el filtro de fecha
+
+                $fecha = explode('-', $request->fecha);
+                $fI = trim($fecha[0]);
+                $fF = trim($fecha[1]);
+                $fechaI = converFecha($fI);
+                $fechaF = converFecha($fF);
+
+                $servicios = DB::table('servicios')->whereBetween('create_at', [$fechaI, $fechaF])->paginate();
+        
+                return view('servicios.services-list', compact(['servicios']));
+
+
+            }elseif ($request->input('filtros.tipo')) {#si se activo solo el filtro del tipo
+
+                $servicios = DB::table('servicios')->where(['tipo' => $request->tipo])->paginate();
+        
+                return view('servicios.services-list', compact(['servicios']));
+
+
+            }elseif ($request->input('filtros.price')) {#si se activo solo el filtro del precio
+
+                $price = explode(';', $request->price);
+
+                $servicios = DB::table('servicios')->whereBetween('costo', [$price[0], $price[1]])->paginate();
+        
+                return view('servicios.services-list', compact(['servicios']));
+
+
+            }
+
+
+        }
+
+        // $servicios = DB::table('servicios')
+        //                 ->where('nombre', 'like', $request->buscar.'%')
+        //                 ->paginate();
+        
+        // $price = explode(';', $request->price);
+
+        // $servicios = DB::table('servicios')->whereBetween('costo', [$price[0], $price[1]])->paginate();
+
+        // return view('servicios.services-list', compact(['servicios']));
     }
 
     /**

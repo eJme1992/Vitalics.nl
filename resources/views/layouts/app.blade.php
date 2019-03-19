@@ -26,6 +26,9 @@
       <link href="{{ asset('') }}panel/vendors/starrr/dist/starrr.css" rel="stylesheet">
       <!-- bootstrap-daterangepicker -->
       <link href="{{ asset('') }}panel/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+      <link href="{{asset('')}}panel/vendors/ion.rangeSlider/css/ion.rangeSlider.css" rel="stylesheet">
+      <link href="{{asset('')}}panel/vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
       <!-- Custom Theme Style -->
       <link href="{{ asset('') }}panel/build/css/custom.min.css" rel="stylesheet">
       <link href="{{ asset('') }}panel/build/css/custom.css" rel="stylesheet">
@@ -371,6 +374,7 @@
       <script src="{{ asset('') }}panel/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
       <script src="{{ asset('') }}panel/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
       <script src="{{asset('')}}panel/vendors/validator/validator.js"></script>
+      <script src="{{asset('')}}panel/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
       <!-- Custom Theme Scripts -->
       <script src="{{ asset('') }}panel/build/js/custom.min.js"></script>
    </body>
