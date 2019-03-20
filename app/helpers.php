@@ -293,6 +293,6 @@ function enviarEmail(User $user, $empresaID, $password){
 
 function converFecha($fecha){
     $f = explode('/', $fecha);
-    $result = $f[2].'-'.$f[0].'-'.$f[1];
+    $result = $f[2].'-'.$f[0].'-'.$f[1].' 00:00:00';
     return $result;
 }

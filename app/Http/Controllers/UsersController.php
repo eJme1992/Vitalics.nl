@@ -47,10 +47,21 @@ class UsersController extends Controller
         ]);
 
         $email = User::where('email', $request->email)->count(); #Busco el email en la bd
-        $empresa = User::where('id', Auth::user()->id)->first();
-        foreach($empresa->empresa as $empresa){
-            $empresaID = $empresa->id;
+        $uempresa = User::where('id', Auth::user()->id)->first(); #busco la empresa
+        $empresa = Empresa::
+                    join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->
+                    join('users', 'users.id', '=', 'empresa_user.empresa_id')->
+                    select('empresas.*')->
+                    where('users.id', Auth::user()->id)->
+                    where('users.model','juridico')->
+                    first();
+
+
+
+        foreach($uempresa->empresa as $emp){
+            $empresaID = $emp->id;
         }
+
         if($email > 0 ){ #Verifico si se encontró una coincidencia
 
             $user = User::where('email', $request->email)->first(); #Lo encuentro
@@ -65,25 +76,34 @@ class UsersController extends Controller
                $message = 'El usuario ingresado esta registrado como una empresa';
                return back()->with('message', $message);
 
-            }else{
-               DB::table('empresa_user')->insert([
-                  'user_id' => $user->id,         ##
-                  'empresa_id' => $empresaID,     ##  CREO LA RELACION
-                  'cargo' => $request->cargo,     ##
-                  'estado' => 'invitado'
-              ]);
-  
-              // $empresa->empresa()->attach([
-              //     'cargo' => $request->cargo,
-              //     'estado' => 'invitado'
-              // ]);
-  
-              ##
-              ##  SE DEVUELVE UN MENSAJE PARA ENVIAR UNA INVITACION
-              ##
-  
-              $message = 'existe';
-              return back()->with('message', $message)->with('user', $user->email);
+            }else{ #Si no es empresa
+            
+               $empresa_user = DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresa->id])->count();
+                
+               if($empresa_user > 0 ){ #Existe la relacion con la empresa??
+
+                    DB::table('empresa_user')
+                        ->where(['user_id' => $user->id, 'empresa_id' => $empresa->id]) ##Actualizo
+                        ->update(['estado' => 'invitado']);
+
+               }else{ #Si no
+
+                    DB::table('empresa_user')->insert([
+                        'user_id' => $user->id,         ##
+                        'empresa_id' => $empresaID,     ##  CREO LA RELACION
+                        'cargo' => $request->cargo,     ##
+                        'estado' => 'invitado'
+                    ]);
+           
+               }
+                ##
+                ##  SE DEVUELVE UN MENSAJE PARA ENVIAR UNA INVITACION
+                ##
+    
+                $message = 'existe';
+                return back()->with('message', $message)->with('user', $user->email);
+
+               
             }
             
 

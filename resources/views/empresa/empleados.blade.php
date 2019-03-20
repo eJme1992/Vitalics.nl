@@ -8,6 +8,10 @@
 				<a class="view-boton-i" href="#"><<i class="fa fa-table"></i></a>
 			</div>
 		</div>
+        <div class="col-md-12">
+            <a href="{{route('usuarios.index')}}" class="btn btn-success ">Nuevo usuario</a>
+            <a href="{{route('excel.index')}}" class="btn btn-primary ">Cargar lista de empleados</a><br><br>
+        </div>
         @if(countEmpl(Auth::user()->id) > 0)
             @foreach($usuarios as $user)
                 @if($user->model != 'juridico')
@@ -43,10 +47,7 @@
                 No hay empleados registrados.
             </div>
         </div>
-        <div class="col-md-12">
-            <a href="{{route('usuarios.index')}}" class="btn btn-success ">Nuevo usuario</a>
-            <a href="#" class="btn btn-primary ">Cargar lista de empleados</a>
-        </div>
+        
         
         @endif  
 	</div>

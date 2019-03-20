@@ -53,5 +53,5 @@ Route::resource('usuarios', 'UsersController');
 Route::post('usuarios/nuevo', 'UsersController@crearusuario')->name('usuarios.nuevo');
 Route::post('servicios/filtrar', 'ServiciosController@filtros')->name('servicios.filtro');
 Route::resource('notificacion', 'NotificacionController');
-
+Route::get('/importar-usuarios','ExcelController@index')->name('excel.index');
 
