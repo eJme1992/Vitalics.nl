@@ -15,7 +15,7 @@ class CreateSectionsTable extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('empresa_id')->nullable(); 
+            $table->integer('empresa_id')->unsigned()->nullable(); 
             $table->string('cupos');
             $table->string('lugar');
             $table->string('estado'); // Activo-inactivo
