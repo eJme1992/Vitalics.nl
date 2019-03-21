@@ -60,7 +60,7 @@ return array(
     'properties' => [
         'creator'        => 'Maatwebsite',
         'lastModifiedBy' => 'Maatwebsite',
-        'title'          => 'Spreadsheet',
+        'title'          => 'Usuarios',
         'description'    => 'Default spreadsheet export',
         'subject'        => 'Spreadsheet export',
         'keywords'       => 'maatwebsite, excel, export',

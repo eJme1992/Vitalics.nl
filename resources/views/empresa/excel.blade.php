@@ -14,21 +14,33 @@
                     <span aria-hidden="true">×</span>
                 </button>
                 En esta sección podras importar un archivo excel con la lista de trabajadores.<br>
+                Debe llamarse especificamente "Empleados.xls"
                 El archivo excel deberá seguir este orden.
+
                 <ul>
-                    <li>Name: Debe ser el nombre completo, Ej: John Doe</li>
-                    <li>Birthdate: Fecha formato "aaaa-mm-dd"</li>
-                    <li>Phone: Numero telefonico </li>
-                    <li>Nationality: Diminutivo del pais, Ej: VE - Venezuela</li>
-                    <li>Address: direccion</li>
+                    <li>name: Debe ser el nombre completo, Ej: John Doe</li>
+                    <li>birthdate: Fecha formato "aaaa-mm-dd"</li>
+                    <li>phone: Numero telefonico </li>
+                    <li>nationality: Diminutivo del pais, Ej: VE - Venezuela</li>
+                    <li>address: direccion</li>
                     <li>email: Ej: johndoe@dominio.com</li>
                 </ul>
                 
             </div>
 		</div>
         <div class="col-md-12">
-            <label for="">Subir archivo excel</label>
-            <input type="file" name="excel" class='form-control' id="excel">
+            <form action="{{route('excel.import')}}" method='POST'  enctype="multipart/form-data" >
+                @method('POST')
+                @csrf
+                <div class="col-md-8">
+                    <label for="">Subir archivo excel</label>
+                    <input type="file" name="excel" class='form-control' id="excel">
+                </div>
+                <div class="col-md-4">
+                    <br>
+                    <button type="submit" class='btn btn-primary'>Subir archivo</button>
+                </div>
+            </form>
         </div>
         
        

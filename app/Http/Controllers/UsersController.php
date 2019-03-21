@@ -11,6 +11,7 @@ use App\User;
 use App\Empresa;
 use Auth;
 use Faker\Generator as Faker;
+use App\Http\Requests\UserRequest;
 
 
 
@@ -33,19 +34,9 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function crearusuario(Request $request,  Faker $faker)
+    public function crearusuario(UserRequest $request,  Faker $faker)
     {
-        $validatedData = $request->validate([
-            'name' => 'string|required',
-            'email' => 'required|email',
-            // 'birthdate' => 'required',
-            'phone' => 'required|numeric',
-            // 'estado' => 'required',
-            'cargo' => 'required',
-            'nationality' => 'required',
-            'address' => 'required|string',
-        ]);
-
+        
         $email = User::where('email', $request->email)->count(); #Busco el email en la bd
         $uempresa = User::where('id', Auth::user()->id)->first(); #busco la empresa
         $empresa = Empresa::
@@ -202,6 +193,7 @@ class UsersController extends Controller
     {
 
         $user = User::where('id',$id)->first();
+
         if($user->model == 'juridico'){
             $empresa = Empresa::
                 join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->
@@ -265,104 +257,86 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
 
-        $validatedData = $request->validate([
-            'email' => 'unique:users|email',
-        ]);
+        $usuario = DB::table('users')->where('id',$id)->first();
+        
+        if($usuario->model == 'natural'){
 
-        $usuario = DB::table('users')->where('id',$id)->get();
-
-
-        foreach($usuario as $user){
-            if($user->model == 'natural'){
-
-                if($request->password == ''){
-
-                   
-                   /* if ($request->file('profile')) {
-                        # code...
-                        $path = Storage::disk('public')->put('img', $request->file('profile'));
-            
-                        $profile = asset($path);
-                        DB::table('users')->where('id',$id)
-                            ->update([
-                                'profile' => $profile,
-                            ]);
-                    }*/
-
-                    if ($request->file('profile')) {
-                    $file = $request->file('profile');
-                    $name = time() . $file->getClientOriginalName();  
-                    $fn = new FuncionesRepetitivas();
-                    $name = $fn->limpiarCaracteresEspeciales($name);
-                    $file->move(public_path() . '/img/programa/', $name);
-                    $name = '/img/programa/'.$name;
-                    DB::table('users')->where('id',$id)
-                    ->update(['profile' => $name,]);
-                    }
-
-                    DB::table('users')->where('id',$id)
-                        ->update([
-                            'name' => $request->name,
-                            'birthdate' => $request->birthdate,
-                            'nationality' => $request->nationality,
-                            'phone' => $request->phone,
-                            'address' => $request->address,
-                            'email' => $request->email,
-                            'email' => $request->email,
-                        ]);
-
-                    $message = 'Datos actualizados exitosamente';
-                    return back()->with('message', $message);
-
-                }else{
-                    
-                    $validatedData = $request->validate([
-                        'password' => 'confirmed',
-                    ]);
-
-                    // if($request->password == $request->password2){
-
-                    DB::table('users')->where('id',$id)
-                    ->update([
-
-                        'password' => Hash::make($request->password),
-
-                    ]);
-
-                    $message = 'Contraseña guardada exitosamente';
-
-                    return back()->with('message',$message);
-
-                    // }else{
-
-                        // $message = 'Las contraseñas no coinciden';
-                        // return back()->with('message',$message);
-
-                    // }
-                   
+            if($request->password == ''){
+                
+                if ($request->file('profile')) {
+                $file = $request->file('profile');
+                $name = time() . $file->getClientOriginalName();  
+                $fn = new FuncionesRepetitivas();
+                $name = $fn->limpiarCaracteresEspeciales($name);
+                $file->move(public_path() . '/img/programa/', $name);
+                $name = '/img/programa/'.$name;
+                DB::table('users')->where('id',$id)
+                ->update(['profile' => $name,]);
                 }
 
+                DB::table('users')->where('id',$id)
+                    ->update([
+                        'name' => $request->name,
+                        'birthdate' => $request->birthdate,
+                        'nationality' => $request->nationality,
+                        'phone' => $request->phone,
+                        'address' => $request->address,
+                        'email' => $request->email,
+                        'email' => $request->email,
+                    ]);
 
+                $message = 'Datos actualizados exitosamente';
+                return back()->with('message', $message);
 
             }else{
-                // EMPRESA
+                
+                $validatedData = $request->validate([
+                    'password' => 'confirmed',
+                ]);
 
-                 $user = User::findOrFail($id);
-                 $empresa = $user->empresa;
+                // if($request->password == $request->password2){
 
-                 foreach($empresa as $empresa){
-                     $id_empresa = $empresa->id;
-                 }
+                DB::table('users')->where('id',$id)
+                ->update([
 
-                 $empresa = Empresa::findOrFail($id_empresa);
+                    'password' => Hash::make($request->password),
 
-                 if($request->password == ''){
+                ]);
+
+                $message = 'Contraseña guardada exitosamente';
+
+                return back()->with('message',$message);
+
+                // }else{
+
+                    // $message = 'Las contraseñas no coinciden';
+                    // return back()->with('message',$message);
+
+                // }
+                
+            }
 
 
-                    if ($request->file('profile')) {
+
+        }else{
+            // EMPRESA
+
+            $user = User::findOrFail($id);
+            $empresa = $user->empresa;
+
+            foreach($empresa as $empresa){
+                $id_empresa = $empresa->id;
+            }
+
+            $empresa = Empresa::findOrFail($id_empresa);
+
+            if($request->password == ''){
+
+
+                if ($request->file('profile')) {
                     $file = $request->file('profile');
                     $name = time() . $file->getClientOriginalName();  
                     $fn = new FuncionesRepetitivas();
@@ -371,49 +345,48 @@ class UsersController extends Controller
                     $name = '/img/programa/'.$name;
                     DB::table('users')->where('id',$id)
                     ->update(['profile' => $name,]);
-                    }
-                    
-                    // $empresa->rif =     $request->rif;
-                    $empresa->descripcion =  $request->descripcion;
-                    $empresa->save(); 
-
-                    $user->name = $request->name;
-                    $user->email = $request->email;
-                    $user->phone = $request->phone;
-                    $user->address =$request->address;
-                    $user->nationality = $request->nationality;
-                    $user->save();
-
-                    $message = 'Datos actualizados exitosamente';
-                    return back()->with('message', $message);
-
-                }else{
-
-                    $validatedData = $request->validate([
-                        'password' => 'confirmed',
-                    ]);
-
-                    // if($request->password == $request->password2){
-
-                    DB::table('users')->where('id',$id)
-                    ->update([
-
-                        'password' => Hash::make($request->password),
-
-                    ]);
-                    $message = 'Contraseñas cambiadas exitosamente';
-                    return back()->with('message',$message);
-
-                    // }else{
-
-                    //     $message = 'Las contraseñas no coinciden';
-                    //     return back()->with('message',$message);
-
-                    // }
-                   
                 }
+                
+            // $empresa->rif =     $request->rif;
+                $empresa->descripcion =  $request->descripcion;
+                $empresa->save(); 
 
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->phone = $request->phone;
+                $user->address =$request->address;
+                $user->nationality = $request->nationality;
+                $user->save();
+
+                $message = 'Datos actualizados exitosamente';
+                return back()->with('message', $message);
+
+            }else{
+
+                $validatedData = $request->validate([
+                    'password' => 'confirmed',
+                ]);
+
+                // if($request->password == $request->password2){
+
+                DB::table('users')->where('id',$id)
+                ->update([
+
+                    'password' => Hash::make($request->password),
+
+                ]);
+                $message = 'Contraseñas cambiadas exitosamente';
+                return back()->with('message',$message);
+
+                // }else{
+
+                //     $message = 'Las contraseñas no coinciden';
+                //     return back()->with('message',$message);
+
+                // }
+                
             }
+
         }
         
     }

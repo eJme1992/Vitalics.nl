@@ -21,7 +21,7 @@
                         <div class="card-body">
                         <h4 class="card-title">{{$user->name}}</h4>
                         <p class="card-text"><b>Cargo:</b> {{$user->cargo}} </p>
-                        <a href="{{route('usuarios.show',$user->id)}}" class="btn btn-primary btn-profile-list">See Profile</a>
+                        <a href="{{route('usuarios.show',$user->user_id)}}" class="btn btn-primary btn-profile-list">See Profile</a>
                         </div>
                     </div>
                 </div>
