@@ -114,7 +114,7 @@ class ServiciosController extends Controller
 
                 $servicios = DB::table('servicios')
                         ->where(['tipo' => $request->tipo])
-                        ->whereBetween('create_at', [$fechaI, $fechaF])
+                        ->whereBetween('created_at', [$fechaI, $fechaF])
                         ->whereBetween('costo', [$price[0], $price[1]])->paginate();
 
                 return view('servicios.services-list', compact(['servicios']));
@@ -131,7 +131,7 @@ class ServiciosController extends Controller
                 $fechaF = converFecha($fF);
 
                 $servicios = DB::table('servicios')
-                        ->whereBetween('create_at', [$fechaI, $fechaF])
+                        ->whereBetween('created_at', [$fechaI, $fechaF])
                         ->whereBetween('costo', [$price[0], $price[1]])->paginate();
 
                 return view('servicios.services-list', compact(['servicios']));
@@ -147,7 +147,7 @@ class ServiciosController extends Controller
 
                 $servicios = DB::table('servicios')
                                 ->where(['tipo' => $request->tipo])
-                                ->whereBetween('create_at', [$fechaI, $fechaF])->paginate();
+                                ->whereBetween('created_at', [$fechaI, $fechaF])->paginate();
 
                 return view('servicios.services-list', compact(['servicios']));
 
@@ -170,7 +170,7 @@ class ServiciosController extends Controller
                 $fechaI = converFecha($fI);
                 $fechaF = converFecha($fF);
 
-                $servicios = DB::table('servicios')->whereBetween('create_at', [$fechaI, $fechaF])->paginate();
+                $servicios = DB::table('servicios')->whereBetween('created_at', [$fechaI, $fechaF])->paginate();
         
                 return view('servicios.services-list', compact(['servicios']));
 
@@ -196,15 +196,7 @@ class ServiciosController extends Controller
 
         }
 
-        // $servicios = DB::table('servicios')
-        //                 ->where('nombre', 'like', $request->buscar.'%')
-        //                 ->paginate();
         
-        // $price = explode(';', $request->price);
-
-        // $servicios = DB::table('servicios')->whereBetween('costo', [$price[0], $price[1]])->paginate();
-
-        // return view('servicios.services-list', compact(['servicios']));
     }
 
     /**
