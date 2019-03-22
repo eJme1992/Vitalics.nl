@@ -183,11 +183,13 @@ class ServiciosController extends Controller
 
 
             }elseif ($request->input('filtros.price')) {#si se activo solo el filtro del precio
+    
 
                 $price = explode(';', $request->price);
 
                 $servicios = DB::table('servicios')->whereBetween('costo', [$price[0], $price[1]])->paginate();
-        
+                
+                // dd($servicios);
                 return view('servicios.services-list', compact(['servicios']));
 
 

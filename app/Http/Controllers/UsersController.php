@@ -131,7 +131,7 @@ class UsersController extends Controller
 
             ## AHORA, ENVIAR CORREO CON SU PASSWORD
             
-            if(enviarEmail($user, $empresa->id, $password)){
+            if(enviarEmail($user, $uempresa->id, $password)){
                 return back()->with('message','Usuario registrado exitosamente');
             }else{
 
@@ -389,6 +389,33 @@ class UsersController extends Controller
 
         }
         
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {   
+        $user = User::findOrFail($id);
+        $empresa = $user->empresa;
+
+        foreach($empresa as $empresa){
+            $empresaID = $empresa->id;
+        }
+
+
+        DB::table('empresa_user')
+            ->where([
+                'user_id' => $id,
+                'empresa_id' => $empresaID
+            ])->update([
+                'estado' => 'inactivo'
+            ]);
+
+        return back()->with('message', 'El empleado ya no está en su nomina');
     }
 
     /**

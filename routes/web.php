@@ -43,14 +43,16 @@ Route::post('editar_servicio', 'serviciosController@editservicio');
 Route::get('listadeservicios', 'serviciosController@todosmisservicios');
 Route::get('verservicio/{id}', 'serviciosController@verservicio');
 
-Route::resource('seccioness', 'seccionessController');
-Route::post('registrar_secciones', 'seccionessController@nuevosecciones');
-Route::post('editar_secciones', 'seccionessController@editsecciones');
-Route::get('listadeseccioness', 'seccionessController@todosmisseccioness');
-Route::get('versecciones/{id}', 'seccionessController@verservicio');
+// Route::resource('seccioness', 'seccionessController');
+// Route::post('registrar_secciones', 'seccionessController@nuevosecciones');
+// Route::post('editar_secciones', 'seccionessController@editsecciones');
+// Route::get('listadeseccioness', 'seccionessController@todosmisseccioness');
+// Route::get('versecciones/{id}', 'seccionessController@verservicio');
 //Usuario Url
 Route::resource('usuarios', 'UsersController');
 Route::post('usuarios/nuevo', 'UsersController@crearusuario')->name('usuarios.nuevo');
+Route::delete('usuarios/delete/{usuario}','UsersController@delete')->name('usuarios.delete'); ##DESPEDIR USUARIO
+
 Route::post('servicios/filtrar', 'ServiciosController@filtros')->name('servicios.filtro');
 Route::resource('notificacion', 'NotificacionController');
 Route::get('/importar-empleados','ExcelController@index')->name('excel.index');

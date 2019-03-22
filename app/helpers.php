@@ -5,7 +5,7 @@ use App\User;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Servicio;
 
-// use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\Exception;
 
 function notificaciones($id){
 

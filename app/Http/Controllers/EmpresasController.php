@@ -40,6 +40,7 @@ class EmpresasController extends Controller
             select('users.*','empresa_user.*')->
             where('empresas.id', $empresaID)->
             where('users.model','natural')->
+            where('empresa_user.estado','activo')->
             paginate(6);
 
 
