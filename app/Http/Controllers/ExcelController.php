@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Imports\UsersImport;
-use Maatwebsite\Excel\Facades\Excel;
 
 
 class ExcelController extends Controller
@@ -17,15 +15,9 @@ class ExcelController extends Controller
       
     }
 
-    public function importExcel(Request $request){
+    public function importExcel(){
 
-        // dd(request()->file('excel'));
-
-        $excel = Excel::load(new UsersImport, request()->file)
-
-        // dd($excel);
-        
-        // return redirect('/')->with('success', 'All good!');
+        return redirect('/')->with('success', 'All good!');
         
     }
 }

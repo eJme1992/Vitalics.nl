@@ -12,11 +12,24 @@
             <a href="{{route('usuarios.index')}}" class="btn btn-success ">Nuevo usuario</a>
             <a href="{{route('excel.index')}}" class="btn btn-primary ">Cargar lista de empleados</a><br><br>
         </div>
-        @if(countEmpl(Auth::user()->id) > 0)
+        <div class="col-md-12">
+            @include('usuarios.partials.message')
+        </div>
             @foreach($usuarios as $user)
                 @if($user->model != 'juridico')
                 <div class="col-md-4">
                     <div class="card card-profile">
+                        <div class="btn-group " style='float:right; '>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-expanded="false"><span class="caret"></span>
+                            </button>
+                            <ul role="menu" class="dropdown-menu ">
+                                <form action="{{route('usuarios.delete', $user->user_id)}}" method='POST'>
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class='btn'>Eliminar de la nomina</button>
+                                </form>
+                            </ul>
+                        </div>
                         <img class="card-img-top img-fluid img-profile-list" src="{{url('/')}}{{$user->profile}}" alt="Card image"/>
                         <div class="card-body">
                         <h4 class="card-title">{{$user->name}}</h4>
@@ -26,6 +39,7 @@
                     </div>
                 </div>
                 @endif
+            
             @endforeach
                 
 		<div class="col-md-12">
@@ -38,18 +52,7 @@
                 {!! $usuarios->render() !!}
             </ul>
 		</div>
-        @else
-        <div class="col-md-12">
-            <div class="alert alert-info alert-dismissible fade in" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                No hay empleados registrados.
-            </div>
-        </div>
         
-        
-        @endif  
 	</div>
 </div>
 @endsection

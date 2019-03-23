@@ -5,7 +5,7 @@ use App\User;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Servicio;
 
-// use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\Exception;
 
 function notificaciones($id){
 
@@ -293,6 +293,6 @@ function enviarEmail(User $user, $empresaID, $password){
 
 function converFecha($fecha){
     $f = explode('/', $fecha);
-    $result = $f[2].'-'.$f[0].'-'.$f[1].' 00:00:00';
+    $result = $f[2].'-'.$f[0].'-'.$f[1].' 00:00:00.000000';
     return $result;
 }
