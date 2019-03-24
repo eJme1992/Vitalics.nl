@@ -42,6 +42,24 @@
       <div class="alert alert-info fade in" role="alert">
          My orders
       </div>
+      <table class="table table-condensed">
+        <thead >
+          <tr>
+            <th>ID</th>
+            <th>Payment Nro</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($payment as $p)
+          <tr>
+            <td>{{$p->id_pay}}</td>
+            <td>{{$p->default_source}}</td>
+            <td>{{$p->purchased_points}}</td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
    </div>
 </div>
 @endsection

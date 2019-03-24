@@ -30,8 +30,9 @@ class StorePointController extends Controller
     public function create()
     {
         $point = StorePoint::first();
+        $payment = Payment::where('user_id',Auth::user()->id)->get();
 
-        return view('point.create',['point' => $point]);
+        return view('point.create',['point' => $point,'payment'=> $payment]);
     }
 
     /**

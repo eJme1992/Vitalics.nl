@@ -2,13 +2,16 @@
 
 namespace App;
 
+use Laravel\Cashier\Billable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use Billable;
     use Notifiable;
+
 
     public function empresa(){
         return $this->belongsToMany('App\Empresa', 'empresa_user')

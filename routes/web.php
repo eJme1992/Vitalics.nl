@@ -19,6 +19,7 @@ Route::get('/', function () {
 Route::resource('/point','StorePointController');
 //Route::post('/pago', 'StorePointController@store');
 
+
 Route::get('/view-register', function () {
     return view('usuarios.register');
 });
