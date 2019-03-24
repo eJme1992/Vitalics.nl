@@ -136,7 +136,13 @@
                                  <!-- <li><a href="#">Nuevo empleado</a></li> -->
                               </ul>
                            </li>
-                           <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Store points</span></a></li>
+
+                           <li>
+                              <a><i class="fas fa-shopping-bag"></i> Store points</span></a>
+                               <ul class="nav child_menu">
+                                 <li><a href="{{route('point.create')}}">Comprar Puntos</a></li>
+                               </ul>
+                           </li>
                         </ul>
                         @else
                         <ul class="nav side-menu">
@@ -332,7 +338,7 @@
             <!-- /footer content -->
          </div>
       </div>
-      @yield('footer')
+     
       <!-- jQuery -->
       <script src="{{ asset('') }}panel/vendors/jquery/dist/jquery.min.js"></script>
       <!-- Bootstrap -->
@@ -377,5 +383,9 @@
       <script src="{{asset('')}}panel/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
       <!-- Custom Theme Scripts -->
       <script src="{{ asset('') }}panel/build/js/custom.min.js"></script>
+
+      <script src="https://checkout.stripe.com/checkout.js"></script>
+
+       @yield('footer')
    </body>
 </html>

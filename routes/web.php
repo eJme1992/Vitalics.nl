@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Store Point
+Route::resource('/point','StorePointController');
+//Route::post('/pago', 'StorePointController@store');
+
 Route::get('/view-register', function () {
     return view('usuarios.register');
 });
@@ -57,4 +61,7 @@ Route::post('servicios/filtrar', 'ServiciosController@filtros')->name('servicios
 Route::resource('notificacion', 'NotificacionController');
 Route::get('/importar-empleados','ExcelController@index')->name('excel.index');
 Route::post('/importando','ExcelController@importExcel')->name('excel.import');
+
+
+
 

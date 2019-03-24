@@ -22,4 +22,5 @@ class VerifyCsrfToken extends Middleware
         'registrar_empresa',
         'registrar_servicio'
     ];
+
 }

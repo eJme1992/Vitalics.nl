@@ -134,10 +134,13 @@
 							<h4 class="card-title">{{$servicio->nombre}}</h4>
 							<p class="card-text"> {{$servicio->descripcion}}</p>
 							<p class="card-text txt-cost"><b>{{$servicio->costo}}$</b></p>
+							 
 							<a href="{{route('servicios.show', $servicio->id)}}" class="btn btn-primary btn-profile-list">Learn More</a>
 						</div>
 					</div>
 			</div>
+
+
 			@endforeach
 		</div>
 		<div class="col-md-12">
