@@ -64,7 +64,7 @@ function enviarEmail(User $user, $empresaID, $password){
     $mail->Port = 465;                                    // TCP port to connect to
 
     //Recipients
-    $mail->setFrom('support@fullyshops.com', 'Vitalic´s Support');  ## DESDE
+    $mail->setFrom('support@fullyshops.com', 'Support');  ## DESDE
     $mail->addAddress($user->email, $user->name);  ## DESTINATARIO
     #$mail->addAddress('his-her-email@gmail.com', 'Optional name');	// Add a recipient, Name is optional
     #$mail->addReplyTo('your-email@gmail.com', 'Mailer');
@@ -150,7 +150,7 @@ function enviarEmail(User $user, $empresaID, $password){
                                 </font>
                                 <div style='height: 20px; line-height: 20px; font-size: 18px;'>&nbsp;</div>
                                 <font face=''Source Sans Pro', sans-serif' color='#585858' style='font-size: 24px; line-height: 32px;'>
-                                    <span style='font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 24px; line-height: 32px;'>Tu password para ingresar al sistema es la siguiente:<br>Tu Password: PASSWORD</span>
+                                    <span style='font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 24px; line-height: 32px;'><br>Tu Password: PASSWORD</span>
                                 </font>
                                 <div style='height: 33px; line-height: 33px; font-size: 31px;'>&nbsp;</div>
                                 <table class='mob_btn' cellpadding='0' cellspacing='0' border='0' style='background: #27cbcc; border-radius: 4px;'>

@@ -63,6 +63,6 @@ Route::resource('notificacion', 'NotificacionController');
 Route::get('/importar-empleados','ExcelController@index')->name('excel.index');
 Route::post('/importando','ExcelController@importExcel')->name('excel.import');
 
-
+Route::get('/asignar-puntos', 'EmpresasController@asignarPuntos')->name('asignar.puntos');
 
 

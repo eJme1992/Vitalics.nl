@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "e282d02f84d90dc599177e2e428aa325",
-=======
-    "content-hash": "d90ea60f3d815bba7383c5ca1279a86d",
->>>>>>> 532ed229cfdd36381abb2e2e352e65417156a1f1
+    "content-hash": "1adc493cb30c08e5d537a92c87e3e315",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2391,16 +2387,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v6.31.0",
+            "version": "v6.31.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "a44a095af88057922a08b03daaf79d6859e12e2d"
+                "reference": "dcdeb5f44890a146f572ecd33f73b144f902b82a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/a44a095af88057922a08b03daaf79d6859e12e2d",
-                "reference": "a44a095af88057922a08b03daaf79d6859e12e2d",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/dcdeb5f44890a146f572ecd33f73b144f902b82a",
+                "reference": "dcdeb5f44890a146f572ecd33f73b144f902b82a",
                 "shasum": ""
             },
             "require": {
@@ -2443,7 +2439,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2019-03-18T23:36:33+00:00"
+            "time": "2019-03-22T17:12:41+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

@@ -10,7 +10,9 @@
 		</div>
         <div class="col-md-12">
             <a href="{{route('usuarios.index')}}" class="btn btn-success ">Nuevo usuario</a>
-            <a href="{{route('excel.index')}}" class="btn btn-primary ">Cargar lista de empleados</a><br><br>
+            <a href="{{route('excel.index')}}" class="btn btn-primary ">Cargar lista de empleados</a>
+            <a href="{{route('asignar.puntos')}}" class="btn btn-success ">Asignar puntos</a>
+            <br><br>
         </div>
         <div class="col-md-12">
             @include('usuarios.partials.message')
