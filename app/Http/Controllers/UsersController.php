@@ -9,6 +9,7 @@ use App\FuncionesRepetitivas;
 use DB;
 use App\User;
 use App\Empresa;
+use App\Mail\Email;
 use Auth;
 use Faker\Generator as Faker;
 use App\Http\Requests\UserRequest;
@@ -131,13 +132,21 @@ class UsersController extends Controller
 
             ## AHORA, ENVIAR CORREO CON SU PASSWORD
             
-            if(enviarEmail($user, $uempresa->id, $password)){
-                return back()->with('message','Usuario registrado exitosamente');
-            }else{
+            // if(enviarEmail($user, $uempresa->id, $password)){
+            //     return back()->with('message','Usuario registrado exitosamente');
+            // }else{
 
-                return back()->with('error','Message could not be sent.');
+            //     return back()->with('error','Message could not be sent.');
 
-            }
+            // }
+
+
+                    
+                 \Mail::to('francisco20990@gmail.com')
+                 ->send(new Email($user, $uempresa, $password));
+               
+
+
 
 
 
