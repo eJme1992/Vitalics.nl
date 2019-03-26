@@ -3,34 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\section;
 
 class SectionsController extends Controller
 {
     
+    public function __construct()
+    {
+       header('Origin: xxx.com');
+       header('Access-Control-Allow-Origin:*');     
+    }
+
+    public function todosmisseccioness($id) {
+
+    }
 
 
-
-     public function nuevosection(Request $request)
+    public function nuevosection(Request $request)
     {
         
         $validatedData = $request->validate(['cupos' => 'required', 'lugar' => 'required', 'descripcion' => 'required']);
 
 
         $section = new section();
-        if(isset($request->input('empresa_id'))){
-        $section->empresa_id   =  $request->input('empresa_id');
-        }
+        
         $section->cupos        =  $request->input('cupos');
         $section->lugar        =  $request->input('lugar');
+        $section->servicio_id  =  $request->input('servicio_id');
         $section->estado       =  'activo';
         $section->descripcion  =  $request->input('descripcion');
         $section->save();     
-
-     
-
-        return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);
-         
+        return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);    
     }
+
     public function versection($id)
     {
         $section = section::where('id',$id)->first();
