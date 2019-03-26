@@ -16,12 +16,14 @@ class CreateSectionsTable extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('empresa_id')->unsigned()->nullable(); 
+            $table->integer('servicio_id')->unsigned()->nullable(); 
             $table->string('cupos');
             $table->string('lugar');
             $table->string('estado'); // Activo-inactivo
             $table->string('descripcion')->nullable();
             $table->timestamps();
             $table->foreign('empresa_id')->references('id')->on('empresas');
+            $table->foreign('servicio_id')->references('id')->on('servicios');
         });
     }
 
