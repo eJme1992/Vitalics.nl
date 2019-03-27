@@ -15,24 +15,27 @@ class SectionsController extends Controller
     }
 
     public function todosmisseccioness($id) {
-
+     $section = section::where('servicio_id',$id)->get();
+     return response()->json(['datos' => $section, 'status' => 'ok'], 200);
     }
 
 
     public function nuevosection(Request $request)
     {
         
-        $validatedData = $request->validate(['cupos' => 'required', 'lugar' => 'required', 'descripcion' => 'required']);
+        $validatedData = $request->validate(['cupos' => 'required','lugar' => 'required', 'descripcion' => 'required']);
 
 
         $section = new section();
-        
+        if ($request->has('empresa_id')) {
+        $section->empresa_id   =  $request->input('empresa_id');
+        }
         $section->cupos        =  $request->input('cupos');
         $section->lugar        =  $request->input('lugar');
         $section->servicio_id  =  $request->input('servicio_id');
         $section->estado       =  'activo';
         $section->descripcion  =  $request->input('descripcion');
-        $section->save();     
+        $section->save();      
         return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);    
     }
 
