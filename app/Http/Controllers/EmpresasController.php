@@ -119,27 +119,29 @@ class EmpresasController extends Controller
 
     public function asignarPuntos(){
 
-        $empresa = User::where(['id' => Auth::user()->id, 'model' => 'juridico'])->first();
+        return view('empresa.asignar-puntos');
+
+    }
+
+    public function listado($id){
+
+        $empresa = User::where(['id' => $id, 'model' => 'juridico'])->first();
         foreach($empresa->empresa as $e){
             $empresaID = $e->id;
         }
-        // $e = Empresa::where('id', $empresaID)->first();
-        // $usuarios = $e->usuario;
-
-        // foreach($usuarios as $user){
-        //     dd($user->pivot->cargo);
-        // }
+    
         $usuarios = User::
-            join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
-            join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
-            select('users.*','empresa_user.*')->
-            where('empresas.id', $empresaID)->
-            where('users.model','natural')->
-            where('empresa_user.estado','activo')->
-            paginate(6);
-
-
-        return view('empresa.asignar-puntos', compact(['usuarios']));
+                join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
+                join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
+                select('users.*','empresa_user.*')->
+                where('empresas.id', $empresaID)->
+                where('users.model','natural')->
+                where('empresa_user.estado','activo')->
+                get();
+    
+        return datatables()
+             ->collection($usuarios)
+             ->toJson();
 
     }
 

@@ -14,3 +14,4 @@ use Illuminate\Http\Request;
 */
 
 
+Route::get('asignar-puntos/{id}', 'EmpresasController@listado')->name('api.listado');
