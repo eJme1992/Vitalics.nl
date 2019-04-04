@@ -17,7 +17,7 @@ class CreateFechasTable extends Migration
             $table->increments('id');
             $table->integer('seccion_id')->unsigned()->nullable(); 
             $table->string('hora');
-            $table->string('fecha');       
+            $table->date('fecha');       
             $table->timestamps();       
             $table->foreign('seccion_id')->references('id')->on('seccion');
         });
