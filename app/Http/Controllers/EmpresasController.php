@@ -7,6 +7,8 @@ use App\FuncionesRepetitivas;
 use App\Empresa;
 use App\User;
 use Auth;
+use DB;
+
 class EmpresasController extends Controller
 {
 
@@ -118,14 +120,7 @@ class EmpresasController extends Controller
     }
 
     public function asignarPuntos(){
-
-        return view('empresa.asignar-puntos');
-
-    }
-
-    public function listado($id){
-
-        $empresa = User::where(['id' => $id, 'model' => 'juridico'])->first();
+        $empresa = User::where(['id' => Auth::user()->id, 'model' => 'juridico'])->first();
         foreach($empresa->empresa as $e){
             $empresaID = $e->id;
         }
@@ -138,10 +133,37 @@ class EmpresasController extends Controller
                 where('users.model','natural')->
                 where('empresa_user.estado','activo')->
                 get();
+
+        $puntos = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first();
+
+        return view('empresa.asignar-puntos', compact(['usuarios','puntos']));
+
+    }
+
+    public function savePuntos(Request $request){
+
+        dd($request);
+
+
+        // $empresa = User::where(['id' => $id, 'model' => 'juridico'])->first();
+        // foreach($empresa->empresa as $e){
+        //     $empresaID = $e->id;
+        // }
     
-        return datatables()
-             ->collection($usuarios)
-             ->toJson();
+        // $usuarios = User::
+        //         join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
+        //         join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
+        //         select('users.*','empresa_user.*')->
+        //         where('empresas.id', $empresaID)->
+        //         where('users.model','natural')->
+        //         where('empresa_user.estado','activo')->
+        //         get();
+    
+        // return datatables()
+        //      ->collection($usuarios)
+        //      ->toJson();
+
+
 
     }
 
