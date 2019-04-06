@@ -32,7 +32,7 @@
                   <td id='nombre'>{{$user->name}}</td>
                   <td>{{$user->phone}}</td>
                   <td>{{$user->cargo}}</td>
-                  <td id='{{$user->user_id}} ' class='id_user'><input type="checkbox" value='{{$user->user_id}}' name='id_user'  class="flat "></td>
+                  <td id='{{$user->user_id}} ' class='id_user'><input type="checkbox"  name='id_user'  class="flat "></td>
 
                 </tr>
             @endforeach
@@ -127,7 +127,7 @@
           var nuevaFila="<tr id='"+id+"'>";
           // añadimos las columnas
           nuevaFila+="<td>"+valores+"</td>";
-          nuevaFila+="<td><input type='hidden' name='id_user' value='"+id+"'><input type='number' class='form-control puntos' ></td>";
+          nuevaFila+="<td><input type='hidden' name='id_user[]' value='"+id+"'><input type='number' name='puntos[]' class='form-control puntos' ></td>";
           nuevaFila+="</tr>";
           $("#empleados").append(nuevaFila);
           var  puntos = calcular_puntos();
@@ -147,7 +147,7 @@
      
       // console.log(valores);
       //   alert(valores+", "+ id);
-      // });
+      });
   </script>
   
 @endsection

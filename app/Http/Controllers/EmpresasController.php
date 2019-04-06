@@ -142,28 +142,30 @@ class EmpresasController extends Controller
 
     public function savePuntos(Request $request){
 
-        dd($request);
+        // dd($request->puntos[0]);
 
+        // verifico si tengo puntos
+        $total_puntos = 0;
+        $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first(); // busco los puntos de la empresa
+        foreach($request->puntos as $puntos){
+            $total_puntos+= $puntos;
+        }
+        if ($total_puntos > $puntos_empresa) {
+            # Si el total de puntos es mayor a los que tiene la empresa
+            # Los devuelvo con un error
 
-        // $empresa = User::where(['id' => $id, 'model' => 'juridico'])->first();
-        // foreach($empresa->empresa as $e){
-        //     $empresaID = $e->id;
-        // }
-    
-        // $usuarios = User::
-        //         join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
-        //         join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
-        //         select('users.*','empresa_user.*')->
-        //         where('empresas.id', $empresaID)->
-        //         where('users.model','natural')->
-        //         where('empresa_user.estado','activo')->
-        //         get();
-    
-        // return datatables()
-        //      ->collection($usuarios)
-        //      ->toJson();
+            return back()->with('message','No tienes puntos suficientes para esta operación<br>Compra puntos <a href="#">aqui</a>')
+        }else{
+            # SI no continua normal
 
+            
 
+        }
+
+        dd($total_puntos);
+        // Los usuarios recibiran los puntos.
+
+        // $puntos = DB::table('puntos_totales')->
 
     }
 
