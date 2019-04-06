@@ -154,7 +154,7 @@ class EmpresasController extends Controller
             # Si el total de puntos es mayor a los que tiene la empresa
             # Los devuelvo con un error
 
-            return back()->with('message','No tienes puntos suficientes para esta operación<br>Compra puntos <a href="#">aqui</a>')
+            return back()->with('message','No tienes puntos suficientes para esta operación<br>Compra puntos <a href="#">aqui</a>');
         }else{
             # SI no continua normal
 
