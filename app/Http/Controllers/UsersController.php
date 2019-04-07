@@ -54,6 +54,8 @@ class UsersController extends Controller {
                     'empresa_id' => $empresaID, ##  CREO LA RELACION
                     'cargo' => $request->cargo, ##
                     'estado' => 'invitado']);
+                    $message = 'The user already exists.An invitation has been sent which must be accepted by the user to enter their payroll';
+                    return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
                 }
                 ##
                 ##  SE DEVUELVE UN MENSAJE PARA ENVIAR UNA INVITACION
@@ -91,7 +93,7 @@ class UsersController extends Controller {
             // }else{
             //     return back()->with('error','Message could not be sent.');
             // }
-            \Mail::to('edwin.jme@hotmail.com')->send(new Email($user, $uempresa, $password));
+            //\Mail::to('edwin.jme@hotmail.com')->send(new Email($user, $uempresa, $password));
             $message = 'The user has been created with existing';
             return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
         }
