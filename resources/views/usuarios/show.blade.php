@@ -14,8 +14,10 @@
             <div class="container" style='color:white; padding-left:10px;'>
                 <div class="row">
                    
-                        <h2>{{$user->name}}</h2><br>
-                    
+                        <h2 style="display: inline;">{{$user->name}}</h2> 
+                        @if(Auth::user()->id===$user->id)
+                        <a style="margin-bottom: 13px;" href="{{url('usuarios/'.$user->id.'/edit')}}" class="btn btn-warning btn-xs">Edit</a><br>
+                        @endif
                 </div>
                 <div class="row" style='font-size:17px; '>
                     <div class="col-md-6">

@@ -2,12 +2,9 @@
 @section('content')
 <div class="container">
 	<!-- <div class="row"> -->
-		<div class="col-md-12">
-			<div class="view-boton float-right">
-				<a href="#" class="view-boton-i" data-toggle="tooltip" title="View like details" ><i class="fa fa-list-ul fa-lg"></i></a>
-				<a class="view-boton-i" href="#" data-toggle="tooltip" title="View like icons"><i class="fa fa-table fa-lg"></i></a>
-			</div>
-		</div>
+		<table width="100%">
+			<tr>
+				<td width="80%">
 		<form action="{{route('servicios.filtro')}}"  method="post">
 			@csrf
 			@method('POST')
@@ -125,7 +122,17 @@
 			</div>
 
 		</form>
-		<div class="row">
+		</td>
+		<td>
+				<div class="col-md-12">
+			<div class="view-boton float-right">
+				<a href="#" class="view-boton-i" data-toggle="tooltip" title="View like details" ><i class="fa fa-list-ul fa-lg"></i></a>
+				<a class="view-boton-i" href="#" data-toggle="tooltip" title="View like icons"><i class="fa fa-table fa-lg"></i></a>
+			</div>
+		</div>
+		</td>
+
+</tr></table>	<hr>	<div class="row">
 			@foreach($servicios as $servicio)
 			<div class="col-md-4" style='margin-top: 20px;'>
 				<div class="card card-profile">

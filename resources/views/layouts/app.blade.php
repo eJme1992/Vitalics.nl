@@ -3,6 +3,7 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <!-- Meta, title, CSS, favicons, etc. -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -154,21 +155,20 @@
                         @else
                         <ul class="nav side-menu">
                            <li><a href="{{url('/home')}}"><i class="fa fa-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a></li>
-                           <li>
-                              <a><i class="fas fa-user"></i> Employees <span class="fa fa-chevron-down"></span></a>
-                              <ul class="nav child_menu">
-                                 <li><a href="#">Roster</a></li>
-                                 <li><a href="#">Invite employees</a></li>
-                              </ul>
-                           </li>
-                           <li>
+                    
+                            <li>
                               <a><i class="fas fa-suitcase"></i> Services <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
-                                 <li><a href="#">Mis empleados</a></li>
-                                 <li><a href="#">Nuevo empleado</a></li>
+                                 <li><a href="{{route('servicios.index')}}">Mis servicios</a></li>
+                                 <!-- <li><a href="#">Nuevo empleado</a></li> -->
                               </ul>
                            </li>
-                           <li><a href="{{url('/')}}"><i class="fas fa-shopping-bag"></i> Store points</span></a></li>
+                             <li>
+                              <a><i class="fas fa-shopping-bag"></i> Store points</span></a>
+                               <ul class="nav child_menu">
+                                 <li><a href="{{route('point.create')}}">Comprar Puntos</a></li>
+                               </ul>
+                           </li>
                         </ul>
                         @endif
                          <ul class="nav side-menu">
@@ -227,10 +227,10 @@
                            <li><a href="{{route('usuarios.show', Auth::user()->id)}}"> Profile</a></li>
                            <li>
                               <a href="{{route('usuarios.edit', Auth::user()->id)}}">
-                              <span>Settings</span>
+                                 <span>Edit profile</span>
                               </a>
                            </li>
-                           <li><a href="javascript:;">Help</a></li>
+                           <!--<li><a href="javascript:;">Help</a></li>-->
                            <li>
                               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                               <i class="fa fa-sign-out pull-right"></i>Cerrar sesión</a>

@@ -64,7 +64,7 @@
                         <div class="form-group">
 
                             <div class="col-xs-12 " id="botoneditar_usuario">
-                                <button onclick="ProcesarFormularioEditar('{{route('usuarios.update', $user->id)}}','editar_usuario');return false;" type="button" class="btn-dark btn-block btn">Submit <i class="fas fa-check"></i></button>
+                                <button onclick type="button" class="btn-dark btn-block btn">Submit <i class="fas fa-check"></i></button>
                             </div>
                         </div>
 
@@ -146,7 +146,7 @@
 
     function ProcesarFormularioEditar(url,formulario){
        var formData = new FormData(jQuery('#'+formulario)[0]);
-       var html = '<button onclick="ProcesarFormularioEditar("http://127.0.0.1:8000/usuarios/1","'+formulario+'");return false;"  type="button" name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn" >Submit <i class="fas fa-check"></i></button> ';
+       var html = '<button  type="submit" name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn" >Submit <i class="fas fa-check"></i></button> ';
        $.ajax({
         url:url,
         type:'POST',

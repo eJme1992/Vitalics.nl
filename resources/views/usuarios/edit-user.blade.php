@@ -12,15 +12,13 @@
                 </div>
                 <div class="x_content">
 
-                    
-                    <form class="form-horizontal form-label-left input_mask" id="editar_usuario">
-
+                    <form id="editar_usuario" class="form-horizontal form-label-left input_mask">
                         @csrf @method('PUT')
                         <div class="col-md-12 col-xs-12 col-sm-12 mg-b">
                             <center>
                                 @if($user->profile == '')
-                                <img src="{{url('/')}}/img/profile.png" class="img-prueba" id="img-prueba"> @else
-                                <img src="{{$user->profile}}" class="img-prueba" id="img-prueba"> @endif
+                                <img src="{{url('/')}}/img/profile.png" class="img-pp img-circle" id="img-prueba"> @else
+                                <img src="{{$user->profile}}" width="156px" height="156px" class="img-pp img-circle" id="img-prueba"> @endif
                                 <div id="preview"></div>
                                 <button type="button" id="change-photo" class="btn btn-profile">Change profile photo</button>
                                 <input type="file" class="form-control hide" name="profile" id="photo" />
@@ -62,9 +60,9 @@
                             <div id="resultadoeditar_usuario"></div>
                         </div>
                         <div class="form-group">
-
                             <div class="col-xs-12 " id="botoneditar_usuario">
-                                <button onclick="ProcesarFormularioEditar('{{route('usuarios.update', $user->id)}}','editar_usuario');return false;" type="button" class="btn-dark btn-block btn">Submit <i class="fas fa-check"></i></button>
+                                <a name="enviareditar_usuario" id="enviareditar_usuario" class="btn-dark btn-block btn" href="javascript:editar(1)">
+                    Submit <i class="fas fa-check"></i></a>
                             </div>
                         </div>
 
@@ -81,106 +79,64 @@
                 </div>
                 <div class="x_content">
                     <center>
-                        <h1 style='font-size:80px;' class='mg-b'>
+                        <h1 style='font-size:80px;' class=''>
                             <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                         </h1>
                     </center>
-                    <!--  <form action="{{route('usuarios.update', $user->id)}}" method='POST' class='form-horizontal form-label-left'>-->
-                         <form id="newuserr" onsubmit="realizaProceso();return false;" class="form-horizontal form-label-left input_mask">
+                    <form id="editar_pass" class='form-horizontal form-label-left'>
                         @csrf @method('PUT')
-                        <div class="row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">New Password</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="row mg-b">
+                            <label class="control-label col-md-12">New Password</label>
+                            <div class="col-md-12">
                                 <input type="password" name='password' class="form-control" required>
                             </div>
                         </div>
-                        <div class="row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Repeat Password</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="row mg-b">
+                            <label class="control-label col-md-12">Repeat Password</label>
+                            <div class="col-md-12">
                                 <input type="password" name='password_confirmation' id="password-confirm" class="form-control" required>
                             </div>
                         </div>
                         <div class="row">
+                         <div class="col-lg-12">
+                            <div id="resultadoeditar_pass"></div>
+                        </div>
+                      </div>
+                        <div class="row">
                             <div class="col-xs-8"></div>
                             <div class='col-xs-1'>
-                                <div id="resultado"></div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-success btn-lg left">Submit</button>
+                                    <a href="javascript:editar(2)" class="btn btn-success btn-lg left">Submit</a
                                 </div>
                             </div>
                         </div>
-
+                      </div>
                     </form>
-                   
-                </div>
+                
             </div>
         </div>
     </div>
 </div>
 @endsection @section('footer')
+
 <script type="text/javascript">
-    var photo = document.getElementById("photo");
-       var boton = document.getElementById("change-photo").addEventListener("click", () =>{ photo.click()});
-        var photoT = document.getElementById("img-prueba");
-        
-         photo.onchange = function(e) {
-         // Creamos el objeto de la clase FileReader
-         let reader = new FileReader();
-       
-         // Leemos el archivo subido y se lo pasamos a nuestro fileReader
-         reader.readAsDataURL(e.target.files[0]);
-         
-         // Le decimos que cuando este listo ejecute el código interno
-         reader.onload = function(){
-           let preview = document.getElementById('preview');
-             image = document.createElement("img");
-       
-           image.src = reader.result;
-           image.classList.add("img-p", "img-circle");
-           photoT.style.display ="none";  
-           preview.appendChild(image);
-         };
-       }
+    function editar(op){
+    if(op===1){  
+      
+             PFEditar('{{route('usuarios.update', $user->id)}}','editar_usuario',op);
+          }
+    if(op===2){  
+      
+             PFEditar('{{route('usuarios.update', $user->id)}}','editar_pass',op);
+     }      
+    };
+
+
+    
+    
+        function PFEditar(url,formulario,op){var formData=new FormData(jQuery('#'+formulario)[0]);var html='<a name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn" href="javascript:editar('+op+')" >Submit <i class="fas fa-check"></i></a>';$.ajax({url:url,type:'POST',contentType:false,processData:false,dataType:'json',data:formData,beforeSend:function(){$("#resultado"+formulario).html('<div class="alert alert-success">Procesando...!</div>');$("#boton"+formulario).html('<button disabled=""  type="button" name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn">Submit <i class="fa fa-spinner fa-spin fa-1x fa-fw"></i></button> ');}}).done(function(data,textStatus,jqXHR){var getData=jqXHR.responseJSON;if(data.status=='ok'){$("#resultado"+formulario).html('<div class="alert alert-success">'+data.mensaje+' | <a href="javascript:location.reload();">Refresh</a></div>');$("#boton"+formulario).html(html);}else{$("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR! </strong>'+data.mensaje+'</div>');$("#boton"+formulario).html(html);}}).fail(function(data,textStatus,errorThrown){var errorsHtml='';var errors=data.responseJSON;$.each(errors,function(key,value){if(key!='message'){$.each(value,function(key1,value1){errorsHtml+=value1;});}});$("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR! </strong>'+errorsHtml+'</div>');$("#boton"+formulario).html(html);})};
 </script>
 <script type="text/javascript">
-
-    function ProcesarFormularioEditar(url,formulario){
-       var formData = new FormData(jQuery('#'+formulario)[0]);
-       var html = '<button onclick="ProcesarFormularioEditar("http://127.0.0.1:8000/usuarios/1","'+formulario+'");return false;"  type="button" name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn" >Submit <i class="fas fa-check"></i></button> ';
-       $.ajax({
-        url:url,
-        type:'POST',
-        contentType:false,
-        processData:false,
-        dataType:'json',
-        data:formData,
-        beforeSend:function(){
-        $("#resultado"+formulario).html('<div class="alert alert-success">Procesando...!</div>');   
-        $("#boton"+formulario).html('<button disabled=""  type="button" name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn">Submit <i class="fa fa-spinner fa-spin fa-1x fa-fw"></i></button> ');
-        }}).done(function(data,textStatus,jqXHR){
-            var getData=jqXHR.responseJSON;
-            if(data.status=='ok'){
-
-            $("#resultado"+formulario).html('<div class="alert alert-success">'+data.mensaje+' | <a href="#">Recharge</a></div>');
-     
-            alert(html);
-            $("#boton"+formulario).html(html);
-            }else{
-
-            $("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR!</strong>'+data.mensaje+'</div>');
-            $("#boton"+formulario).html(html);
-
-            }}).fail(function(data,textStatus,errorThrown){
-                var errorsHtml='';
-                var errors=data.responseJSON;
-                $.each(errors,function(key,value){
-                    if(key!='message'){
-                        $.each(value,function(key1,value1){
-                            errorsHtml+=value1;});}});
-
-                $("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR!</strong>'+errorsHtml+'</div>');
-                $("#boton"+formulario).html(html);})};
-          
+    var photo=document.getElementById("photo");var boton=document.getElementById("change-photo").addEventListener("click",()=>{photo.click()});var photoT=document.getElementById("img-prueba");photo.onchange=function(e){let reader=new FileReader();reader.readAsDataURL(e.target.files[0]);reader.onload=function(){let preview=document.getElementById('preview');image=document.createElement("img");image.src=reader.result;image.classList.add("img-p","img-circle");photoT.style.display="none";preview.appendChild(image);};}
 </script>
-
 @endsection
