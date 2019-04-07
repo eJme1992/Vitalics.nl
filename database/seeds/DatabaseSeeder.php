@@ -12,5 +12,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+
+         App\StorePoint::create([
+          'price'   => '1',
+          'currency'     => 'EUR'
+          
+        ]);
     }
 }
