@@ -41,8 +41,9 @@ class UsersController extends Controller {
             // }
             #VEO SI ES EMPRESA
             if ($user->model == 'juridico') {
-                $message = 'El usuario ingresado esta registrado como una empresa';
-                return back()->with('message', $message);
+                $message = 'The logged in user is registered as a company';
+                return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
+                //return back()->with('message', $message);
             } else { #Si no es empresa
                 $empresa_user = DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresa->id])->count();
                 if ($empresa_user > 0) { #Existe la relacion con la empresa??
@@ -57,8 +58,10 @@ class UsersController extends Controller {
                 ##
                 ##  SE DEVUELVE UN MENSAJE PARA ENVIAR UNA INVITACION
                 ##
-                $message = 'existe';
-                return back()->with('message', $message)->with('user', $user->email);
+                $message = 'The user already exists on your payroll';
+                return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
+                // back()->with('message', $message)->with('user', $user->email);
+                
             }
         } else { #Si no hay coincidencias
             $password = $faker->bothify('???#?#??'); ## CREAR CONTRASE#A ALEATORIA
@@ -88,7 +91,9 @@ class UsersController extends Controller {
             // }else{
             //     return back()->with('error','Message could not be sent.');
             // }
-            \Mail::to('francisco20990@gmail.com')->send(new Email($user, $uempresa, $password));
+            Mail::to('francisco20990@gmail.com')->send(new Email($user, $uempresa, $password));
+            $message = 'The user has been created with existing';
+            return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
         }
     }
     /**
@@ -238,6 +243,7 @@ class UsersController extends Controller {
             $empresaID = $empresa->id;
         }
         DB::table('empresa_user')->where(['user_id' => $id, 'empresa_id' => $empresaID])->update(['estado' => 'inactivo']);
+
         return back()->with('message', 'El empleado ya no está en su nomina');
     }
     /**

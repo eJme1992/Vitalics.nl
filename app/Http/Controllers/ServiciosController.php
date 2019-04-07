@@ -34,10 +34,10 @@ class ServiciosController extends Controller
                 $name = time() . $file->getClientOriginalName();  
                 $fn = new FuncionesRepetitivas();
                 $name = $fn->limpiarCaracteresEspeciales($name);
-                $file->move(public_path() . '/img/programa/', $name);
-                $name = '/img/programa/img'.$name;
+                $file->move(public_path() . '/img/programa/servicio/', $name);
+                $name = '/img/programa/servicio/'.$name;
         }else{
-          $name = public_path() . "/img/programa/img/profile.png";
+          $name = public_path() . "/img/programa/servicio/profile.png";
         }
 
         $servicio = new Servicio();
