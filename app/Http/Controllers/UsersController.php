@@ -91,7 +91,7 @@ class UsersController extends Controller {
             // }else{
             //     return back()->with('error','Message could not be sent.');
             // }
-            Mail::to('francisco20990@gmail.com')->send(new Email($user, $uempresa, $password));
+            \Mail::to('edwin.jme@hotmail.com')->send(new Email($user, $uempresa, $password));
             $message = 'The user has been created with existing';
             return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
         }
