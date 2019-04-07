@@ -41,7 +41,12 @@
                             </ul>
                         </div><hr style="margin-top:40px">
 
-                        <img class="card-img-top img-fluid img-profile-list"  width="156px" height="156px" src="{{url('/')}}{{$user->profile}}" alt="Card image"/>
+                        
+                        @if($user->profile== '')
+                        <img class="card-img-top img-fluid img-profile-list img-circle"  width="156px" height="250px" src="{{url('/')}}/img/profile.png" alt="Card image"/>
+                        @else
+                        <img src="{{url('/')}}{{$user->profile}}"   alt="{{$user->name }}" class="img-circle card-img-top img-fluid img-profile-list"  width="156px" height="250px">
+                        @endif
                         <div class="card-body">
                         <h4 class="card-title">{{$user->name}}</h4>
                         <p class="card-text"><b>Charge:</b> {{$user->cargo}} </p>

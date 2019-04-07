@@ -26,7 +26,7 @@
   </div>
   	<div class="body-formu hide" id="formu">
 			<p> Email</p>
-			<input type="email" class="form-control mg-b" name="email" placeholder="your@mail.com" />
+			<input type="email" disabled="" class="form-control mg-b" name="email" placeholder="your@mail.com" />
 			<p>Password</p>
 			<input type="password" class="form-control" name="email" />
 			<button type="Submit" class="btn btn-success update-btn" >Submit</button>

@@ -8,7 +8,7 @@
     <div class="col-md-7 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-            <h2>Datos de la empresa</h2>
+            <h2>Company Data</h2>
             
             <div class="clearfix"></div>
             </div>
@@ -37,7 +37,7 @@
                </div>
 
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
-                  <input type="text" class="form-control" value="{{$user->email}}" name='email' id="inputSuccess3" placeholder="Email" required='required' >
+                  <input type="text" class="form-control" disabled="" value="{{$user->email}}" name='email' id="inputSuccess3" placeholder="Email" required='required' >
                   <span class="fa fa-envelope form-control-feedback right" aria-hidden="true"></span>
                </div>
             
