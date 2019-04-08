@@ -48,7 +48,7 @@ class NotificacionController extends Controller
                 ->where('users.model','juridico')->first(); 
 
         
-        $mensaje = 'La empresa '.Auth::user()->name.' quiere invitarte a ser parte de sus empleados';
+        $mensaje = 'The company '.Auth::user()->name.' wants to invite you to be part of their employees.';
         $enlace = 'notificacion/'.$empresa->id;
 
         DB::table('notificacion')->insert([
@@ -59,7 +59,7 @@ class NotificacionController extends Controller
             'url' => $enlace
         ]);
 
-        $message = 'Invitación enviada';
+        $message = 'Invitation sent successfully';
         return back()->with('message', $message);
 
     }
@@ -123,7 +123,7 @@ class NotificacionController extends Controller
                 'estado' => 'rechazado'
             ]);
 
-            return redirect()->route('home')->with('message','Has rechazado la invitacion.');
+            return redirect()->route('home')->with('message','You have rejected the invitation.');
 
         }else{
 
@@ -134,7 +134,7 @@ class NotificacionController extends Controller
                 'estado' => 'activo'
             ]);
 
-            return redirect()->route('home')->with('message','Has aceptado la invitacion.');
+            return redirect()->route('home')->with('message','You have accepted the invitation.');
 
         }
     }

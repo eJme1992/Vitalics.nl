@@ -15,14 +15,14 @@
     <div class="x_panel">
       <div class="x_content">
         <p class="text-muted font-13 m-b-30">
-          Selecciona los trabajadores que quieres asignarles puntos
+          Select the employees you want to assign points.
         </p>
         <table id="dt-empleados" class="table table-striped table-bordered bulk_action">
           <thead>
             <tr>
-              <th>Nombre</th>
-              <th>Telefono</th>
-              <th>Cargo</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Position</th>
               <th style='cursor:pointer;'><input type="checkbox" id="check-all" class="flat"></th>
             </tr>
           </thead>
@@ -32,7 +32,7 @@
                   <td id='nombre'>{{$user->name}}</td>
                   <td>{{$user->phone}}</td>
                   <td>{{$user->cargo}}</td>
-                  <td id='{{$user->user_id}} ' class='id_user'><input type="checkbox"  name='id_user'  class="flat "></td>
+                  <td id='{{$user->user_id}}' class='id_user'><input type="checkbox"  name='id_user'  class="flat "></td>
 
                 </tr>
             @endforeach
@@ -51,7 +51,7 @@
               @csrf()
               @method('POST')
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Asignar puntos <small>Puntos a repartir: <span id='puntos'>{{$puntos->puntos}}<span></small> </h5>
+                <h5 class="modal-title" id="exampleModalLabel">Assign points <small>Points to be distributed: <span id='puntos'>{{$puntos->puntos}}<span></small> </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -59,25 +59,22 @@
               <div class="modal-body">
                 <table class="table table-striped table-bordered bulk_action">
                   <thead>
-                    <th>Nombre</th>
-                    <th>Puntos a asignar</th>
+                    <th>Name</th>
+                    <th>Points to assign</th>
                   </thead>
                   <tbody id='empleados'>
-                    <!-- <tr id='id'>
-                      <td>
-                        Nombre
-                      </td>
-                      <td>
-                        <input type="hidden" name="id_user" value=''>
-                        <input type="number" class='form-control' >
-                      </td>
-                    </tr> -->
+                    <!-- Se cargan los empleados -->
+                    <tr id="1">
+                      <td>Nombre</td>
+                      <td>puntos</td>
+                      <td><button type='button' id='1' class='boton_eliminar btn btn-sm btn-danger'>x</button></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
               <div class="modal-footer">
                 <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Asignar Puntos</button>
+                <button type="submit" class="btn btn-primary">Assign points </button>
               </div>
             </form>
 
@@ -91,18 +88,7 @@
 @section('footer')
   <script>
     $(document).ready(function(){
-      $('#dt-empleados').DataTable(
-      //   {
-      //   "serverSide":true,
-      //   "ajax": "{{route('api.listado', Auth::user()->id)}}",
-      //   "columns": [
-      //     {data: 'user_id'},
-      //     {data: 'name'},
-      //     {data: 'phone'},
-      //     {data: 'cargo'},
-      //   ]
-      // }
-      )
+      $('#dt-empleados').DataTable()
     });
   </script>
   <script>
@@ -111,24 +97,22 @@
       var id = $(this).prop('id');
       var valores = "";
 
-      if(!$(this).children().hasClass('checked')){
+      if($(this).children().hasClass('checked')){
        
-        $("#empleados > #"+id).remove(); //ME FALTA ELIMINAR CUANDO SE DESELECCIONE EL EMPLEADO
-
-      }else{
-         // Obtenemos todos los valores contenidos en los <td> de la fila
+        // Obtenemos todos los valores contenidos en los <td> de la fila
         // seleccionada
         $(this).parents("tr").find("#nombre").each(function() {
 
-
           valores += $(this).html() + "\n";
           //creamos los campos en el  modal
-          // var trs=$("#tabla tr").length;
           var nuevaFila="<tr id='"+id+"'>";
           // añadimos las columnas
           nuevaFila+="<td>"+valores+"</td>";
           nuevaFila+="<td><input type='hidden' name='id_user[]' value='"+id+"'><input type='number' name='puntos[]' class='form-control puntos' ></td>";
+          nuevaFila+="<td><a href='button' id='"+id+"' class='boton_eliminar btn btn-sm btn-danger'>x</button></td>";
+
           nuevaFila+="</tr>";
+
           $("#empleados").append(nuevaFila);
           var  puntos = calcular_puntos();
 
@@ -136,18 +120,31 @@
         });
         
       }
+      
+    });
+      
+    //quitar empleados seleccionados
 
-      function calcular_puntos(){
+    $('.boton_eliminar').click(function(){
+
+      var idx =  $(this).prop('id');
+      $('#empleados #'+idx).remove(); //removemos el empleado
+
+      var  puntos = calcular_puntos(); //calculamos de nuevo los puntos
+
+      $("#empleados tr td .puntos").prop('value', puntos); //actualizamos puntos
+
+    });
+
+    
+
+    function calcular_puntos(){
         //Repartir puntos equitativamente
         var trs=$("#empleados tr").length;
         var pts = $("#puntos").text();
         var resultado = pts / trs;
-        return resultado;
+        return  parseInt(resultado);
       }
-     
-      // console.log(valores);
-      //   alert(valores+", "+ id);
-      });
   </script>
   
 @endsection

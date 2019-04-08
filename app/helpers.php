@@ -296,3 +296,12 @@ function converFecha($fecha){
     $result = $f[2].'-'.$f[0].'-'.$f[1].' 00:00:00.000000';
     return $result;
 }
+
+function empresaID($id){
+    $user = User::findOrFail($id);
+    $empresa = $user->empresa;
+    foreach ($empresa as $empresa) {
+        $empresaID = $empresa->id;
+    }
+    return $empresaID;
+}

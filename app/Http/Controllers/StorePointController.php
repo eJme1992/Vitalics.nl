@@ -69,7 +69,7 @@ class StorePointController extends Controller
                 $payment->money_paid = $request->price;
 
                 if ($payment->save()) {
-                      return back()->with('message','Has registradoo tu pago correctamente');
+                      return back()->with('message','You have registered your payment correctly');
                 }
 
             } catch (\Exception $ex) {

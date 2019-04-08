@@ -36,7 +36,7 @@ class SectionsController extends Controller
         $section->estado       =  'activo';
         $section->descripcion  =  $request->input('descripcion');
         $section->save();      
-        return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);    
+        return response()->json(['mensaje' => 'Record created with success', 'status' => 'ok'], 200);    
     }
 
     public function versection($id)

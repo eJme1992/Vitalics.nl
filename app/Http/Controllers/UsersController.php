@@ -29,32 +29,27 @@ class UsersController extends Controller {
     public function crearusuario(UserRequest $request, Faker $faker) {
         $email = User::where('email', $request->email)->count(); #Busco el email en la bd
         $uempresa = User::where('id', Auth::user()->id)->first(); #busco la empresa
-        $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->join('users', 'users.id', '=', 'empresa_user.empresa_id')->select('empresas.*')->where('users.id', Auth::user()->id)->where('users.model', 'juridico')->first();
-        foreach ($uempresa->empresa as $emp) {
-            $empresaID = $emp->id;
-        }
+        $empresaID = empresaID(Auth::user()->id);
+
         if ($email > 0) { #Verifico si se encontró una coincidencia
             $user = User::where('email', $request->email)->first(); #Lo encuentro
-            // $empresa = User::where('id', Auth::user()->id)->first();
-            // foreach($empresa->empresa as $empresa){
-            //     $empresaID = $empresa->id;
-            // }
+            
             #VEO SI ES EMPRESA
             if ($user->model == 'juridico') {
                 $message = 'The logged in user is registered as a company';
                 return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
                 //return back()->with('message', $message);
             } else { #Si no es empresa
-                $empresa_user = DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresa->id])->count();
+                $empresa_user = DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresaID])->count();
                 if ($empresa_user > 0) { #Existe la relacion con la empresa??
-                    DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresa->id]) ##Actualizo
+                    DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresaID]) ##Actualizo
                     ->update(['estado' => 'invitado']);
                 } else { #Si no
                     DB::table('empresa_user')->insert(['user_id' => $user->id, ##
                     'empresa_id' => $empresaID, ##  CREO LA RELACION
                     'cargo' => $request->cargo, ##
                     'estado' => 'invitado']);
-                    $message = 'The user already exists.An invitation has been sent which must be accepted by the user to enter their payroll';
+                    $message = 'The user already exists. An invitation has been sent which must be accepted by the user to enter their payroll';
                     return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
                 }
                 ##
@@ -116,7 +111,7 @@ class UsersController extends Controller {
         if ($request->ajax()) {
             $validatedData = $request->validate(['name' => 'required', 'password' => 'required', 'birthdate' => 'required', 'model' => 'required', 'email' => 'required', 'nationality' => 'required', 'phone' => 'required', 'address' => 'required', ]);
             $Cliente->usuarios()->create(['nombre' => $request->input('nombre'), 'apellido' => $request->input('apellido'), 'cargo' => $request->input('cargo'), 'tipo' => $request->input('tipo'), 'correo' => $request->input('correo'), 'telefono' => $request->input('telefono'), ]);
-            return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);
+            return response()->json(['mensaje' => 'Record created with success', 'status' => 'ok'], 200);
         }
     }
     /**
@@ -174,13 +169,13 @@ class UsersController extends Controller {
                     DB::table('users')->where('id', $id)->update(['profile' => $name, ]);
                 }
                 DB::table('users')->where('id', $id)->update(['name' => $request->name, 'birthdate' => $request->birthdate, 'nationality' => $request->nationality, 'phone' => $request->phone, 'address' => $request->address, 'email' => $request->email, 'email' => $request->email, ]);
-                $message = 'Datos actualizados exitosamente';
+                $message = 'Successfully updated data';
                 return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
             } else {
                 $validatedData = $request->validate(['password' => 'confirmed', ]);
                 // if($request->password == $request->password2){
                 DB::table('users')->where('id', $id)->update(['password' => Hash::make($request->password), ]);
-                $message = 'Contraseña guardada exitosamente';
+                $message = 'Passwords successfully changed';
                 return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
                 //return back()->with('message',$message);
                 // }else{
@@ -191,11 +186,8 @@ class UsersController extends Controller {
             }
         } else {
             // EMPRESA
+            $id_empresa = empresaID(Auth::user()->id); //Id de la empresa
             $user = User::findOrFail($id);
-            $empresa = $user->empresa;
-            foreach ($empresa as $empresa) {
-                $id_empresa = $empresa->id;
-            }
             $empresa = Empresa::findOrFail($id_empresa);
             if ($request->password == '') {
                 if ($request->file('profile')) {
@@ -211,18 +203,18 @@ class UsersController extends Controller {
                 $empresa->descripcion = $request->descripcion;
                 $empresa->save();
                 $user->name = $request->name;
-                $user->email = $request->email;
+                // $user->email = $request->email;
                 $user->phone = $request->phone;
                 $user->address = $request->address;
                 $user->nationality = $request->nationality;
                 $user->save();
-                $message = 'Datos actualizados exitosamente';
+                $message = 'Successfully updated data';
                 return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
             } else {
                 $validatedData = $request->validate(['password' => 'confirmed', ]);
                 // if($request->password == $request->password2){
                 DB::table('users')->where('id', $id)->update(['password' => Hash::make($request->password), ]);
-                $message = 'Contraseñas cambiadas exitosamente';
+                $message = 'Passwords successfully changed';
                 return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
                 // }else{
                 //     $message = 'Las contraseñas no coinciden';
@@ -239,14 +231,11 @@ class UsersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function delete($id) {
-        $user = User::findOrFail($id);
-        $empresa = $user->empresa;
-        foreach ($empresa as $empresa) {
-            $empresaID = $empresa->id;
-        }
+        $empresaID = empresaID(Auth::user()->id); //Id de la empresa
+
         DB::table('empresa_user')->where(['user_id' => $id, 'empresa_id' => $empresaID])->update(['estado' => 'inactivo']);
 
-        return back()->with('message', 'El empleado ya no está en su nomina');
+        return back()->with('message', 'The employee is no longer on his payroll');
     }
     /**
      * Remove the specified resource from storage.

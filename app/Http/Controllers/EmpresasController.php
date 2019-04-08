@@ -26,16 +26,8 @@ class EmpresasController extends Controller
      */
     public function index()## Mis empleados
     {
-        $empresa = User::where(['id' => Auth::user()->id, 'model' => 'juridico'])->first();
-        foreach($empresa->empresa as $e){
-            $empresaID = $e->id;
-        }
-        // $e = Empresa::where('id', $empresaID)->first();
-        // $usuarios = $e->usuario;
+        $empresaID = empresaID(Auth::user()->id);
 
-        // foreach($usuarios as $user){
-        //     dd($user->pivot->cargo);
-        // }
         $usuarios = User::
             join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
             join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
@@ -120,10 +112,8 @@ class EmpresasController extends Controller
     }
 
     public function asignarPuntos(){
-        $empresa = User::where(['id' => Auth::user()->id, 'model' => 'juridico'])->first();
-        foreach($empresa->empresa as $e){
-            $empresaID = $e->id;
-        }
+
+        $empresaID = empresaID(Auth::user()->id);
     
         $usuarios = User::
                 join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
@@ -142,28 +132,72 @@ class EmpresasController extends Controller
 
     public function savePuntos(Request $request){
 
-        // dd($request->puntos[0]);
-
-        // verifico si tengo puntos
+        $empresaID = empresaID(Auth::user()->id); //Id de la empresa
+        
         $total_puntos = 0;
-        $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first(); // busco los puntos de la empresa
+        $puntos_empresa = DB::table('puntos_comprados')->select('puntos')->where('usuario_id', Auth::user()->id)->first(); // busco los puntos de la empresa
+        // dd($puntos_empresa->puntos);
+
         foreach($request->puntos as $puntos){
+
             $total_puntos+= $puntos;
+
         }
-        if ($total_puntos > $puntos_empresa) {
+        if ($total_puntos > $puntos_empresa->puntos) {
             # Si el total de puntos es mayor a los que tiene la empresa
             # Los devuelvo con un error
+            return back()->with('message','You do not have enough points for this operation<br>Buy <a href="#">here</a>');
 
-            return back()->with('message','No tienes puntos suficientes para esta operación<br>Compra puntos <a href="#">aqui</a>');
         }else{
-            # SI no continua normal
+            # SI no, continua normal
+            // Los usuarios recibiran los puntos.
+            $i = 0; //recorre el array de puntos.
 
-            
+            foreach ($request->id_user as $usuario_id) {
+                #Recorremos uno a uno los usuarios.
+                $cu = DB::table('puntos_totales')->where(['usuario_id' => $usuario_id, 'empresa_id' => $empresaID])->count(); //verificamos que la empresa no le haya asignado puntos anteriormente
+                
+                if ($cu > 0) { //Si existe, sumamos los nuevos puntos a los anteriores
+                    
+                    $usuario = DB::table('puntos_totales')
+                            ->where(['usuario_id' => $usuario_id, 'empresa_id' => $empresaID])
+                            ->first(); //buscamos los puntos anterior
+                    $p_anterior = $usuario->puntos;
+
+                    $puntos = $p_anterior + $request->puntos[$i];
+
+                    DB::table('puntos_totales')
+                        ->where(['usuario_id' => $usuario_id, 'empresa_id' => $empresaID])
+                        ->update([
+                            'puntos' => $puntos
+                        ]);
+                    
+
+
+                }else{ //No existe, se crea la nueva relacion
+
+                    $usuario = DB::table('puntos_totales')->insert([
+                        'usuario_id' => $usuario_id,
+                        'empresa_id' => $empresaID, 
+                        'tipo' => 'asignado',
+                        'puntos' => $request->puntos[$i]
+                    ]);
+
+                }
+
+                $i++;
+            }
+            // dd($total_puntos);
+            DB::table('puntos_comprados')
+                    ->where('usuario_id', Auth::user()->id)
+                    ->update([
+                        'puntos' => $puntos_empresa->puntos - $total_puntos
+                    ]);
+
+            return back()->with('message','Points successfully assigned.');
 
         }
 
-        dd($total_puntos);
-        // Los usuarios recibiran los puntos.
 
         // $puntos = DB::table('puntos_totales')->
 

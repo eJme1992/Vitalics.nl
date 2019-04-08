@@ -52,7 +52,7 @@ class ServiciosController extends Controller
 
      
 
-        return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);
+        return response()->json(['mensaje' => 'Record created with success', 'status' => 'ok'], 200);
          
     }
     public function verservicio($id)
