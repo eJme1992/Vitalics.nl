@@ -3,7 +3,7 @@
 <div class="container">
 	<div class="row">
         <div class="row panel-body">
-             <div class="col-md-8" style="padding-top: 15.5px;">
+        <div class="col-md-8" style="padding-top: 15.5px;">
             <a href="{{route('usuarios.index')}}" class="btn btn-success ">New user</a>
             <a href="{{route('excel.index')}}" class="btn btn-primary ">Load Employee List</a>
             <a href="{{route('asignar.puntos')}}" class="btn btn-success ">Assign points</a>
@@ -19,8 +19,9 @@
             </div>
         </div>
 		</div>
-       
-    </div><hr>
+     
+    </div>
+    <hr>
 
         <div class="col-md-12">
             @include('usuarios.partials.message')
