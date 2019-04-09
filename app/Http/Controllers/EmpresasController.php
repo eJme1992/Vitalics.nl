@@ -80,6 +80,13 @@ class EmpresasController extends Controller
         
         $validatedData = $request->validate(['file' => 'required|image', 'nombre' => 'required', 'rif' => 'required', 'phone' => 'required', 'address' => 'required', 'email' => 'required', 'password' => 'required', 'descripcion' => 'required']);
 
+ $email = User::where('email', $request->email)->count();
+
+     if ($email < 1) { 
+        
+          $rif = Empresa::where('rif', $request->rif)->count();
+          if ($rif < 1) { 
+
        if ($request->file('file')) {
                 $file = $request->file('file');
                 $name = time() . $file->getClientOriginalName();  
@@ -106,8 +113,16 @@ class EmpresasController extends Controller
         $user->profile = $name;
         $user->save();
         $user->empresa()->attach($empresa);
-
+       
+        DB::table('puntos_comprados')->insert(['usuario_id' => $user->id, ##
+            'puntos' => '0']);
         return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);
+           }else{
+           return response()->json(['mensaje' => "The Company's Trade register is duplicated", 'status' => '0'], 200);
+        }
+        }else{
+            return response()->json(['mensaje' => 'Mail is duplicated', 'status' => '0'], 200);
+        }
          
     }
 

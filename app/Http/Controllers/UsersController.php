@@ -82,6 +82,11 @@ class UsersController extends Controller {
             'empresa_id' => $empresaID, ##  CREO LA RELACION
             'cargo' => $request->cargo, ##
             'estado' => 'activo']);
+
+        DB::table('puntos_comprados')->insert(['usuario_id ' => $user->id, ##
+            'puntos' => '0']);
+        DB::table('puntos_totales')->insert(['usuario_id ' => $user->id, ##
+            'puntos' => '0']);
             ## AHORA, ENVIAR CORREO CON SU PASSWORD
             // if(enviarEmail($user, $uempresa->id, $password)){
             //     return back()->with('message','Usuario registrado exitosamente');
@@ -110,9 +115,22 @@ class UsersController extends Controller {
     public function store(Request $request) {
         if ($request->ajax()) {
             $validatedData = $request->validate(['name' => 'required', 'password' => 'required', 'birthdate' => 'required', 'model' => 'required', 'email' => 'required', 'nationality' => 'required', 'phone' => 'required', 'address' => 'required', ]);
+     $email = User::where('email', $request->email)->count();
+     if ($email < 1) { 
+        
+        
+
             $Cliente->usuarios()->create(['nombre' => $request->input('nombre'), 'apellido' => $request->input('apellido'), 'cargo' => $request->input('cargo'), 'tipo' => $request->input('tipo'), 'correo' => $request->input('correo'), 'telefono' => $request->input('telefono'), ]);
+         
+            DB::table('puntos_comprados')->insert(['usuario_id ' => $Cliente->id, ##
+            'puntos' => '0']);
+        
             return response()->json(['mensaje' => 'Record created with success', 'status' => 'ok'], 200);
+
+        }else{
+            return response()->json(['mensaje' => 'Mail is duplicated', 'status' => '0'], 200);
         }
+    }
     }
     /**
      * Display the specified resource.
@@ -123,10 +141,14 @@ class UsersController extends Controller {
     public function show($id) {
         $user = User::where('id', $id)->first();
         if ($user->model == 'juridico') {
-            $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->join('users', 'users.id', '=', 'empresa_user.empresa_id')->select('empresas.*')->where('users.id', $id)->where('users.model', 'juridico')->first();
+            $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->join('users', 'users.id', '=', 'empresa_user.user_id')->select('empresas.*')->where('users.id', $id)->where('users.model', 'juridico')->first();
+            
+            //dd($empresa);
             return view('usuarios.show', compact(['user', 'empresa']));
+
         } else {
             $empresas = $user->empresa();
+            //dd($empresa);
             return view('usuarios.show', compact(['user', 'empresas']));
         }
     }

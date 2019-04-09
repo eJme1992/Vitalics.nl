@@ -37,12 +37,12 @@
                </div>
 
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
-                  <input type="text" class="form-control" disabled="" value="{{$user->email}}" name='email' id="inputSuccess3" placeholder="Email" required='required' >
+                  <input type="text" class="form-control" readonly value="{{$user->email}}" name='email' id="inputSuccess3" placeholder="Email" required='required' >
                   <span class="fa fa-envelope form-control-feedback right" aria-hidden="true"></span>
                </div>
             
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
-                  <input type="text"  value="{{$empresa->rif}}"  class="form-control disabled has-feedback-left" id="inputSuccess2" placeholder="Rif" required disabled>
+                  <input type="text"  value="{{$empresa->rif}}"  class="form-control disabled has-feedback-left" id="inputSuccess2" placeholder="Rif" required readonly>
                   <span class="fa fa-barcode form-control-feedback left" aria-hidden="true"></span>
                </div>
                <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">

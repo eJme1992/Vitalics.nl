@@ -341,7 +341,7 @@
             <!-- footer content -->
             <footer>
                <div class="pull-right">
-                  Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                  Copyright © Vitalics - Algemene voorwaarden | Marketing: Just Marketing | Webdesign: <a href="https://www.ejme.com.ve" target="_blank">"eJme"</a>
                </div>
                <div class="clearfix"></div>
             </footer>
