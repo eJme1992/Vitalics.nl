@@ -65,5 +65,6 @@ Route::post('/importando','ExcelController@importExcel')->name('excel.import');
 
 Route::get('/asignar-puntos', 'EmpresasController@asignarPuntos')->name('asignar.puntos');
 Route::post('/save-puntos', 'EmpresasController@savePuntos')->name('save.puntos');
+Route::post('/assign-points/{usuario}', 'UsersController@asignarPuntos')->name('user.puntos');
 
 

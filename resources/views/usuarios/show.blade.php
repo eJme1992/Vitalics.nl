@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
 <div class="container"  style=' padding:10px;'>
+    <div class="row">
+        @include('usuarios.partials.message')
+    </div>
     <div class="row " style='background-color: #424E5C;'>
         <div class="col-md-3" >
              @if($user->profile == '')
@@ -160,7 +163,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4" style='background-color:#F4A958; height:100%;'>
+        <div class="col-md-4" style='background-color:#F4A958; height:70%;'>
             <center>
                 <h3 class='mg-b' style='padding-top:10px;'>PUNTOS</h3>
             </center>
@@ -174,27 +177,61 @@
                         </a>
                     <div class="media-body">
                          <a class="title" href="#">Puntos Totales </a>
-                        <h3><strong>230 </strong></h3> 
+                        <h3><strong>
+                        @if($user->model == 'juridico')
+                            @if($puntos)
+                                {{$puntos->puntos }}
+                            @else
+                                0
+                            @endif
+                        @else
+                            @if($puntos && $puntos_otorgados)
+                                {{$puntos->puntos + $puntos_otorgados->puntos}}
+                            @elseif($puntos && !$puntos_otorgados)
+                                {{$puntos->puntos}}
+                            @elseif(!$puntos && $puntos_otorgados)
+                                {{$puntos_otorgados->puntos}}
+                            @else
+                                0
+                            @endif
+                        @endif
+                        <a href="{{route('point.create')}}" class="pull-right btn btn-sm btn-warning"  title='Buy points'>+</a>
+
+                        </strong></h3> 
                     </div>
                     </li>
-                    <li class="media event">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user aero"></i>
+                    @if($user->model=='natural')
+
+                    <li class="media event " style='color: white;'>
+                    <a class="pull-left  profile_thumb" style='color: white;'>
+                        <i class="fa fa-user "></i>
                     </a>
-                    <div class="media-body">
-                        <a class="title" href="#">Puntos Comprados</a>
-                        <h3><strong>30 </strong></h3> 
+                    <div class="media-body" >
+                        <a class="title" href="#" style='color: white;'>Puntos Comprados</a>
+                        <h3><strong>
+                        @if($puntos)
+                            {{$puntos->puntos}}
+                        @else
+                            0
+                        @endif    
+                        </strong></h3> 
                     </div>
                     </li>
-                     @if($user->model=='natural')
                     <li class="media event">
                     <a class="pull-left border-green profile_thumb">
                         <i class="fa fa-user green"></i>
                     </a>
                     <div class="media-body">
                         <a class="title" href="#">Puntos Otorgados </a>
-                        <h3><strong>200 </strong></h3> 
-                        
+                        <h3><strong>
+                            @if($puntos_otorgados)
+                                {{$puntos_otorgados->puntos}}
+                            @else
+                                0
+                            @endif
+                            <a href="#" class="pull-right btn btn-sm btn-warning" data-toggle="modal" data-target="#asignarPuntos" title='Assign points'>+</a>
+
+                        </strong></h3> 
                     </div>
                     </li>
                     @endif
@@ -205,6 +242,44 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="asignarPuntos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form action="{{route('user.puntos', $user->id)}}" method="post">
+        @csrf()
+        @method('POST')
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Assign points <small>Points to be distributed: <span id='puntos'>{{$puntos_empresa->puntos}}<span></small> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <table class="table table-striped table-bordered bulk_action">
+            <thead>
+            <th>Points to assign</th>
+            </thead>
+            <tbody id='empleados'>
+            <!-- Se cargan los empleados -->
+            <tr id="1">
+                <td>
+                    <input type="number" name="puntos" id="" class="form-control">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Assign points </button>
+        </div>
+    </form>
+
+    </div>
+    </div>
+</div>
+
 @endsection
 @section('footer')
 

@@ -201,14 +201,17 @@ class EmpresasController extends Controller
                 }
 
                 $i++;
+
+                DB::table('puntos_comprados')
+                ->where('usuario_id', Auth::user()->id)
+                ->update([
+                    'puntos' => $puntos_empresa->puntos - $total_puntos
+                ]);
+
+
             }
             // dd($total_puntos);
-            DB::table('puntos_comprados')
-                    ->where('usuario_id', Auth::user()->id)
-                    ->update([
-                        'puntos' => $puntos_empresa->puntos - $total_puntos
-                    ]);
-
+           
             return back()->with('message','Points successfully assigned.');
 
         }

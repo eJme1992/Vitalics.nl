@@ -139,17 +139,24 @@ class UsersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+
+        $empresaID = empresaID(Auth::user()->id);
+
         $user = User::where('id', $id)->first();
+        $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
+        $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
+        $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first();
+
         if ($user->model == 'juridico') {
             $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->join('users', 'users.id', '=', 'empresa_user.user_id')->select('empresas.*')->where('users.id', $id)->where('users.model', 'juridico')->first();
             
             //dd($empresa);
-            return view('usuarios.show', compact(['user', 'empresa']));
+            return view('usuarios.show', compact(['user', 'empresa','puntos','puntos_empresa']));
 
         } else {
             $empresas = $user->empresa();
             //dd($empresa);
-            return view('usuarios.show', compact(['user', 'empresas']));
+            return view('usuarios.show', compact(['user', 'empresas','puntos','puntos_otorgados','puntos_empresa']));
         }
     }
     /**
@@ -253,12 +260,72 @@ class UsersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function delete($id) {
+
         $empresaID = empresaID(Auth::user()->id); //Id de la empresa
 
         DB::table('empresa_user')->where(['user_id' => $id, 'empresa_id' => $empresaID])->update(['estado' => 'inactivo']);
 
         return back()->with('message', 'The employee is no longer on his payroll');
+
     }
+
+    public function asignarPuntos(Request $request, $id){
+
+        $empresaID = empresaID(Auth::user()->id); //Id de la empresa
+
+        $puntos_empresa = DB::table('puntos_comprados')->select('puntos')->where('usuario_id', Auth::user()->id)->first(); // busco los puntos de la empresa
+        
+        if ($request->puntos > $puntos_empresa->puntos) {
+            # Si el total de puntos es mayor a los que tiene la empresa
+            # Los devuelvo con un error
+            return back()->with('message','You do not have enough points for this operation<br>Buy <a href="#">here</a>');
+
+        }else{
+
+            #Recorremos uno a uno los usuarios.
+            $cu = DB::table('puntos_totales')->where(['usuario_id' => $id, 'empresa_id' => $empresaID])->count(); //verificamos que la empresa no le haya asignado puntos anteriormente
+                
+            if ($cu > 0) { //Si existe, sumamos los nuevos puntos a los anteriores
+                
+                $usuario = DB::table('puntos_totales')
+                        ->where(['usuario_id' => $id, 'empresa_id' => $empresaID])
+                        ->first(); //buscamos los puntos anterior
+                $p_anterior = $usuario->puntos;
+
+                $puntos = $p_anterior + $request->puntos;
+
+                DB::table('puntos_totales')
+                    ->where(['usuario_id' => $id, 'empresa_id' => $empresaID])
+                    ->update([
+                        'puntos' => $puntos
+                    ]);
+                
+
+
+            }else{ //No existe, se crea la nueva relacion
+
+                $usuario = DB::table('puntos_totales')->insert([
+                    'usuario_id' => $id,
+                    'empresa_id' => $empresaID, 
+                    'tipo' => 'asignado',
+                    'puntos' => $request->puntos
+                ]);
+
+            }
+            
+            DB::table('puntos_comprados')
+            ->where('usuario_id', Auth::user()->id)
+            ->update([
+                'puntos' => $puntos_empresa->puntos - $request->puntos
+            ]);
+
+            return back()->with('message','Points successfully assigned.');
+                
+
+        }
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *

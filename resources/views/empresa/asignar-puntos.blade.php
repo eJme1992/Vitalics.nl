@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="col-md-12">
-        <button type='button' class="btn btn-success " data-toggle="modal" data-target="#asignarPuntos">Asignar puntos</a>
+        <button type='button' class="btn btn-success " data-toggle="modal" data-target="#asignarPuntos">>Assign points</a>
     </div>
       <!-- Modal -->
         <div class="modal fade" id="asignarPuntos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
