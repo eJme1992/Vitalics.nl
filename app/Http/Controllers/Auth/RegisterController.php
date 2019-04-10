@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use DB;
+
 
 class RegisterController extends Controller
 {
@@ -69,10 +71,9 @@ class RegisterController extends Controller
             'model' => 'natural',
             'password' => Hash::make($data['password']),
         ]);
-        DB::table('puntos_comprados')->insert(['usuario_id ' => $User->id, ##
+        DB::table('puntos_comprados')->insert(['usuario_id' => $User->id, ##
             'puntos' => '0']);
-        DB::table('puntos_comprados')->insert(['usuario_id ' => $User->id, ##
-            'puntos' => '0']);
+      
         return $User;
     }
 }
