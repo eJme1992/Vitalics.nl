@@ -1,23 +1,34 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
+        
 	<div class="row">
         <div class="row panel-body">
-        <div class="col-md-8" style="padding-top: 15.5px;">
+        <div class="col-md-5" style="padding-top: 15.5px;">
             <a href="{{route('usuarios.index')}}" class="btn btn-success ">New user</a>
             <a href="{{route('excel.index')}}" class="btn btn-primary ">Load Employee List</a>
             <a href="{{route('asignar.puntos')}}" class="btn btn-success ">Assign points</a>
             <br><br>
         </div>
-		<div class="col-md-4">
-			      <div class="row">
-            <div class="col-md-12">
-                <div class="view-boton float-right">
-                    <a href="#" class="view-boton-i" data-toggle="tooltip" title="View like details"><i class="fa fa-list-ul fa-lg"></i></a>
-                    <a class="view-boton-i" href="#" data-toggle="tooltip" title="View like icons"><i class="fa fa-table fa-lg"></i></a>
+        <div class='col-md-4' style="padding-top:15.5px">
+            <form action="{{route('user.filtro')}}" method="post">
+                @csrf @method('POST')
+                <div class="container">
+                    </div>
+                    <div class="col-md-6 ">
+                        <input type="text" name="buscar" class='form-control' placeholder='Search'>
+                    </div>
+                    
+                    <div class="col-md-6 ">
+                        <button type="submit" class='btn btn-success'>Search <i class="fas fa-search"></i></button>
+                    </div>
                 </div>
+
+            </form>
+            <div class="view-boton float-right">
+                <a href="#" class="view-boton-i" data-toggle="tooltip" title="View like details"><i class="fa fa-list-ul fa-lg"></i></a>
+                <a class="view-boton-i" href="#" data-toggle="tooltip" title="View like icons"><i class="fa fa-table fa-lg"></i></a>
             </div>
-        </div>
 		</div>
      
     </div>

@@ -261,8 +261,7 @@
             <th>Points to assign</th>
             </thead>
             <tbody id='empleados'>
-            <!-- Se cargan los empleados -->
-            <tr id="1">
+            <tr >
                 <td>
                     <input type="number" name="puntos" id="" class="form-control">
                 </td>

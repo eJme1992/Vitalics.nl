@@ -232,6 +232,28 @@ class EmpresasController extends Controller
         //
     }
 
+    public function filtro(Request $request){
+
+        $empresaID = empresaID(Auth::user()->id);
+
+        $usuarios = User::
+            join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
+            join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
+            select('users.*','empresa_user.*')->
+            where('empresas.id', $empresaID)->
+            where('users.model','natural')->
+            where('empresa_user.estado','activo')->
+            where('users.name', 'like', $request->buscar.'%')->paginate(6);
+
+
+        // dd($usuarios);
+
+        return view('empresa.empleados', compact(['usuarios']));
+
+
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      *
