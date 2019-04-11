@@ -300,8 +300,12 @@ function converFecha($fecha){
 function empresaID($id){
     $user = User::findOrFail($id);
     $empresa = $user->empresa;
-    foreach ($empresa as $empresa) {
-        $empresaID = $empresa->id;
+    if($empresa->count()<1){
+        return false;
     }
-    return $empresaID;
+
+    foreach ($empresa as $empresa) {
+        $empresaIDs = $empresa->id;
+    }
+    return $empresaIDs;
 }
