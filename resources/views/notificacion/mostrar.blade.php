@@ -4,7 +4,8 @@
     <div class="col-md-8 col-sm-12">
         <div class="bs-example" data-example-id="simple-jumbotron">
             <div class="jumbotron text-center">
-                <h1>Felicidades!</h1>
+                @if($notificacion->estado != 'recibido')
+                <h1>¡Congratulations!</h1>
                 <p>{{$notificacion->mensaje}}</p>
 
                 <form method='POST' action="{{route('notificacion.update', $notificacion->id)}}">
@@ -16,7 +17,7 @@
                             <div class="col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <label >
-                                        Aceptar
+                                        Accept
                                         <div class="iradio_flat-green" >
                                             <input type="radio" class="flat" name="respuesta" id="genderM" value="aceptar" required="" data-parsley-multiple="gender" >
                                             <ins class="iCheck-helper" ></ins>
@@ -27,7 +28,7 @@
                             <div class="col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <label >
-                                        Rechazar
+                                        Reject
                                         <div class="iradio_flat-green" >
                                             <input type="radio" class="flat" name="respuesta" id="genderF" value="rechazar" data-parsley-multiple="gender" >
                                             <ins class="iCheck-helper"></ins>
@@ -40,8 +41,12 @@
                     </div>
                     
                     
-                    <button type='submit' class="btn btn-success btn-lg">Aceptar</button>
+                    <button type='submit' class="btn btn-success btn-lg">Send</button>
                 </form>
+                @else
+                    <h2>This notification has already been processed</h2><br>
+                    <a href='{{route("notificacion.index")}}' class='btn btn-info'>Back</a>
+                @endif
             </div>
         </div>
     </div>
