@@ -7,6 +7,7 @@ use DB;
 use Auth;
 use App\User;
 use App\Empresa;
+use App\Notificacion;
 
 class NotificacionController extends Controller
 {
@@ -17,7 +18,12 @@ class NotificacionController extends Controller
      */
     public function index()
     {
-        //
+        $notificaciones = Notificacion::where('usuario_id',Auth::user()->id)->paginate(8);
+        
+        // $notificacion =  Notificacion::findOrFail(10);
+        // dd($notificacion);
+        return view('notificacion.index', compact(['notificaciones']));
+
     }
 
     /**
@@ -51,14 +57,14 @@ class NotificacionController extends Controller
         $mensaje = 'The company '.Auth::user()->name.' wants to invite you to be part of their employees.';
         $enlace = 'notificacion/'.$empresa->id;
 
-        DB::table('notificacion')->insert([
+        $id = DB::table('notificacion')->insertGetId([
             'usuario_id' => $user->id,
             'mensaje' => $mensaje,
             'estado' => 'enviado',
             'tipo' => 'invitacion',
             'url' => $enlace
         ]);
-
+        
         $message = 'Invitation sent successfully';
         return back()->with('message', $message);
 
@@ -81,7 +87,7 @@ class NotificacionController extends Controller
                     
         $notificacion = DB::table('notificacion')
                             ->where('usuario_id', Auth::user()->id)
-                            ->where('estado','enviado')
+                            // ->where('estado','enviado')
                             ->first();
 
         return view('notificacion.mostrar',compact(['notificacion','empresa']));
@@ -111,7 +117,7 @@ class NotificacionController extends Controller
 
         DB::table('notificacion')->where('id',$id)
         ->update([
-            'estado' => 'visto'
+            'estado' => 'recibido'
         ]);
 
         if($request->respuesta != 'aceptar'){
@@ -123,7 +129,7 @@ class NotificacionController extends Controller
                 'estado' => 'rechazado'
             ]);
 
-            return redirect()->route('home')->with('message','You have rejected the invitation.');
+            return redirect()->route('notificacion.index')->with('message','You have rejected the invitation.');
 
         }else{
 
@@ -134,7 +140,7 @@ class NotificacionController extends Controller
                 'estado' => 'activo'
             ]);
 
-            return redirect()->route('home')->with('message','You have accepted the invitation.');
+            return redirect()->route('notificacion.index')->with('message','You have accepted the invitation.');
 
         }
     }

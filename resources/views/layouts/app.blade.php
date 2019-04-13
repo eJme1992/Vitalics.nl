@@ -267,60 +267,16 @@
 
                                  @endforeach
                               @else
-                                 No hay notificaciones
+                              <li>
+                                 <div class="text-center">
+                                 No hay notificaciones nuevas
+                                 </div>
+                              </li>
                               @endif
 
                               <li>
-                                 <a>
-                                 <span class="image"><img src="{{ asset('') }}panel/production/images/img.jpg" alt="Profile Image" /></span>
-                                 <span>
-                                 <span>John Smith</span>
-                                 <span class="time">3 mins ago</span>
-                                 </span>
-                                 <span class="message">
-                                 Film festivals used to be do-or-die moments for movie makers. They were where...
-                                 </span>
-                                 </a>
-                              </li>
-                              <li>
-                                 <a>
-                                 <span class="image"><img src="{{ asset('') }}panel/production/images/img.jpg" alt="Profile Image" /></span>
-                                 <span>
-                                 <span>John Smith</span>
-                                 <span class="time">3 mins ago</span>
-                                 </span>
-                                 <span class="message">
-                                 Film festivals used to be do-or-die moments for movie makers. They were where...
-                                 </span>
-                                 </a>
-                              </li>
-                              <li>
-                                 <a>
-                                 <span class="image"><img src="{{ asset('') }}panel/production/images/img.jpg" alt="Profile Image" /></span>
-                                 <span>
-                                 <span>John Smith</span>
-                                 <span class="time">3 mins ago</span>
-                                 </span>
-                                 <span class="message">
-                                 Film festivals used to be do-or-die moments for movie makers. They were where...
-                                 </span>
-                                 </a>
-                              </li>
-                              <li>
-                                 <a>
-                                 <span class="image"><img src="{{ asset('') }}panel/production/images/img.jpg" alt="Profile Image" /></span>
-                                 <span>
-                                 <span>John Smith</span>
-                                 <span class="time">3 mins ago</span>
-                                 </span>
-                                 <span class="message">
-                                 Film festivals used to be do-or-die moments for movie makers. They were where...
-                                 </span>
-                                 </a>
-                              </li>
-                              <li>
                                  <div class="text-center">
-                                    <a>
+                                    <a href="{{route('notificacion.index')}}">
                                     <strong>See All Alerts</strong>
                                     <i class="fa fa-angle-right"></i>
                                     </a>

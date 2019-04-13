@@ -12,7 +12,7 @@ function notificaciones($id){
     
     if(countNoti($id) > 0){
 
-        $notificacion = Notificacion::where(['usuario_id' => $id, 'estado' => 'enviado'])->get();
+        $notificacion = Notificacion::where(['usuario_id' => $id, 'estado' => 'enviado'])->paginate(4);
 
         return $notificacion;
 
@@ -25,6 +25,12 @@ function notificaciones($id){
 function countNoti($id){
 
     $n = Notificacion::where(['usuario_id' => $id, 'estado' => 'enviado'])->count();
+
+    return $n;
+}
+function countNotiCualquiera($id){
+
+    $n = Notificacion::where(['usuario_id' => $id])->count();
 
     return $n;
 }

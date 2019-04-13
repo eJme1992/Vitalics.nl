@@ -7,6 +7,7 @@ use App\FuncionesRepetitivas;
 use DB;
 use App\User;
 use App\Empresa;
+use App\Notificacion;
 use App\Mail\Email;
 use Auth;
 use Faker\Generator as Faker;
@@ -44,19 +45,36 @@ class UsersController extends Controller {
                 if ($empresa_user > 0) { #Existe la relacion con la empresa??
                     DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresaID]) ##Actualizo
                     ->update(['estado' => 'invitado']);
+
+                    $message = 'The user already exists on your payroll';
+                    return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
+
                 } else { #Si no
+
                     DB::table('empresa_user')->insert(['user_id' => $user->id, ##
                     'empresa_id' => $empresaID, ##  CREO LA RELACION
                     'cargo' => $request->cargo, ##
                     'estado' => 'invitado']);
+
+                    ##
+                    ##   ENVIAR UNA INVITACION
+                    ##
+                    $mensaje = 'The company '.Auth::user()->name.' wants to invite you to be part of their employees.';
+                    $enlace = 'notificacion/'.$empresaID;
+
+                    $id = DB::table('notificacion')->insertGetId([
+                        'usuario_id' => $user->id,
+                        'mensaje' => $mensaje,
+                        'estado' => 'enviado',
+                        'tipo' => 'invitacion',
+                        'url' => $enlace
+                    ]);
+                    
+
                     $message = 'The user already exists. An invitation has been sent which must be accepted by the user to enter their payroll';
                     return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
                 }
-                ##
-                ##  SE DEVUELVE UN MENSAJE PARA ENVIAR UNA INVITACION
-                ##
-                $message = 'The user already exists on your payroll';
-                return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
+                
                 // back()->with('message', $message)->with('user', $user->email);
                 
             }
@@ -140,23 +158,27 @@ class UsersController extends Controller {
      */
     public function show($id) {
 
-        $empresaID = empresaID(Auth::user()->id);
-
         $user = User::where('id', $id)->first();
-        $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
+
         $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
-        $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first();
+        
 
         if ($user->model == 'juridico') {
+            $empresaID = empresaID(Auth::user()->id);
+
+            // $user = User::where('id', $id)->first();
+            $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
+            // $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
+            $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first();
             $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->join('users', 'users.id', '=', 'empresa_user.user_id')->select('empresas.*')->where('users.id', $id)->where('users.model', 'juridico')->first();
             
             //dd($empresa);
             return view('usuarios.show', compact(['user', 'empresa','puntos','puntos_empresa']));
 
         } else {
-            $empresas = $user->empresa();
-            //dd($empresa);
-            return view('usuarios.show', compact(['user', 'empresas','puntos','puntos_otorgados','puntos_empresa']));
+            $empresa = $user->empresa;
+            // dd($empresa);
+            return view('usuarios.show', compact(['user', 'empresa','puntos','puntos_otorgados','puntos_empresa']));
         }
     }
     /**
