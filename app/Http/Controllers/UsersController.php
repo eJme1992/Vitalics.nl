@@ -83,9 +83,9 @@ class UsersController extends Controller {
             'cargo' => $request->cargo, ##
             'estado' => 'activo']);
 
-        DB::table('puntos_comprados')->insert(['usuario_id ' => $user->id, ##
+        DB::table('puntos_comprados')->insert(['usuario_id' => $user->id, ##
             'puntos' => '0']);
-        DB::table('puntos_totales')->insert(['usuario_id ' => $user->id, ##
+        DB::table('puntos_totales')->insert(['usuario_id' => $user->id, ##
             'puntos' => '0']);
             ## AHORA, ENVIAR CORREO CON SU PASSWORD
             // if(enviarEmail($user, $uempresa->id, $password)){
@@ -122,7 +122,7 @@ class UsersController extends Controller {
 
             $Cliente->usuarios()->create(['nombre' => $request->input('nombre'), 'apellido' => $request->input('apellido'), 'cargo' => $request->input('cargo'), 'tipo' => $request->input('tipo'), 'correo' => $request->input('correo'), 'telefono' => $request->input('telefono'), ]);
          
-            DB::table('puntos_comprados')->insert(['usuario_id ' => $Cliente->id, ##
+            DB::table('puntos_comprados')->insert(['usuario_id' => $Cliente->id, ##
             'puntos' => '0']);
         
             return response()->json(['mensaje' => 'Record created with success', 'status' => 'ok'], 200);

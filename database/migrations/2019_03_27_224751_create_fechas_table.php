@@ -19,7 +19,7 @@ class CreateFechasTable extends Migration
             $table->string('hora');
             $table->date('fecha');       
             $table->timestamps();       
-            $table->foreign('seccion_id')->references('id')->on('seccion');
+            $table->foreign('seccion_id')->references('id')->on('sections');
         });
     }
 
