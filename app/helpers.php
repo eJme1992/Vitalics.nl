@@ -12,7 +12,7 @@ function notificaciones($id){
     
     if(countNoti($id) > 0){
 
-        $notificacion = Notificacion::where(['usuario_id' => $id, 'estado' => 'enviado'])->get();
+        $notificacion = Notificacion::where(['usuario_id' => $id, 'estado' => 'enviado'])->paginate(4);
 
         return $notificacion;
 
@@ -25,6 +25,12 @@ function notificaciones($id){
 function countNoti($id){
 
     $n = Notificacion::where(['usuario_id' => $id, 'estado' => 'enviado'])->count();
+
+    return $n;
+}
+function countNotiCualquiera($id){
+
+    $n = Notificacion::where(['usuario_id' => $id])->count();
 
     return $n;
 }
@@ -300,8 +306,12 @@ function converFecha($fecha){
 function empresaID($id){
     $user = User::findOrFail($id);
     $empresa = $user->empresa;
-    foreach ($empresa as $empresa) {
-        $empresaID = $empresa->id;
+    if($empresa->count()<1){
+        return false;
     }
-    return $empresaID;
+
+    foreach ($empresa as $empresa) {
+        $empresaIDs = $empresa->id;
+    }
+    return $empresaIDs;
 }
