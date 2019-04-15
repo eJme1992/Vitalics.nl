@@ -269,7 +269,7 @@
                               @else
                               <li>
                                  <div class="text-center">
-                                 No hay notificaciones nuevas
+                                 No new notifications
                                  </div>
                               </li>
                               @endif

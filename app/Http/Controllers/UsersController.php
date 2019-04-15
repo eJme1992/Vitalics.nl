@@ -44,7 +44,7 @@ class UsersController extends Controller {
                 $empresa_user = DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresaID])->count();
                 if ($empresa_user > 0) { #Existe la relacion con la empresa??
                     DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresaID]) ##Actualizo
-                    ->update(['estado' => 'invitado']);
+                    ->update(['estado' => 'enviado']);
 
                     $message = 'The user already exists on your payroll';
                     return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
@@ -54,7 +54,8 @@ class UsersController extends Controller {
                     DB::table('empresa_user')->insert(['user_id' => $user->id, ##
                     'empresa_id' => $empresaID, ##  CREO LA RELACION
                     'cargo' => $request->cargo, ##
-                    'estado' => 'invitado']);
+                    'estado' => 'invitado',
+                    ]);
 
                     ##
                     ##   ENVIAR UNA INVITACION
@@ -66,7 +67,7 @@ class UsersController extends Controller {
                         'usuario_id' => $user->id,
                         'mensaje' => $mensaje,
                         'estado' => 'enviado',
-                        'tipo' => 'invitacion',
+                        'tipo' => 'solicitud',
                         'url' => $enlace
                     ]);
                     
