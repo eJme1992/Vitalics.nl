@@ -61,7 +61,7 @@ class NotificacionController extends Controller
             'usuario_id' => $user->id,
             'mensaje' => $mensaje,
             'estado' => 'enviado',
-            'tipo' => 'invitacion',
+            'tipo' => 'solicitud',
             'url' => $enlace
         ]);
         
@@ -126,7 +126,7 @@ class NotificacionController extends Controller
                 ['user_id', '=', Auth::user()->id],
                 ['empresa_id', '=', $request->idEmpresa]
             ])->update([
-                'estado' => 'rechazado'
+                'estado' => 'denegado'
             ]);
 
             return redirect()->route('notificacion.index')->with('message','You have rejected the invitation.');
