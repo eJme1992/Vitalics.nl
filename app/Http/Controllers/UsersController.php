@@ -158,7 +158,7 @@ class UsersController extends Controller {
      */
     public function show($id) {
 
-<<<<<<< HEAD
+
         $empresaID = empresaID(Auth::user()->id);
         $user = User::where('id', $id)->first();
         if ($empresaID===0) {
@@ -168,9 +168,8 @@ class UsersController extends Controller {
         }
         
 
-=======
-        $user = User::where('id', $id)->first();
->>>>>>> 4566b62c0dc2da7bfd1e4d559b1de0b13e63f3cc
+        
+
 
         $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
         
@@ -182,6 +181,8 @@ class UsersController extends Controller {
             $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
             // $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
             $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first();
+
+
             $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->join('users', 'users.id', '=', 'empresa_user.user_id')->select('empresas.*')->where('users.id', $id)->where('users.model', 'juridico')->first();
             
             //dd($empresa);
