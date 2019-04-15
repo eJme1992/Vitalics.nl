@@ -159,7 +159,19 @@ class UsersController extends Controller {
      */
     public function show($id) {
 
+<<<<<<< HEAD
+        $empresaID = empresaID(Auth::user()->id);
         $user = User::where('id', $id)->first();
+        if ($empresaID===0) {
+        $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
+        }else{
+            $puntos_otorgados = 0;
+        }
+        
+
+=======
+        $user = User::where('id', $id)->first();
+>>>>>>> 4566b62c0dc2da7bfd1e4d559b1de0b13e63f3cc
 
         $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
         

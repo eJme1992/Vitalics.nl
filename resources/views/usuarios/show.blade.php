@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container"  style=' padding:10px;'>
+<div class="container"  style=' padding:0px;'>
     <div class="row">
         @include('usuarios.partials.message')
     </div>
@@ -243,6 +243,7 @@
     </div>
 </div>
 <!-- Modal -->
+@if(isset($puntos_empresa->puntos))
 <div class="modal fade" id="asignarPuntos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -278,7 +279,7 @@
     </div>
     </div>
 </div>
-
+@endif
 @endsection
 @section('footer')
 
