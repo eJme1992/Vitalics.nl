@@ -34,6 +34,8 @@ class UsersController extends Controller {
 
         if ($email > 0) { #Verifico si se encontró una coincidencia
             $user = User::where('email', $request->email)->first(); #Lo encuentro
+
+            //dd($user->model);
             
             #VEO SI ES EMPRESA
             if ($user->model == 'juridico') {
@@ -104,14 +106,14 @@ class UsersController extends Controller {
         DB::table('puntos_comprados')->insert(['usuario_id' => $user->id, ##
             'puntos' => '0']);
         DB::table('puntos_totales')->insert(['usuario_id' => $user->id, ##
-            'puntos' => '0']);
+            'puntos' => '0','empresa_id' => $empresaID,'tipo' => 'natural']);
             ## AHORA, ENVIAR CORREO CON SU PASSWORD
             // if(enviarEmail($user, $uempresa->id, $password)){
             //     return back()->with('message','Usuario registrado exitosamente');
             // }else{
             //     return back()->with('error','Message could not be sent.');
             // }
-            //\Mail::to('edwin.jme@hotmail.com')->send(new Email($user, $uempresa, $password));
+            \Mail::to('francisco20990@gmail.com')->send(new Email($user, $uempresa, $password));
             $message = 'The user has been created with existing';
             return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
         }
@@ -158,19 +160,9 @@ class UsersController extends Controller {
      */
     public function show($id) {
 
-<<<<<<< HEAD
-        $empresaID = empresaID(Auth::user()->id);
-        $user = User::where('id', $id)->first();
-        if ($empresaID===0) {
-        $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
-        }else{
-            $puntos_otorgados = 0;
-        }
-        
 
-=======
         $user = User::where('id', $id)->first();
->>>>>>> 4566b62c0dc2da7bfd1e4d559b1de0b13e63f3cc
+
 
         $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
         

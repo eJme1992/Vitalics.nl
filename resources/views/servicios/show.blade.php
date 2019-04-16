@@ -137,7 +137,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($usuarios as $u)
+                      @forelse($usuarios as $u)
                         <tr>
                             <td>{{$u->name}}</td>
                             <td>{{$u->phone}}</td>
@@ -146,7 +146,9 @@
                                 <input type="checkbox" name="">
                             </td>
                         </tr>
-                      @endforeach
+                        @empty
+                         <h3 class="text center text-danger">you do not have workers</h2>
+                      @endforelse
                     </tbody>
                   </table>
                <input type="button" name="previous" class="previous btn btn-default" value="Previous" />
