@@ -46,7 +46,7 @@ class UsersController extends Controller {
                 $empresa_user = DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresaID])->count();
                 if ($empresa_user > 0) { #Existe la relacion con la empresa??
                     DB::table('empresa_user')->where(['user_id' => $user->id, 'empresa_id' => $empresaID]) ##Actualizo
-                    ->update(['estado' => 'invitado']);
+                    ->update(['estado' => 'enviado']);
 
                     $message = 'The user already exists on your payroll';
                     return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
@@ -56,7 +56,8 @@ class UsersController extends Controller {
                     DB::table('empresa_user')->insert(['user_id' => $user->id, ##
                     'empresa_id' => $empresaID, ##  CREO LA RELACION
                     'cargo' => $request->cargo, ##
-                    'estado' => 'invitado']);
+                    'estado' => 'invitado',
+                    ]);
 
                     ##
                     ##   ENVIAR UNA INVITACION
@@ -68,7 +69,7 @@ class UsersController extends Controller {
                         'usuario_id' => $user->id,
                         'mensaje' => $mensaje,
                         'estado' => 'enviado',
-                        'tipo' => 'invitacion',
+                        'tipo' => 'solicitud',
                         'url' => $enlace
                     ]);
                     
@@ -161,7 +162,21 @@ class UsersController extends Controller {
     public function show($id) {
 
 
+
         $user = User::where('id', $id)->first();
+
+
+        $empresaID = empresaID(Auth::user()->id);
+        $user = User::where('id', $id)->first();
+        if ($empresaID===0) {
+        $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
+        }else{
+            $puntos_otorgados = 0;
+        }
+        
+
+        
+
 
 
         $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
@@ -174,6 +189,8 @@ class UsersController extends Controller {
             $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
             // $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
             $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first();
+
+
             $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->join('users', 'users.id', '=', 'empresa_user.user_id')->select('empresas.*')->where('users.id', $id)->where('users.model', 'juridico')->first();
             
             //dd($empresa);
