@@ -169,30 +169,34 @@
                     <tbody>
                       @forelse($usuarios as $u)
                         <tr>
-                            <td>{{$u->name}}</td>
+                            <td>{{$u->name}} </td>
                             <td>{{$u->phone}}</td>
                             <td>{{$u->email}}</td>
-                            <td>{{$u->points->puntos}}</td>
+                            <td>{{$u->points->puntos}} Points.</td>
                             <td>
-                                <input type="checkbox" name="">
+                                <input type="checkbox" name="array[]"  class="form-control check_points" value="{{$u->id}}" data-points={{$u->points->puntos}}>
                             </td>
                         </tr>
                         @empty
                          <h3 class="text center text-danger">you do not have workers</h2>
                       @endforelse
+                      <tr>
+                          <td colspan="3"><h3> Total</h3></td>
+                          <td><h3 id="points_print">0 Points.</h3></td>
+                      </tr>
                     </tbody>
                   </table>
                <input type="button" name="previous" class="previous btn btn-default" value="Previous" />
                 
-                <a href="#" class="btn btn-success submit" id="subm">Submit</a>
+                <a class="btn btn-success submit" id="subm">Submit</a>
               </fieldset>
 
         </form>
       </div>
-      <div class="modal-footer">
+      {{-- <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      </div> --}}
     </div>
   </div>
 </div>
@@ -230,41 +234,41 @@
 
      // Handle form submit and validation
      $( "#subm" ).click(function(event) {
-    var error_message = '';
-    if(!$("#nombre").val()) {
-    $("#nombre").css('border', '1px solid red');
-    error_message+="Please Fill Service Name";
-    }
-    if(!$("#tipo").val()) {
-        $("#tipo").css('border', '1px solid red');
-    error_message+="<br>Please Fill Kind";
-    }
-    if(!$("#seciones").val()) {
-        $("#seciones").css('border', '1px solid red');
-    error_message+="<br>Please Fill Sessions";
-    }
-    if(!$("#costo").val()) {
-        $("#costo").css('border', '1px solid red');
-    error_message+="<br>Please Fill Cost";
-    }
-    if(!$("#descripcion").val()) {
-        $("#descripcion").css('border', '1px solid red');
-    error_message+="<br>Please Fill Description";
-    }
-    // Display error if any else submit form
-    if(error_message) {
-    $('.alert-danger').removeClass('hide').html(error_message);
-    $(".previous").click();
-    return false;
-    } else {
-     $( "#subm" ).click(function(event) {
+        var error_message = '';
+        if(!$("#nombre").val()) {
+        $("#nombre").css('border', '1px solid red');
+        error_message+="Please Fill Service Name";
+        }
+        if(!$("#tipo").val()) {
+            $("#tipo").css('border', '1px solid red');
+        error_message+="<br>Please Fill Kind";
+        }
+        if(!$("#seciones").val()) {
+            $("#seciones").css('border', '1px solid red');
+        error_message+="<br>Please Fill Sessions";
+        }
+        if(!$("#costo").val()) {
+            $("#costo").css('border', '1px solid red');
+        error_message+="<br>Please Fill Cost";
+        }
+        if(!$("#descripcion").val()) {
+            $("#descripcion").css('border', '1px solid red');
+        error_message+="<br>Please Fill Description";
+        }
+        // Display error if any else submit form
+        if(error_message) {
+        $('.alert-danger').removeClass('hide').html(error_message);
+        $(".previous").click();
+        return false;
+        } else {
+     
         event.preventDefault();
          var formData = new FormData($("#regiration_form")[0]);
         $.ajax({
              headers: {
                 'X-CSRF-TOKEN': $('input[name="_token"]').val()
              },
-            url: 'dssd',
+            url: '{{route("seccioness.store")}}',
             type: 'POST',
             dataType: 'JSON',
             data: formData,
@@ -282,9 +286,27 @@
             console.log("complete");
         });
         
-    });
+ 
     }
     });
+
+     $(":checkbox").change(function() {
+    var totalPoint = 0;
+    $(":checkbox:checked").each(function() {
+        totalPoint += +$(this).data('points');
+    });
+    $("#points_print").text(totalPoint+' Points.')
+})
+
+    // $(".check_points").click( function(){
+    //     var points = $(this).data('points');
+    //    if( $(this).is(':checked') ){
+    //     console.log(points++);
+    //     $("#points_print").text(points++)
+    //    }else{
+    //     $("#points_print").text(points--)
+    //    } 
+    // });
 });// fin document ready
 </script>
 @endsection
