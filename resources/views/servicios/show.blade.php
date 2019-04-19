@@ -115,6 +115,9 @@
         <form id="regiration_form" novalidate  method="post">
               <fieldset>
                 <h2>Step 1: Create Services</h2>
+                <div class="alert alert-danger hide" role="alert">
+                  
+                </div>
                  <div id="hide" class="col-md-12 row">
                     <div class="col-md-12 mg-b">
                         <label>Services Name</label>
@@ -123,8 +126,9 @@
                     <div class="col-md-4 mg-b">
                         <label>Kind</label>
                         <select required="" class="form-control" name="tipo" id="tipo">
-                              <option>Medico</option>
-                              <option>Taller</option>
+                              <option value="">Seleccione...</option>
+                              <option value="Medico">Medico</option>
+                              <option value="Taller">Taller</option>
                            </select>
                     </div>
                     <div class="col-md-4 mg-b">
@@ -150,6 +154,7 @@
                 <input type="button" name="password" class="next btn btn-info" value="Next" />
               </fieldset>
               <fieldset>
+                
                 <h2> Step 2: Select Personal</h2>
                  <table class="table">
                     <thead class="thead-dark">
@@ -178,7 +183,8 @@
                     </tbody>
                   </table>
                <input type="button" name="previous" class="previous btn btn-default" value="Previous" />
-                <input type="submit"  class="submit btn btn-success" value="Submit" />
+                
+                <a href="#" class="btn btn-success submit" id="subm">Submit</a>
               </fieldset>
 
         </form>
@@ -223,23 +229,60 @@
       }
 
      // Handle form submit and validation
-    $( "#regiration_form" ).submit(function(event) {
+     $( "#subm" ).click(function(event) {
     var error_message = '';
-    if(!$("#email").val()) {
-    error_message+="Please Fill Email Address";
+    if(!$("#nombre").val()) {
+    $("#nombre").css('border', '1px solid red');
+    error_message+="Please Fill Service Name";
     }
-    if(!$("#password").val()) {
-    error_message+="<br>Please Fill Password";
+    if(!$("#tipo").val()) {
+        $("#tipo").css('border', '1px solid red');
+    error_message+="<br>Please Fill Kind";
     }
-    if(!$("#mobile").val()) {
-    error_message+="<br>Please Fill Mobile Number";
+    if(!$("#seciones").val()) {
+        $("#seciones").css('border', '1px solid red');
+    error_message+="<br>Please Fill Sessions";
+    }
+    if(!$("#costo").val()) {
+        $("#costo").css('border', '1px solid red');
+    error_message+="<br>Please Fill Cost";
+    }
+    if(!$("#descripcion").val()) {
+        $("#descripcion").css('border', '1px solid red');
+    error_message+="<br>Please Fill Description";
     }
     // Display error if any else submit form
     if(error_message) {
-    $('.alert-success').removeClass('hide').html(error_message);
+    $('.alert-danger').removeClass('hide').html(error_message);
+    $(".previous").click();
     return false;
     } else {
-    return true;
+     $( "#subm" ).click(function(event) {
+        event.preventDefault();
+         var formData = new FormData($("#regiration_form")[0]);
+        $.ajax({
+             headers: {
+                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+             },
+            url: 'dssd',
+            type: 'POST',
+            dataType: 'JSON',
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData:false,
+        })
+        .done(function() {
+            console.log("success");
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+        
+    });
     }
     });
 });// fin document ready
