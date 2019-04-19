@@ -19,6 +19,11 @@ class User extends Authenticatable
 
     }
 
+    public function points(){
+
+     return $this->hasOne('App\PuntosComprados','usuario_id');
+    }
+
 
 
 

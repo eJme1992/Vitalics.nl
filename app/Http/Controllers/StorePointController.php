@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\PuntosComprados;
 use App\StorePoint;
 use App\Payment;
 use Stripe\Stripe;
@@ -68,7 +69,11 @@ class StorePointController extends Controller
                 $payment->purchased_points = $request->points;
                 $payment->money_paid = $request->price;
 
-                if ($payment->save()) {
+                $user = PuntosComprados::where('usuario_id',Auth::user()->id)->first();
+
+                $user->puntos = $user->puntos +  $request->points;
+
+                if ($payment->save() && $user->save()) {
                       return back()->with('message','You have registered your payment correctly');
                 }
 

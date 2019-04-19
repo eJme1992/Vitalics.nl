@@ -115,13 +115,37 @@
         <form id="regiration_form" novalidate  method="post">
               <fieldset>
                 <h2>Step 1: Create Services</h2>
-                <div class="form-group">
-                    <label for="email">Services</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Service">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Place</label>
-                    <input type="password" class="form-control" id="password" placeholder="Place">
+                 <div id="hide" class="col-md-12 row">
+                    <div class="col-md-12 mg-b">
+                        <label>Services Name</label>
+                        <input required="" type="text" class="form-control" name="nombre" id="nombre" placeholder="Vivaldi Violin">
+                    </div>
+                    <div class="col-md-4 mg-b">
+                        <label>Kind</label>
+                        <select required="" class="form-control" name="tipo" id="tipo">
+                              <option>Medico</option>
+                              <option>Taller</option>
+                           </select>
+                    </div>
+                    <div class="col-md-4 mg-b">
+                        <label>Sessions</label>
+                        <input required="" type="number" class="form-control mg-b" name="sesiones" id="seciones" placeholder="0" />
+                    </div>
+                    <div class="col-md-4 mg-b">
+                        <label>Image</label>
+                        <input required="" type="file" class="form-control" name="file" id="file" />
+                    </div>
+                    <div class="col-md-12 mg-b">
+                        <label>Cost</label>
+                        <input required="" type="number" class="form-control mg-b" name="costo" id="costo" />
+                    </div>
+                    <div class="col-md-12 mg-b">
+                        <label>Description</label>
+                        <textarea required="" name="descripcion" id="descripcion" class="form-control"></textarea>
+                    </div>
+                    <div class="col-lg-12" style="margin-top:5px">
+                        <div id="resultadonew_servicio"></div>
+                    </div>
                 </div>
                 <input type="button" name="password" class="next btn btn-info" value="Next" />
               </fieldset>
@@ -133,6 +157,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Phone</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Points</th>
                         <th scope="col">Check</th>
                       </tr>
                     </thead>
@@ -142,6 +167,7 @@
                             <td>{{$u->name}}</td>
                             <td>{{$u->phone}}</td>
                             <td>{{$u->email}}</td>
+                            <td>{{$u->points->puntos}}</td>
                             <td>
                                 <input type="checkbox" name="">
                             </td>
