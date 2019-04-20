@@ -25,10 +25,11 @@ class SectionsController extends Controller
         
         $validatedData = $request->validate(['cupos' => 'required','lugar' => 'required', 'descripcion' => 'required']);
 
-
+       
         $section = new section();
-        if ($request->has('empresa_id')) {
-        $section->empresa_id   =  $request->input('empresa_id');
+       
+        if ($request->has('fecha')) {
+        $section->fecha_id   =  $request->input('fecha');
         }
         $section->cupos        =  $request->input('cupos');
         $section->lugar        =  $request->input('lugar');
@@ -39,10 +40,31 @@ class SectionsController extends Controller
         return response()->json(['mensaje' => 'Record created with success', 'status' => 'ok'], 200);    
     }
 
-    public function versection($id)
+    public function versecciones($id)
     {
         $section = section::where('id',$id)->first();
         return response()->json(['datos' => $section, 'status' => 'ok'], 200);
+    }
+    
+    public function nuevoFecha(Request $request)
+    {
+        
+    $validatedData = $request->validate(['fecha' => 'required', 'hora' => 'required', 'seccion_id ' => 'required', ]);
+
+
+     if ($fecha < date('Y-m-d')) { 
+    
+        $fecha = new fecha();
+        $fecha->fecha =          $request->input('fecha');
+        $fecha->hora =           $request->input('hora');
+        $fecha->seccion_id =     $request->input('seccion_id');
+        $fecha->save();     
+        return response()->json(['mensaje' => 'Registro creado con exito', 'status' => 'ok'], 200);
+  
+        }else{
+            return response()->json(['mensaje' => 'Mail is duplicated', 'status' => '0'], 200);
+        }
+         
     }
 
     public function index()

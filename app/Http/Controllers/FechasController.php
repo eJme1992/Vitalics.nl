@@ -3,9 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\fecha;
 
 class FechasController extends Controller
 {
+     public function __construct()
+    {
+       header('Origin: xxx.com');
+       header('Access-Control-Allow-Origin:*');     
+    }
+     public function verfechas($id)
+    {
+        $fecha = fecha::where('id',$id)->first();
+        return response()->json(['datos' => $fecha, 'status' => 'ok'], 200);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +25,10 @@ class FechasController extends Controller
     public function index()
     {
         //
+    }
+    public function todosmisfechas($id) {
+     $fecha = fecha::where('seccion_id',$id)->get();
+     return response()->json(['datos' => $fecha, 'status' => 'ok'], 200);
     }
 
     /**

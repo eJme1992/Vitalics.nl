@@ -19,6 +19,18 @@ class EmpresasController extends Controller
        header('Access-Control-Allow-Origin:*');
        
     }
+
+       public function verempresa($id)
+    {
+        $Empresa = User::
+            join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
+            join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
+            select('users.*','empresa_user.*')->
+            where('empresas.id', $id)->
+            where('users.model','natural')->
+            where('empresa_user.estado','activo')->first();
+        return response()->json(['datos' => $Empresa, 'status' => 'ok'], 200);
+    }
     /**
      * Display a listing of the resource.
      *
