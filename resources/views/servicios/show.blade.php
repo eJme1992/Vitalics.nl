@@ -124,11 +124,7 @@
                  <div id="hide" class="col-md-12 row">
                     <div class="col-md-4 mg-b">
                         <label>Kind:</label>
-                        <select required="" class="form-control" name="lugar" id="lugar">
-                              <option value="">Seleccione...</option>
-                              <option value="Salons">Salons</option>
-                              <option value="Company">Company</option>
-                           </select>
+                        <input type="text" name="lugar" id="lugar" class="form-control" value="Company" readonly="">
                     </div>
                     <div class="col-md-4 mg-b">
                         <label>Cupos:</label>
