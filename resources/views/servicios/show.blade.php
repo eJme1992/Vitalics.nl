@@ -79,10 +79,10 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">{{$s->descripcion}}</h4>
+                            <h4 class="modal-title" id="myModalLabel">Sections <strong>{{$s->descripcion}}</strong></h4>
                           </div>
                           <div class="modal-body">
-                            ...
+                            
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -113,35 +113,26 @@
             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
         <form id="regiration_form" novalidate  method="post">
+            <input type="hidden" name="empresa_id" value="{{Auth::user()->id}}">
+            <input type="hidden" name="servicio_id" value="{{$servicio->id}}">
+            <input type="hidden" name="estado" value="activo">
               <fieldset>
                 <h2>Step 1: Create Services</h2>
                 <div class="alert alert-danger hide" role="alert">
                   
                 </div>
                  <div id="hide" class="col-md-12 row">
-                    <div class="col-md-12 mg-b">
-                        <label>Services Name</label>
-                        <input required="" type="text" class="form-control" name="nombre" id="nombre" placeholder="Vivaldi Violin">
-                    </div>
                     <div class="col-md-4 mg-b">
-                        <label>Kind</label>
-                        <select required="" class="form-control" name="tipo" id="tipo">
+                        <label>Kind:</label>
+                        <select required="" class="form-control" name="lugar" id="lugar">
                               <option value="">Seleccione...</option>
-                              <option value="Medico">Medico</option>
-                              <option value="Taller">Taller</option>
+                              <option value="Salons">Salons</option>
+                              <option value="Company">Company</option>
                            </select>
                     </div>
                     <div class="col-md-4 mg-b">
-                        <label>Sessions</label>
-                        <input required="" type="number" class="form-control mg-b" name="sesiones" id="seciones" placeholder="0" />
-                    </div>
-                    <div class="col-md-4 mg-b">
-                        <label>Image</label>
-                        <input required="" type="file" class="form-control" name="file" id="file" />
-                    </div>
-                    <div class="col-md-12 mg-b">
-                        <label>Cost</label>
-                        <input required="" type="number" class="form-control mg-b" name="costo" id="costo" />
+                        <label>Cupos:</label>
+                        <input required="" type="number" class="form-control mg-b" name="cupos" id="cupos" placeholder="0" />
                     </div>
                     <div class="col-md-12 mg-b">
                         <label>Description</label>
@@ -169,30 +160,34 @@
                     <tbody>
                       @forelse($usuarios as $u)
                         <tr>
-                            <td>{{$u->name}}</td>
+                            <td>{{$u->name}} </td>
                             <td>{{$u->phone}}</td>
                             <td>{{$u->email}}</td>
-                            <td>{{$u->points->puntos}}</td>
+                            <td>{{$u->points->puntos}} Points.</td>
                             <td>
-                                <input type="checkbox" name="">
+                                <input type="checkbox" name="user[]"  class="form-control check_points" value="{{$u->id}}" data-points={{$u->points->puntos}}>
                             </td>
                         </tr>
                         @empty
                          <h3 class="text center text-danger">you do not have workers</h2>
                       @endforelse
+                      <tr>
+                          <td colspan="3"><h3> Total</h3></td>
+                          <td><h3 id="points_print">0 Points.</h3></td>
+                      </tr>
                     </tbody>
                   </table>
                <input type="button" name="previous" class="previous btn btn-default" value="Previous" />
                 
-                <a href="#" class="btn btn-success submit" id="subm">Submit</a>
+                <a class="btn btn-success submit" id="subm">Submit</a>
               </fieldset>
 
         </form>
       </div>
-      <div class="modal-footer">
+      {{-- <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      </div> --}}
     </div>
   </div>
 </div>
@@ -230,41 +225,33 @@
 
      // Handle form submit and validation
      $( "#subm" ).click(function(event) {
-    var error_message = '';
-    if(!$("#nombre").val()) {
-    $("#nombre").css('border', '1px solid red');
-    error_message+="Please Fill Service Name";
-    }
-    if(!$("#tipo").val()) {
-        $("#tipo").css('border', '1px solid red');
-    error_message+="<br>Please Fill Kind";
-    }
-    if(!$("#seciones").val()) {
-        $("#seciones").css('border', '1px solid red');
-    error_message+="<br>Please Fill Sessions";
-    }
-    if(!$("#costo").val()) {
-        $("#costo").css('border', '1px solid red');
-    error_message+="<br>Please Fill Cost";
-    }
-    if(!$("#descripcion").val()) {
-        $("#descripcion").css('border', '1px solid red');
-    error_message+="<br>Please Fill Description";
-    }
-    // Display error if any else submit form
-    if(error_message) {
-    $('.alert-danger').removeClass('hide').html(error_message);
-    $(".previous").click();
-    return false;
-    } else {
-     $( "#subm" ).click(function(event) {
+        var error_message = '';
+        if(!$("#cupos").val()) {
+            $("#cupos").css('border', '1px solid red');
+        error_message+="<br>Please Fill Places";
+        }
+        if(!$("#lugar").val()) {
+            $("#lugar").css('border', '1px solid red');
+        error_message+="<br>Please Fill Location";
+        }
+        if(!$("#descripcion").val()) {
+            $("#descripcion").css('border', '1px solid red');
+        error_message+="<br>Please Fill Description";
+        }
+        // Display error if any else submit form
+        if(error_message) {
+        $('.alert-danger').removeClass('hide').html(error_message);
+        $(".previous").click();
+        return false;
+        } else {
+     
         event.preventDefault();
          var formData = new FormData($("#regiration_form")[0]);
         $.ajax({
              headers: {
                 'X-CSRF-TOKEN': $('input[name="_token"]').val()
              },
-            url: 'dssd',
+            url: '{{route("seccioness.store")}}',
             type: 'POST',
             dataType: 'JSON',
             data: formData,
@@ -272,19 +259,40 @@
             cache: false,
             processData:false,
         })
-        .done(function() {
-            console.log("success");
+        .done(function(data) {
+            $('#newSections').modal('hide');
+            alert(data.msg);
+
+            location.reload();
         })
-        .fail(function() {
-            console.log("error");
+        .fail(function(error) {
+            alert(error)
         })
         .always(function() {
             console.log("complete");
         });
         
-    });
+ 
     }
     });
+
+     $(":checkbox").change(function() {
+    var totalPoint = 0;
+    $(":checkbox:checked").each(function() {
+        totalPoint += +$(this).data('points');
+    });
+    $("#points_print").text(totalPoint+' Points.')
+})
+
+    // $(".check_points").click( function(){
+    //     var points = $(this).data('points');
+    //    if( $(this).is(':checked') ){
+    //     console.log(points++);
+    //     $("#points_print").text(points++)
+    //    }else{
+    //     $("#points_print").text(points--)
+    //    } 
+    // });
 });// fin document ready
 </script>
 @endsection

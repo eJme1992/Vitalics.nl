@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\section;
+use App\SectionUser;
+use App\Servicio;
 
 class SectionsController extends Controller
 {
@@ -90,7 +92,37 @@ class SectionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+
+        $user = count($request->user);
+
+        //dd($user);
+
+        $servicio = Servicio::findOrFail($request->servicio_id);
+
+
+
+        $section = new Section;
+        $section->empresa_id = $request->empresa_id;
+        $section->servicio_id = $request->servicio_id;
+        $section->cupos = $request->cupos;
+        $section->lugar = $request->lugar;
+        $section->estado = $request->estado;
+        $section->descripcion = $request->descripcion;
+        if ($section->save()) {
+            for ($i=0; $i < $user ; $i++) { 
+                $sectionUser = new SectionUser;
+                $sectionUser->user_id = $request->user[$i];
+                $sectionUser->servicio_id = $request->servicio_id;
+                $sectionUser->save();
+
+                $sectionUser->restarPuntos($request->user[$i],$servicio->costo);
+            }
+
+            return response()->json(['msg' => 'Registrado Correctamente', 'status' => true], 200);
+
+        }
+
     }
 
     /**
