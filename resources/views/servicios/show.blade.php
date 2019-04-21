@@ -52,7 +52,9 @@
         <div class="col-md-4">
             <table class="table">
               <thead class="thead-dark">
-                 <span class="pull-right"><button class="btn btn-primary btn-md" data-toggle="modal" data-target="#newSections">New Sections</button></span>
+                @if(Auth::user()->model == 'juridico')
+                    <span class="pull-right"><button class="btn btn-primary btn-md" data-toggle="modal" data-target="#newSections">New Sections</button></span>
+                 @endif
                 <tr>
                   <th scope="col">Section</th>
                   <th scope="col">Type</th>
@@ -115,6 +117,7 @@
         <form id="regiration_form" novalidate  method="post">
             <input type="hidden" name="empresa_id" value="{{Auth::user()->id}}">
             <input type="hidden" name="servicio_id" value="{{$servicio->id}}">
+            <input type="hidden" name="totalPoints" id="valueTotalPoints">
             <input type="hidden" name="estado" value="activo">
               <fieldset>
                 <h2>Step 1: Create Services</h2>
@@ -143,6 +146,9 @@
               <fieldset>
                 
                 <h2> Step 2: Select Personal</h2>
+                <div class="alert alert-danger hide" role="alert" id="message_points">
+                  
+                </div>
                  <table class="table">
                     <thead class="thead-dark">
                       <tr>
@@ -221,6 +227,8 @@
 
      // Handle form submit and validation
      $( "#subm" ).click(function(event) {
+
+      
         var error_message = '';
         if(!$("#cupos").val()) {
             $("#cupos").css('border', '1px solid red');
@@ -234,6 +242,11 @@
             $("#descripcion").css('border', '1px solid red');
         error_message+="<br>Please Fill Description";
         }
+        if ($('input:checkbox:checked').length > $("#cupos").val() ) { //validar el maximod e cupos
+          //alert("fsfsfs");
+         $('#message_points').removeClass('hide').html("Members exceed the quota limit");
+         return false;
+      }
         // Display error if any else submit form
         if(error_message) {
         $('.alert-danger').removeClass('hide').html(error_message);
@@ -262,7 +275,7 @@
             location.reload();
         })
         .fail(function(error) {
-            alert(error)
+          $('#message_points').removeClass('hide').html(error.responseJSON.msg);
         })
         .always(function() {
             console.log("complete");
@@ -271,13 +284,21 @@
  
     }
     });
-
+ 
+  //checked total en realtime 
      $(":checkbox").change(function() {
+
+      var totalService = {{$servicio->costo}};
+
     var totalPoint = 0;
     $(":checkbox:checked").each(function() {
-        totalPoint += +$(this).data('points');
+        totalPoint += +$(this).length * totalService;
+
     });
     $("#points_print").text(totalPoint+' Points.')
+    $("#valueTotalPoints").val(totalPoint)
+
+     //$('input:checkbox:not(":checked")').length;
 })
 
     // $(".check_points").click( function(){

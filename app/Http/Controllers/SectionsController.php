@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\section;
 use App\SectionUser;
 use App\Servicio;
+use App\PuntosComprados;
 
 class SectionsController extends Controller
 {
@@ -92,7 +93,20 @@ class SectionsController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
+
+        $puntosEmpresa = PuntosComprados::where('usuario_id',$request->empresa_id)->first();
+
+
+        if ($request->totalPoints <= 0) {
+            return response()->json(['msg' => 'Please must select members', 'status' => false], 422);
+        }
+
+        if ($puntosEmpresa->puntos < $request->totalPoints) {
+             return response()->json(['msg' => 'You do not have enough points, <a href="'.route("point.create").'">click here</a> to buy more points', 'status' => false], 422);
+
+
+
+        }
 
         $user = count($request->user);
 
@@ -116,7 +130,8 @@ class SectionsController extends Controller
                 $sectionUser->servicio_id = $request->servicio_id;
                 $sectionUser->save();
 
-                $sectionUser->restarPuntos($request->user[$i],$servicio->costo);
+                //$sectionUser->restarPuntos($request->user[$i],$servicio->costo);
+                $sectionUser->restarPuntosEmpresa($servicio->costo,$request->empresa_id);
             }
 
             return response()->json(['msg' => 'Registrado Correctamente', 'status' => true], 200);

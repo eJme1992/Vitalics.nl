@@ -8,6 +8,6 @@ class Servicio extends Model
 {
     public function sections()
     {
-    	return $this->hasMany('App\section');
+    	//return $this->hasMany('App\section');
     }
 }

@@ -27,4 +27,17 @@ class SectionUser extends Model
 
 
     }
+
+    public function restarPuntosEmpresa($costo,$empresa_id)
+    {
+        $query = PuntosComprados::where('usuario_id',$empresa_id)->first();
+
+        $query->puntos = $query->puntos - $costo;
+
+        $query->save();
+
+        return true;
+
+
+    }
 }
