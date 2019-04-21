@@ -16,7 +16,9 @@ class CreateEmpresaUserTable extends Migration
         Schema::create('empresa_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->OnDelete('cascade');
             $table->integer('empresa_id')->unsigned();
+            $table->foreign('empresa_id')->references('id')->on('empresas')->OnDelete('cascade');
             $table->string('cargo')->nullable();
             $table->string('estado')->nullable();
             $table->timestamps();

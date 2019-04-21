@@ -221,7 +221,9 @@ class ServiciosController extends Controller
 
         $empresaID = empresaID(Auth::user()->id);
 
-        dd($empresaID);
+        $secciones = Auth::user()->company->empresa->sections;
+
+        //dd($secciones);
 
         $usuarios = User::
             join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->

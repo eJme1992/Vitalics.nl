@@ -12,6 +12,12 @@ class Empresa extends Model
                     ->withPivot('empresa_id','cargo','estado');
     }
 
+    public function sections()
+    {
+    	return $this->hasMany('App\section','empresa_id');
+    }
+
+
       protected $fillable = [
         'nombre', 'rif', 'descripcion'];
 

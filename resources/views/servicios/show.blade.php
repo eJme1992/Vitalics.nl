@@ -62,7 +62,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($servicio->sections as $s)
+                @foreach(Auth::user()->company->empresa->sections as $s)
                   <tr>
                       <td>{{$s->descripcion}}</td>
                       <td>{{$s->lugar}}</td>
