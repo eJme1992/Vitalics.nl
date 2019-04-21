@@ -8,6 +8,7 @@ class section extends Model
 {
     public function service()
     {
-        return $this->belongsTo('App\Servicio');
+        return $this->belongsTo('App\Servicio','servicio_id');
     }
+
 }

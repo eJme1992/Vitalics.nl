@@ -84,7 +84,17 @@
                             <h4 class="modal-title" id="myModalLabel">Sections <strong>{{$s->descripcion}}</strong></h4>
                           </div>
                           <div class="modal-body">
-                            
+                            <h2>Service</h2>
+                            <p><strong>Service Name: </strong>{{$s->service->name}}</p>
+                            <p><strong>Service Kind: </strong>{{$s->service->tipo}}</p>
+                            <p><strong>SErvice Sessions: </strong>{{$s->service->sesiones}}</p>
+                            <p><strong>Service Cost: </strong>{{$s->service->costo}}</p>
+                            <p><strong>Service Description: </strong>{{$s->service->descripcion?$s->service->descripcion:'Not Description'}}</p>
+                            <p><strong>Service Status: </strong>{{$s->service->estado}}</p>
+                            <h2>Section</h2>
+                            <p><strong>Section Kind: </strong>{{$s->lugar}}</p>
+                            <p><strong>Section Places: </strong>{{$s->cupos}}</p>
+                             <p><strong>Section Sttatus: </strong>{{$s->estado}}</p>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
