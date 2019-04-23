@@ -34,6 +34,8 @@ class UsersController extends Controller {
 
         if ($email > 0) { #Verifico si se encontró una coincidencia
             $user = User::where('email', $request->email)->first(); #Lo encuentro
+
+            //dd($user->model);
             
             #VEO SI ES EMPRESA
             if ($user->model == 'juridico') {
@@ -102,17 +104,17 @@ class UsersController extends Controller {
             'cargo' => $request->cargo, ##
             'estado' => 'activo']);
 
-        DB::table('puntos_comprados')->insert(['usuario_id ' => $user->id, ##
+        DB::table('puntos_comprados')->insert(['usuario_id' => $user->id, ##
             'puntos' => '0']);
-        DB::table('puntos_totales')->insert(['usuario_id ' => $user->id, ##
-            'puntos' => '0']);
+        DB::table('puntos_totales')->insert(['usuario_id' => $user->id, ##
+            'puntos' => '0','empresa_id' => $empresaID,'tipo' => 'natural']);
             ## AHORA, ENVIAR CORREO CON SU PASSWORD
             // if(enviarEmail($user, $uempresa->id, $password)){
             //     return back()->with('message','Usuario registrado exitosamente');
             // }else{
             //     return back()->with('error','Message could not be sent.');
             // }
-            //\Mail::to('edwin.jme@hotmail.com')->send(new Email($user, $uempresa, $password));
+            \Mail::to('francisco20990@gmail.com')->send(new Email($user, $uempresa, $password));
             $message = 'The user has been created with existing';
             return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
         }
@@ -141,7 +143,7 @@ class UsersController extends Controller {
 
             $Cliente->usuarios()->create(['nombre' => $request->input('nombre'), 'apellido' => $request->input('apellido'), 'cargo' => $request->input('cargo'), 'tipo' => $request->input('tipo'), 'correo' => $request->input('correo'), 'telefono' => $request->input('telefono'), ]);
          
-            DB::table('puntos_comprados')->insert(['usuario_id ' => $Cliente->id, ##
+            DB::table('puntos_comprados')->insert(['usuario_id' => $Cliente->id, ##
             'puntos' => '0']);
         
             return response()->json(['mensaje' => 'Record created with success', 'status' => 'ok'], 200);
@@ -159,6 +161,14 @@ class UsersController extends Controller {
      */
     public function show($id) {
 
+<<<<<<< HEAD
+=======
+
+
+        $user = User::where('id', $id)->first();
+
+
+>>>>>>> 30dc29d9f244cab5a0e62ee713956a8f93f0820d
         $empresaID = empresaID(Auth::user()->id);
         $user = User::where('id', $id)->first();
         if ($empresaID===0) {
@@ -168,6 +178,12 @@ class UsersController extends Controller {
         }
         
 
+<<<<<<< HEAD
+=======
+        
+
+
+>>>>>>> 30dc29d9f244cab5a0e62ee713956a8f93f0820d
 
         $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
         
@@ -179,6 +195,8 @@ class UsersController extends Controller {
             $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
             // $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
             $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first();
+
+
             $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->join('users', 'users.id', '=', 'empresa_user.user_id')->select('empresas.*')->where('users.id', $id)->where('users.model', 'juridico')->first();
             
             //dd($empresa);

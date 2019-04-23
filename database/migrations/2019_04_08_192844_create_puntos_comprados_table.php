@@ -15,7 +15,8 @@ class CreatePuntosCompradosTable extends Migration
     {
         Schema::create('puntos_comprados', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('usuario_id');
+           $table->integer('usuario_id')->unsigned();
+            $table->foreign('usuario_id')->references('id')->on('users')->OnDelete('cascade');
             $table->integer('puntos');
             $table->timestamps();
         });
