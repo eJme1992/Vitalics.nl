@@ -62,47 +62,83 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach(Auth::user()->company->empresa->sections as $s)
-                  <tr>
-                      <td>{{$s->descripcion}}</td>
-                      <td>{{$s->lugar}}</td>
-                      <td>
-                          <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#myModal{{$s->id}}">Details</a>
-                          <a href="#" class="btn btn-md btn-success">Share</a>
-                      </td>
-                  </tr>
-
-
-
-
-                  <!-- Modal detalles de sections -->
-                    <div class="modal fade" id="myModal{{$s->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Sections <strong>{{$s->descripcion}}</strong></h4>
-                          </div>
-                          <div class="modal-body">
-                            <h2>Service</h2>
-                            <p><strong>Service Name: </strong>{{$s->service->name}}</p>
-                            <p><strong>Service Kind: </strong>{{$s->service->tipo}}</p>
-                            <p><strong>SErvice Sessions: </strong>{{$s->service->sesiones}}</p>
-                            <p><strong>Service Cost: </strong>{{$s->service->costo}}</p>
-                            <p><strong>Service Description: </strong>{{$s->service->descripcion?$s->service->descripcion:'Not Description'}}</p>
-                            <p><strong>Service Status: </strong>{{$s->service->estado}}</p>
-                            <h2>Section</h2>
-                            <p><strong>Section Kind: </strong>{{$s->lugar}}</p>
-                            <p><strong>Section Places: </strong>{{$s->cupos}}</p>
-                             <p><strong>Section Sttatus: </strong>{{$s->estado}}</p>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                @if($sectionsUser)
+                  @foreach($sectionsUser as $s)
+                    <tr>
+                        <td>{{$s->descripcion}}</td>
+                        <td>{{$s->lugar}}</td>
+                        <td>
+                            <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#myModal{{$s->id}}">Details</a>
+                            <a href="#" class="btn btn-md btn-success">Share</a>
+                        </td>
+                    </tr>
+                    <!-- Modal detalles de sections -->
+                      <div class="modal fade" id="myModal{{$s->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="myModalLabel">Sections <strong>{{$s->descripcion}}</strong></h4>
+                            </div>
+                            <div class="modal-body">
+                              <h2>Service</h2>
+                              <p><strong>Service Name: </strong>{{$s->service->name}}</p>
+                              <p><strong>Service Kind: </strong>{{$s->service->tipo}}</p>
+                              <p><strong>SErvice Sessions: </strong>{{$s->service->sesiones}}</p>
+                              <p><strong>Service Cost: </strong>{{$s->service->costo}}</p>
+                              <p><strong>Service Description: </strong>{{$s->service->descripcion?$s->service->descripcion:'Not Description'}}</p>
+                              <p><strong>Service Status: </strong>{{$s->service->estado}}</p>
+                              <h2>Section</h2>
+                              <p><strong>Section Kind: </strong>{{$s->lugar}}</p>
+                              <p><strong>Section Places: </strong>{{$s->cupos}}</p>
+                               <p><strong>Section Sttatus: </strong>{{$s->estado}}</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                  @endforeach
+                @endif
+                @foreach($sectionsPublic as $sp)
+                  <tr>
+                      <td>{{$sp->descripcion}}</td>
+                      <td>{{$sp->lugar}}</td>
+                      <td>
+                          <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#myModal{{$sp->id}}">Details</a>
+                          <a href="#" class="btn btn-md btn-success">Share</a>
+                      </td>
+                  </tr>
+                  <!-- Modal detalles de sections -->
+                      <div class="modal fade" id="myModal{{$sp->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="myModalLabel">Sections <strong>{{$sp->descripcion}}</strong></h4>
+                            </div>
+                            <div class="modal-body">
+                              <h2>Service</h2>
+                              <p><strong>Service Name: </strong>{{$sp->service->name}}</p>
+                              <p><strong>Service Kind: </strong>{{$sp->service->tipo}}</p>
+                              <p><strong>SErvice Sessions: </strong>{{$sp->service->sesiones}}</p>
+                              <p><strong>Service Cost: </strong>{{$sp->service->costo}}</p>
+                              <p><strong>Service Description: </strong>{{$sp->service->descripcion?$sp->service->descripcion:'Not Description'}}</p>
+                              <p><strong>Service Status: </strong>{{$sp->service->estado}}</p>
+                              <h2>Section</h2>
+                              <p><strong>Section Kind: </strong>{{$sp->lugar}}</p>
+                              <p><strong>Section Places: </strong>{{$sp->cupos}}</p>
+                               <p><strong>Section Sttatus: </strong>{{$sp->estado}}</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                 @endforeach
               </tbody>
             </table>

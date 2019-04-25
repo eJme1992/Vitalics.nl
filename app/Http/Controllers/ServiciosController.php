@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\FuncionesRepetitivas;
 use App\Servicio;
 use App\User;
+use App\section;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -221,9 +222,15 @@ class ServiciosController extends Controller
 
         $empresaID = empresaID(Auth::user()->id);
 
-        $secciones = Auth::user()->company->empresa->sections;
+        if ($empresaID) {
+            $sectionsUser = Auth::user()->company->empresa->sections;
+        }else{
+            $sectionsUser = false;
+        }
 
-        //dd($secciones);
+        
+
+        $sectionsPublic = section::where('lugar','Salons')->get();
 
         $usuarios = User::
             join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
@@ -236,7 +243,7 @@ class ServiciosController extends Controller
 
         //dd($usuarios);
 
-        return view('servicios.show', ['servicio' => $servicio, 'usuarios' => $usuarios]);
+        return view('servicios.show', ['servicio' => $servicio, 'usuarios' => $usuarios,'sectionsUser' => $sectionsUser,'sectionsPublic' => $sectionsPublic]);
     }
 
     /**
