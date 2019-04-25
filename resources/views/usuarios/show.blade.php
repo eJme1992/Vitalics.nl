@@ -42,12 +42,12 @@
             <div class="container" style='color:white; padding-left:10px;'>
                 <div class="row">
                    
-                 <h2 style="display:inline;">{{$user->name}} </h2> <span>-{{$empresa->descripcion}}</span><br><br>
+                 <h2 style="display:inline;">{{$user->name}} </h2> <span>- {{$user->descripcion}}</span><br><br>
                     
                 </div>
                 <div class="row" style='font-size:17px; '>
                     <div class="col-md-6">
-                        RIF : {{$empresa->rif}}<hr>
+                        RIF : {{$user->rif}}<hr>
 
                         
                         Phone : {{$user->phone}}<br>
@@ -179,17 +179,17 @@
                          <a class="title" href="#">Puntos Totales </a>
                         <h3><strong>
                         @if($user->model == 'juridico')
-                            @if($puntos)
-                                {{$puntos->puntos }}
+                            @if($puntos_comprados)
+                                {{$puntos_comprados->puntos }}
                             @else
                                 0
                             @endif
                         @else
-                            @if($puntos && $puntos_otorgados)
-                                {{$puntos->puntos + $puntos_otorgados->puntos}}
-                            @elseif($puntos && !$puntos_otorgados)
-                                {{$puntos->puntos}}
-                            @elseif(!$puntos && $puntos_otorgados)
+                            @if($puntos_comprados && $puntos_otorgados)
+                                {{$puntos_comprados->puntos + $puntos_otorgados->puntos}}
+                            @elseif($puntos_comprados && !$puntos_otorgados)
+                                {{$puntos_comprados->puntos}}
+                            @elseif(!$puntos_comprados && $puntos_otorgados)
                                 {{$puntos_otorgados->puntos}}
                             @else
                                 0
@@ -209,8 +209,8 @@
                     <div class="media-body" >
                         <a class="title" href="#" style='color: white;'>Puntos Comprados</a>
                         <h3><strong>
-                        @if($puntos)
-                            {{$puntos->puntos}}
+                        @if($puntos_comprados)
+                            {{$puntos_comprados->puntos}}
                         @else
                             0
                         @endif    
@@ -243,7 +243,7 @@
     </div>
 </div>
 <!-- Modal -->
-@if(isset($puntos_empresa->puntos))
+@if(Auth::user()->model == 'juridico')
 <div class="modal fade" id="asignarPuntos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">

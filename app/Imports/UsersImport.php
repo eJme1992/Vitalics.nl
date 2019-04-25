@@ -19,16 +19,23 @@ class UsersImport implements ToModel
     {
         // $faker = new Faker();
         // $password = $faker->bothify('???#?#??'); ## CREAR CONTRASE#A ALEATORIA
-
+        // dd($row[0]);
+        $name = $row[0];
+        $birthdate = $row[1];
+        $phone = $row[2];
+        $nationality = $row[3];
+        $address = $row[4];
+        $email = $row[5];
+        dd($name);
         return new User([
-            'name' => $row[0],
+            'name' => $name,
             'model' => 'natural',
-            'birthdate' => $row[1],
-            'phone' => $row[2],
-            'nationality' => $row[3],
-            'address' => $row[4],
+            'birthdate' => $birthdate,
+            'phone' => $phone,
+            'nationality' => $nationality,
+            'address' => $address,
             'profile' => url('/')."/img/profile.png",
-            'email' => $row[5],
+            'email' => $email,
             'password' => Hash::make('secret')
 
         ]);
