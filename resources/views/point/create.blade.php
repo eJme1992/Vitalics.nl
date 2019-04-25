@@ -6,6 +6,7 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Buy Points</h2>
+                    <h5 class='pull-right'> 1 point = {{$point->price}}$</h5>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -27,7 +28,7 @@
                         </div>
                       
                             <div class="col-md-3 ">
-                                <button type="submit" id="customButton" disabled class="btn btn-success btn-md left">Bay 
+                                <button type="submit" id="customButton" disabled class="btn btn-success btn-md left">Buy 
                                    <i class="fas fa-shopping-cart"></i></button>
                             </div>
                         
@@ -84,7 +85,8 @@
             });
         
           $('#customButton').on('click', function(e) {
-            var amount = $("#points").val() / {{$point->price}} * 100 ;
+            // var amount = $("#points").val() / {{$point->price}} * 100 ;
+            var amount = $("#points").val() * {{$point->price}} ;
             $("#price").val(amount);
             // Open Checkout with further options
             handler.open({
