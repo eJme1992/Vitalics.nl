@@ -13,17 +13,17 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
-                En esta sección podras importar un archivo excel con la lista de trabajadores.<br>
-                Debe llamarse especificamente "Empleados.xls"
-                El archivo excel deberá seguir este orden.
+                In this section you can import an excel file with the list of workers.<br>
+                It should be called specifically "Employees.xlsx".<br>
+                The excel file should follow this order:
 
                 <ul>
-                    <li>name: Debe ser el nombre completo, Ej: John Doe</li>
-                    <li>birthdate: Fecha formato "aaaa-mm-dd"</li>
-                    <li>phone: Numero telefonico </li>
-                    <li>nationality: Diminutivo del pais, Ej: VE - Venezuela</li>
-                    <li>address: direccion</li>
-                    <li>email: Ej: johndoe@dominio.com</li>
+                    <li>name: Must be the full name, Example: John Doe</li>
+                    <li>birthdate: Date format "yyyy-mm-dd"</li>
+                    <li>phone: Phone number </li>
+                    <li>nationality: Abbreviation of the country, Example: VE - Venezuela</li>
+                    <li>address: Exact direction</li>
+                    <li>email: Example: johndoe@dominio.com</li>
                 </ul>
                 
             </div>
@@ -33,12 +33,12 @@
                 @method('POST')
                 @csrf
                 <div class="col-md-8">
-                    <label for="">Subir archivo excel</label>
+                    <label for="">Upload excel file</label>
                     <input type="file" name="excel" class='form-control' id="excel">
                 </div>
                 <div class="col-md-4">
                     <br>
-                    <button type="submit" class='btn btn-primary'>Subir archivo</button>
+                    <button type="submit" class='btn btn-primary'>Upload</button>
                 </div>
             </form>
         </div>
