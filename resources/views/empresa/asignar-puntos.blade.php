@@ -105,7 +105,7 @@
           // añadimos las columnas
           nuevaFila+="<td>"+valores+"</td>";
           nuevaFila+="<td><input type='hidden' name='id_user[]' value='"+id+"'><input type='number' name='puntos[]' class='form-control puntos' ></td>";
-          nuevaFila+="<td><button type='button' id='"+id+"' class='boton_eliminar btn btn-sm btn-danger'>x</button></td>";
+          // nuevaFila+="<td><button type='button' id='"+id+"' class='boton_eliminar btn btn-sm btn-danger'>x</button></td>";
 
           nuevaFila+="</tr>";
 

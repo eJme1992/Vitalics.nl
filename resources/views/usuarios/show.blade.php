@@ -75,7 +75,11 @@
     <div class="row" >
         <div class="col-md-8">
             <center>
-                <h3 class='mg-b' style='padding-top:10px;'>SERVICIOS INSCRITOS</h3>
+            @if($user->model == 'juridico')
+                <h3 class='mg-b' style='padding-top:10px;'>OPEN SECTIONS</h3>
+            @else
+                <h3 class='mg-b' style='padding-top:10px;'>REGISTERED SERVICES</h3>
+            @endif
             </center>
             <div class="x_panel">
                 
