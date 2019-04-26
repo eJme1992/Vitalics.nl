@@ -74,98 +74,55 @@
     </div>
     <div class="row" >
         <div class="col-md-8">
-            <center>
             @if($user->model == 'juridico')
+            <center>
                 <h3 class='mg-b' style='padding-top:10px;'>OPEN SECTIONS</h3>
-            @else
-                <h3 class='mg-b' style='padding-top:10px;'>REGISTERED SERVICES</h3>
-            @endif
             </center>
-            <div class="x_panel">
-                
-                <div class="x_content">
-                <article class="media event">
-                    <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
+                @foreach($sections as $section)
+                <div class="x_panel">
+                    <div class="x_content">
+                        <article class="media event">
+                            <a class="pull-left date">
+                                <p class="month">Cupos</p>
+                                <p class="day">{{$section->cupos}}</p>
+                            </a>
+                            <div class="media-body">
+                            <a class="title" href="#">{{$section->estado}}</a>
+                            <p>{{$section->descripcion}}</p>
+                            <em>{{$section->lugar}}</em>
+                            
+                            </div>
+                        </article>
                     </div>
-                </article>
-                <article class="media event">
-                <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="30" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                </article>
-                <article class="media event">
-                <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                </article>
-                <article class="media event">
-                <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="100" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                </article>
-                <article class="media event">
-                <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="100" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                </article>
                 </div>
-            </div>
+                @endforeach
+                {{$sections->render()}}
+            @else
+            <center>
+                <h3 class='mg-b' style='padding-top:10px;'>REGISTERED SERVICES</h3>
+            </center>
+                <div class="x_panel">
+                    <div class="x_content">
+                        <article class="media event">
+                            <a class="pull-left date">
+                                <p class="month">April</p>
+                                <p class="day">23</p>
+                            </a>
+                            <div class="media-body">
+                            <a class="title" href="#">Item One Title</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <p>Facebook Campaign</p>
+                            <div class="">
+                                <div class="progress progress_sm" style="width: 100%;">
+                                <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80" aria-valuenow="78" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            @endif
+            
         </div>
         <div class="col-md-4" style='background-color:#F4A958; height:70%;'>
             <center>

@@ -172,6 +172,8 @@ class UsersController extends Controller {
 
         if ($user->model == 'juridico') {
             # Si el perfil es de una empresa
+            $empresaID = empresaID($id); #id de la empresa 
+
             $user = User::join('empresa_user', 'empresa_user.user_id', '=', 'users.id')
                 ->join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')
                 ->select('empresas.*','users.*')
@@ -181,9 +183,13 @@ class UsersController extends Controller {
             $puntos_empresa = DB::table('puntos_comprados')
                 ->where('usuario_id', $user->id)
                 ->first();
-            // dd($user);
 
-            return view('usuarios.show', compact(['user', 'puntos_comprados','puntos_empresa']));
+            $sections = DB::table('sections')
+                    ->where('empresa_id', $empresaID)
+                    ->paginate(8);
+            // dd($sections);
+
+            return view('usuarios.show', compact(['user', 'puntos_comprados','puntos_empresa','sections']));
 
         }else {
             # Si el perfil es de empleado
