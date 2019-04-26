@@ -6,7 +6,7 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Buy Points</h2>
-                    <h5 class='pull-right'> 1 point = {{$point->price}}$</h5>
+                    <h5 class='pull-right'> 1 POINT = {{$point->price}} {{$point->currency}}</h5>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -45,8 +45,7 @@
             <table class="table table-condensed">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Payment Nro</th>
+                        <th>Price</th>
                         <th>Date</th>
                         <th>Points</th>
                     </tr>
@@ -54,9 +53,8 @@
                 <tbody>
                     @foreach($payment as $p)
                     <tr>
-                        <td>{{$p->id_pay}}</td>
-                        <td>{{$p->id_pay}}</td>
-                        <td>{{$p->default_source}}</td>
+                        <td>{{$p->money_paid}}</td>
+                        <td>{{$p->created_at}}</td>
                         <td>{{$p->purchased_points}}</td>
                     </tr>
                     @endforeach
@@ -85,12 +83,13 @@
             });
         
           $('#customButton').on('click', function(e) {
-            // var amount = $("#points").val() / {{$point->price}} * 100 ;
-            var amount = $("#points").val() * {{$point->price}} ;
+            var amount = $("#points").val() / {{$point->price}} * 100 ;
+            // var amount = $("#points").val() * {{$point->price}} ;
+            // alert(amount);
             $("#price").val(amount);
             // Open Checkout with further options
             handler.open({
-              name: 'Puntos Vitalics',
+              name: 'Points Vitalics',
               //description: ''+amount+' widgets ('+amount+')',
               amount: amount,
               currency: '{{$point->currency}}'
