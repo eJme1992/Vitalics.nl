@@ -161,14 +161,12 @@ class UsersController extends Controller {
      */
     public function show($id) {
 
-<<<<<<< HEAD
-=======
 
 
         $user = User::where('id', $id)->first();
 
 
->>>>>>> 30dc29d9f244cab5a0e62ee713956a8f93f0820d
+
         $empresaID = empresaID(Auth::user()->id);
         $user = User::where('id', $id)->first();
         if ($empresaID===0) {
@@ -178,12 +176,7 @@ class UsersController extends Controller {
         }
         
 
-<<<<<<< HEAD
-=======
-        
 
-
->>>>>>> 30dc29d9f244cab5a0e62ee713956a8f93f0820d
 
         $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
         
