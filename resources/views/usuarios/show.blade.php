@@ -42,12 +42,12 @@
             <div class="container" style='color:white; padding-left:10px;'>
                 <div class="row">
                    
-                 <h2 style="display:inline;">{{$user->name}} </h2> <span>-{{$empresa->descripcion}}</span><br><br>
+                 <h2 style="display:inline;">{{$user->name}} </h2> <span>- {{$user->descripcion}}</span><br><br>
                     
                 </div>
                 <div class="row" style='font-size:17px; '>
                     <div class="col-md-6">
-                        RIF : {{$empresa->rif}}<hr>
+                        RIF : {{$user->rif}}<hr>
 
                         
                         Phone : {{$user->phone}}<br>
@@ -74,94 +74,55 @@
     </div>
     <div class="row" >
         <div class="col-md-8">
+            @if($user->model == 'juridico')
             <center>
-                <h3 class='mg-b' style='padding-top:10px;'>SERVICIOS INSCRITOS</h3>
+                <h3 class='mg-b' style='padding-top:10px;'>OPEN SECTIONS</h3>
             </center>
-            <div class="x_panel">
-                
-                <div class="x_content">
-                <article class="media event">
-                    <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
+                @foreach($sections as $section)
+                <div class="x_panel">
+                    <div class="x_content">
+                        <article class="media event">
+                            <a class="pull-left date">
+                                <p class="month">Cupos</p>
+                                <p class="day">{{$section->cupos}}</p>
+                            </a>
+                            <div class="media-body">
+                            <a class="title" href="#">{{$section->estado}}</a>
+                            <p>{{$section->descripcion}}</p>
+                            <em>{{$section->lugar}}</em>
+                            
+                            </div>
+                        </article>
                     </div>
-                </article>
-                <article class="media event">
-                <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="30" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                </article>
-                <article class="media event">
-                <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                </article>
-                <article class="media event">
-                <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="100" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                </article>
-                <article class="media event">
-                <a class="pull-left date">
-                    <p class="month">April</p>
-                    <p class="day">23</p>
-                    </a>
-                    <div class="media-body">
-                    <a class="title" href="#">Item One Title</a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 100%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="100" aria-valuenow="78" style="width: 80%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                </article>
                 </div>
-            </div>
+                @endforeach
+                {{$sections->render()}}
+            @else
+            <center>
+                <h3 class='mg-b' style='padding-top:10px;'>REGISTERED SERVICES</h3>
+            </center>
+                <div class="x_panel">
+                    <div class="x_content">
+                        <article class="media event">
+                            <a class="pull-left date">
+                                <p class="month">April</p>
+                                <p class="day">23</p>
+                            </a>
+                            <div class="media-body">
+                            <a class="title" href="#">Item One Title</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <p>Facebook Campaign</p>
+                            <div class="">
+                                <div class="progress progress_sm" style="width: 100%;">
+                                <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80" aria-valuenow="78" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            @endif
+            
         </div>
         <div class="col-md-4" style='background-color:#F4A958; height:70%;'>
             <center>
@@ -179,17 +140,17 @@
                          <a class="title" href="#">Puntos Totales </a>
                         <h3><strong>
                         @if($user->model == 'juridico')
-                            @if($puntos)
-                                {{$puntos->puntos }}
+                            @if($puntos_comprados)
+                                {{$puntos_comprados->puntos }}
                             @else
                                 0
                             @endif
                         @else
-                            @if($puntos && $puntos_otorgados)
-                                {{$puntos->puntos + $puntos_otorgados->puntos}}
-                            @elseif($puntos && !$puntos_otorgados)
-                                {{$puntos->puntos}}
-                            @elseif(!$puntos && $puntos_otorgados)
+                            @if($puntos_comprados && $puntos_otorgados)
+                                {{$puntos_comprados->puntos + $puntos_otorgados->puntos}}
+                            @elseif($puntos_comprados && !$puntos_otorgados)
+                                {{$puntos_comprados->puntos}}
+                            @elseif(!$puntos_comprados && $puntos_otorgados)
                                 {{$puntos_otorgados->puntos}}
                             @else
                                 0
@@ -209,8 +170,8 @@
                     <div class="media-body" >
                         <a class="title" href="#" style='color: white;'>Puntos Comprados</a>
                         <h3><strong>
-                        @if($puntos)
-                            {{$puntos->puntos}}
+                        @if($puntos_comprados)
+                            {{$puntos_comprados->puntos}}
                         @else
                             0
                         @endif    
@@ -243,7 +204,7 @@
     </div>
 </div>
 <!-- Modal -->
-@if(isset($puntos_empresa->puntos))
+@if(Auth::user()->model == 'juridico')
 <div class="modal fade" id="asignarPuntos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">

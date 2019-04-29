@@ -21,7 +21,7 @@ class ExcelController extends Controller
 
         $excel = Excel::import(new UsersImport, request()->file('excel'));
 
-        dd($excel);
+        // dd($excel);
         return redirect('/')->with('success', 'All good!');
         
     }

@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="col-md-12">
-        <button type='button' class="btn btn-success " data-toggle="modal" data-target="#asignarPuntos">>Assign points</a>
+        <button type='button' class="btn btn-success " data-toggle="modal" data-target="#asignarPuntos">Assign points</a>
     </div>
       <!-- Modal -->
         <div class="modal fade" id="asignarPuntos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -64,11 +64,7 @@
                   </thead>
                   <tbody id='empleados'>
                     <!-- Se cargan los empleados -->
-                    <tr id="1">
-                      <td>Nombre</td>
-                      <td>puntos</td>
-                      <td><button type='button' id='1' class='boton_eliminar btn btn-sm btn-danger'>x</button></td>
-                    </tr>
+                    
                   </tbody>
                 </table>
               </div>
@@ -109,7 +105,7 @@
           // añadimos las columnas
           nuevaFila+="<td>"+valores+"</td>";
           nuevaFila+="<td><input type='hidden' name='id_user[]' value='"+id+"'><input type='number' name='puntos[]' class='form-control puntos' ></td>";
-          nuevaFila+="<td><a href='button' id='"+id+"' class='boton_eliminar btn btn-sm btn-danger'>x</button></td>";
+          // nuevaFila+="<td><button type='button' id='"+id+"' class='boton_eliminar btn btn-sm btn-danger'>x</button></td>";
 
           nuevaFila+="</tr>";
 
@@ -128,7 +124,7 @@
     $('.boton_eliminar').click(function(){
 
       var idx =  $(this).prop('id');
-      $('#empleados #'+idx).remove(); //removemos el empleado
+      $(this).closest('tr').remove(); //removemos el empleado
 
       var  puntos = calcular_puntos(); //calculamos de nuevo los puntos
 
