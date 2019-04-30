@@ -19,10 +19,12 @@ class ExcelController extends Controller
 
     public function importExcel(){
 
-        $excel = Excel::import(new UsersImport, request()->file('excel'));
+       if(Excel::import(new UsersImport, request()->file('excel'))){
+            return back()->with('message', 'Successfully registered employees.');
+       }else{
+            return back()->with('message', 'An error has occurred');
+       }
 
-        // dd($excel);
-        return redirect('/')->with('success', 'All good!');
         
     }
 }

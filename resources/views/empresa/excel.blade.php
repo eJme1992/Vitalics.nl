@@ -2,12 +2,16 @@
 @section('content')
 <div class="container">
 	<div class="row">
+        
 		<div class="col-md-12">
 			<div class="view-boton">
 				<a href="#" class="view-boton-i"><i class="fa fa-list-ul"></i></a>
 				<a class="view-boton-i" href="#"><<i class="fa fa-table"></i></a>
 			</div>
 		</div>
+        <div class="col-md-12">
+            @include('usuarios.partials.message')
+        </div>
         <div class="col-md-12">
             <div class="alert alert-info alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -24,6 +28,7 @@
                     <li>nationality: Abbreviation of the country, Example: VE - Venezuela</li>
                     <li>address: Exact direction</li>
                     <li>email: Example: johndoe@dominio.com</li>
+                    <li>charge: Example: johndoe@dominio.com</li>
                 </ul>
                 
             </div>
