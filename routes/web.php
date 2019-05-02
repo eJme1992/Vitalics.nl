@@ -56,7 +56,7 @@ Route::get('verservicio/{id}', 'serviciosController@verservicio');
  Route::get('versecciones/{id}',         'SectionsController@versecciones');
 
 
- Route::post('registrar_fechas', 'FechasController@nuevoFecha');
+ Route::post('registrar_fechas', 'FechasController@nuevaFecha');
  Route::post('editar_fechas',    'FechasController@editfechas');
  Route::get('listadefechas/{id}',    'FechasController@todosmisfechas');
  Route::get('verfechas/{id}',    'FechasController@verfechas');

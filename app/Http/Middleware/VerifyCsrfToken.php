@@ -21,7 +21,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'registrar_empresa',
         'registrar_servicio',
-        'registrar_secciones'
+        'registrar_secciones',
+        'registrar_fechas'
     ];
 
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\fecha;
+use App\Fecha;
 
 class FechasController extends Controller
 {
@@ -47,9 +47,32 @@ class FechasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function nuevaFecha(Request $request)
     {
-        //
+
+        if($request->input('fecha')>date("Y-m-d")){
+
+        
+
+        $Fechas = new Fecha();
+      
+        $seccion =  $Fechas->secciones;
+       
+       /**
+        * undocumented constant
+        **/
+       dd($seccion);
+
+
+        $Fechas->fecha       =    $request->input('fecha');
+        $Fechas->hora        =    $request->input('hora');
+        $Fechas->seccion_id  =    $request->input('seccion_id');
+        $Fechas->save();
+        $mensaje = 'fecha registrada';
+        }else{
+            $mensaje = 'A elegido una fecha que ya a pasado';
+        }
+          return response()->json(['mensaje' => $mensaje, 'status' => 'ok'], 200);
     }
 
     /**
