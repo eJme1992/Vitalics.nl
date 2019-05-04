@@ -42,7 +42,11 @@ class UsersImport implements ToModel
                     ->count();
                 if ($empresa_user > 0) { #Existe la relacion con la empresa??
                     DB::table('empresa_user')
-                        ->where(['user_id' => $user->id, 'empresa_id' => $empresaID]) ##Actualizo
+                        ->where([
+                            ['user_id', '=', $user->id], 
+                            ['empresa_id','=', $empresaID],
+                            ['estado', '!=', 'activo' ]
+                            ]) ##Actualizo
                         ->update(['estado' => 'enviado']);
 
                     ##
@@ -53,8 +57,9 @@ class UsersImport implements ToModel
 
                     $id = DB::table('notificacion')
                         ->where([
-                            'usuario_id' => $user->id,
-                            'url' => $enlace
+                            ['usuario_id', '=', $user->id],
+                            ['url', '=', $enlace],
+
                         ])
                         ->update([
                             'estado' => 'enviado'
@@ -68,7 +73,7 @@ class UsersImport implements ToModel
                     DB::table('empresa_user')->insert(['user_id' => $user->id, ##
                     'empresa_id' => $empresaID, ##  CREO LA RELACION
                     'cargo' => $row[6], ##
-                    'estado' => 'invitado',
+                    'estado' => 'activo',
                     ]);
 
                     ##
@@ -96,13 +101,7 @@ class UsersImport implements ToModel
             }
         } else { #Si no hay coincidencias
 
-        // $name = $row[0];
-        // $birthdate = $row[1];
-        // $phone = $row[2];
-        // $nationality = $row[3];
-        // $address = $row[4];
-        // $email = $row[5];
-        // $cargo = $row[6];
+        
             // $faker = new Faker();
             // $password = $faker->asciify('*******'); ## CREAR CONTRASE#A ALEATORIA
             $password = 'secret'; ## CREAR CONTRASE#A ALEATORIA
@@ -125,25 +124,13 @@ class UsersImport implements ToModel
             DB::table('puntos_comprados')->insert(['usuario_id' => $user->id, ##
             'puntos' => '0', 'created_at' => '2019-04-25', 'updated_at' => '2019-04-25']);
             DB::table('puntos_totales')->insert(['usuario_id' => $user->id, ##
-            'puntos' => '0','empresa_id' => $empresaID,'tipo' => 'natural', 'created_at' => '2019-04-25', 'updated_at' => '2019-04-25']);
+            'puntos' => '0','empresa_id' => $empresaID,'tipo' => 'asignados', 'created_at' => '2019-04-25', 'updated_at' => '2019-04-25']);
             ## AHORA, ENVIAR CORREO CON SU PASSWORD
             
-            \Mail::to('francisco20990@gmail.com')->send(new Email($user, $uempresa, $password));
-            $message = 'The user has been created with existing';
+            \Mail::to(row[5])->send(new Email($user, $uempresa, $password));
             // return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
             return $user;
         }
-        // return new User([
-        //     'name' => $row[0],
-        //     'model' => 'natural',
-        //     'birthdate' => $row[1],
-        //     'phone' => $row[2],
-        //     'nationality' => $row[3],
-        //     'address' => $row[4],
-        //     'profile' => url('/')."/img/profile.png",
-        //     'email' => $row[5],
-        //     'password' => Hash::make('secret')
-
-        // ]);
+        
     }
 }

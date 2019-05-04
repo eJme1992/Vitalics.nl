@@ -17,23 +17,25 @@
         <p class="text-muted font-13 m-b-30">
           Select the employees you want to assign points.
         </p>
-        <table id="dt-empleados" class="table table-striped table-bordered bulk_action">
+        <table id="dt-empleados" class="table table-striped table-bordered baction">
           <thead>
             <tr>
               <th>Name</th>
               <th>Phone</th>
               <th>Position</th>
-              <th style='cursor:pointer;'><input type="checkbox" id="check-all" class="flat"></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             @foreach($usuarios as $user)
                 <tr>
-                  <td id='nombre'>{{$user->name}}</td>
+                  <td id='nombre'>
+                    {{$user->name}}
+                    <input value='{{$user->name}}' type='hidden' id='name{{$user->user_id}}' name='name{{$user->user_id}}'>
+                  </td>
                   <td>{{$user->phone}}</td>
                   <td>{{$user->cargo}}</td>
-                  <td id='{{$user->user_id}}' class='id_user'><input type="checkbox"  name='id_user'  class="flat "></td>
-
+                  <td ><input type="checkbox" value='{{$user->user_id}}' name='id_user'  class=" id_user"></td>
                 </tr>
             @endforeach
           </tbody>
@@ -89,34 +91,33 @@
   </script>
   <script>
     $(".id_user").click(function() {
-      $(this ).children().toggleClass('checked');
-      var id = $(this).prop('id');
-      var valores = "";
 
-      if($(this).children().hasClass('checked')){
-       
-        // Obtenemos todos los valores contenidos en los <td> de la fila
-        // seleccionada
-        $(this).parents("tr").find("#nombre").each(function() {
+      var id = $(this).val();
+      var name = $('#name'+id).val();
+      //creamos los campos en el  modal
+      if($(this).is(':checked')){
+        var nuevaFila="<tr id='"+id+"'>";
+        // añadimos las columnas  
+        nuevaFila+="<td>"+name+"</td>";
+        nuevaFila+="<td><input type='hidden' name='id_user[]' value='"+id+"'><input type='number' name='puntos[]' class='form-control puntos' ></td>";
+        // nuevaFila+="<td><button type='button' id='"+id+"' class='boton_eliminar btn btn-sm btn-danger'>x</button></td>";
 
-          valores += $(this).html() + "\n";
-          //creamos los campos en el  modal
-          var nuevaFila="<tr id='"+id+"'>";
-          // añadimos las columnas
-          nuevaFila+="<td>"+valores+"</td>";
-          nuevaFila+="<td><input type='hidden' name='id_user[]' value='"+id+"'><input type='number' name='puntos[]' class='form-control puntos' ></td>";
-          // nuevaFila+="<td><button type='button' id='"+id+"' class='boton_eliminar btn btn-sm btn-danger'>x</button></td>";
+        nuevaFila+="</tr>";
 
-          nuevaFila+="</tr>";
+        $("#empleados").append(nuevaFila);
+        var  puntos = calcular_puntos();
 
-          $("#empleados").append(nuevaFila);
-          var  puntos = calcular_puntos();
-
-          $("#empleados tr td .puntos").prop('value', puntos);
-        });
+        $("#empleados tr td .puntos").prop('value', puntos);
+      }else{
+        $('#empleados #'+id).remove();
         
+        var  puntos = calcular_puntos(); //calculamos de nuevo los puntos
+
+        $("#empleados tr td .puntos").prop('value', puntos); //actualizamos puntos
+
       }
       
+        
     });
       
     //quitar empleados seleccionados

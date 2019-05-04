@@ -114,7 +114,7 @@ class UsersController extends Controller {
             // }else{
             //     return back()->with('error','Message could not be sent.');
             // }
-            \Mail::to('francisco20990@gmail.com')->send(new Email($user, $uempresa, $password));
+            \Mail::to($request->email)->send(new Email($user, $uempresa, $password));
             $message = 'The user has been created with existing';
             return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
         }
@@ -168,90 +168,66 @@ class UsersController extends Controller {
         $empresaID = empresaID(Auth::user()->id);
         $user = User::where('id', $id)->first();
         if ($empresaID===0) {
-        $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
+          $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
         }else{
             $puntos_otorgados = 0;
-        if ($user->model == 'juridico') {
-            # Si el perfil es de una empresa
-            $empresaID = empresaID($id); #id de la empresa 
+            if ($user->model == 'juridico') {
+                # Si el perfil es de una empresa
+                $empresaID = empresaID($id); #id de la empresa 
 
-            $user = User::join('empresa_user', 'empresa_user.user_id', '=', 'users.id')
-                ->join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')
-                ->select('empresas.*','users.*')
-                ->where('users.id', $id)
-                ->where('users.model','juridico')
-                ->first(); ##Datos de  la empresa
-            $puntos_empresa = DB::table('puntos_comprados')
-                ->where('usuario_id', $user->id)
-                ->first();
-
-            $sections = DB::table('sections')
-                    ->where('empresa_id', $empresaID)
-                    ->paginate(8);
-           
-            return view('usuarios.show', compact(['user', 'puntos_comprados','puntos_empresa','sections']));
-
-        }else {
-            # Si el perfil es de empleado
-            $empresaID = empresaID($id); #id de la empresa de donde trabaja
-           
-            if (isset($empresaID)) { 
-                # Si trabaja en una empresa
-                $empresa = User::join('empresa_user', 'empresa_user.user_id', '=', 'users.id')
-                ->join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')
-                ->select('users.*')
-                ->where('empresas.id', $empresaID)
-                ->where('users.model','juridico')
-                ->first(); ##Datos de  la empresa
-
-                $puntos_otorgados = DB::table('puntos_totales')
-                    ->where(['empresa_id' => $empresaID, 'usuario_id' => $id])
-                    ->first();
+                $user = User::join('empresa_user', 'empresa_user.user_id', '=', 'users.id')
+                    ->join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')
+                    ->select('empresas.*','users.*')
+                    ->where('users.id', $id)
+                    ->where('users.model','juridico')
+                    ->first(); ##Datos de  la empresa
                 $puntos_empresa = DB::table('puntos_comprados')
-                    ->where('usuario_id', $empresa->id)
+                    ->where('usuario_id', $user->id)
                     ->first();
-                                
+
+                $sections = DB::table('sections')
+                        ->where('empresa_id', $empresaID)
+                        ->paginate(8);
+            
+                return view('usuarios.show', compact(['user', 'puntos_comprados','puntos_empresa','sections']));
+
+            }else {
+                # Si el perfil es de empleado
+                $empresaID = empresaID($id); #id de la empresa de donde trabaja
+            
+                if (isset($empresaID)) { 
+                    # Si trabaja en una empresa
+                    $empresa = User::join('empresa_user', 'empresa_user.user_id', '=', 'users.id')
+                    ->join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')
+                    ->select('users.*')
+                    ->where('empresas.id', $empresaID)
+                    ->where('users.model','juridico')
+                    ->first(); ##Datos de  la empresa
+
+                    $puntos_otorgados = DB::table('puntos_totales')
+                        ->where(['empresa_id' => $empresaID, 'usuario_id' => $id])
+                        ->first();
+                    $puntos_empresa = DB::table('puntos_comprados')
+                        ->where('usuario_id', $empresa->id)
+                        ->first();
+                                    
+                }
+                
+                $sections = DB::table('servicios')   
+                    ->join('section_user','section_user.servicio_id', '=','servicios.id')
+                    ->where('section_user.user_id', $id)
+                    ->paginate(6);
+                // dd($sections);
+
+                return view('usuarios.show', compact(['user', 'empresa','puntos_comprados','puntos_otorgados', 'sections' ]));
+                
+
             }
-            
-            // dd($puntos_comprados);
-
-            return view('usuarios.show', compact(['user', 'empresa','puntos_comprados','puntos_otorgados','puntos_empresa']));
-            
-
         }
+
     }
 
-        $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
-    }
-
-        // $empresaID = empresaID(Auth::user()->id);
-        // if ($empresaID > 0) {
-        //     $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
-        // }else{
-        //     $puntos_otorgados = 0;
-        // }   
-
-        // if ($user->model == 'juridico') {
-        //     $empresaID = empresaID(Auth::user()->id);
-
-        //     // $user = User::where('id', $id)->first();
-        //     $puntos_otorgados = DB::table('puntos_totales')->where(['empresa_id' => $empresaID, 'usuario_id' => $id])->first();
-        //     // $puntos = DB::table('puntos_comprados')->where('usuario_id', $id)->first();
-        //     $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', Auth::user()->id)->first();
-
-
-        //     $empresa = Empresa::join('empresa_user', 'empresa_user.empresa_id', '=', 'empresas.id')->join('users', 'users.id', '=', 'empresa_user.user_id')->select('empresas.*')->where('users.id', $id)->where('users.model', 'juridico')->first();
-            
-        //     //dd($empresa);
-        //     return view('usuarios.show', compact(['user', 'empresa','puntos','puntos_empresa']));
-
-        // } else {
-        //     $puntos_empresa = DB::table('puntos_comprados')->where('usuario_id', $empresaID)->first();
-        //     $empresa = $user->empresa;
-        //     // dd($empresa);
-        //     return view('usuarios.show', compact(['user', 'empresa','puntos','puntos_otorgados','puntos_empresa']));
-        // }
-    
+  
 
     
    

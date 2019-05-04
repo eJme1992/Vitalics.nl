@@ -83,7 +83,7 @@
                     <div class="x_content">
                         <article class="media event">
                             <a class="pull-left date">
-                                <p class="month">Cupos</p>
+                                <p class="month">quotas</p>
                                 <p class="day">{{$section->cupos}}</p>
                             </a>
                             <div class="media-body">
@@ -96,37 +96,35 @@
                     </div>
                 </div>
                 @endforeach
-                {{$sections->render()}}
             @else
             <center>
                 <h3 class='mg-b' style='padding-top:10px;'>REGISTERED SERVICES</h3>
             </center>
+            @foreach($sections as $section)
                 <div class="x_panel">
                     <div class="x_content">
                         <article class="media event">
                             <a class="pull-left date">
-                                <p class="month">April</p>
-                                <p class="day">23</p>
+                                <p class="month" style='font-size: 10px;'>Sessions</p>
+                                <p class="day">{{$section->sesiones}}</p>
                             </a>
                             <div class="media-body">
-                            <a class="title" href="#">Item One Title</a>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p>Facebook Campaign</p>
-                            <div class="">
-                                <div class="progress progress_sm" style="width: 100%;">
-                                <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80" aria-valuenow="78" style="width: 80%;"></div>
-                                </div>
-                            </div>
+                            <a class="title" href="#">{{$section->estado}}</a>
+                            <p>{{$section->descripcion}}</p>
+                            <em>{{$section->nombre}}</em>
+                            
                             </div>
                         </article>
                     </div>
                 </div>
+                @endforeach
             @endif
+            {{$sections->render()}}
             
         </div>
         <div class="col-md-4" style='background-color:#F4A958; height:70%;'>
             <center>
-                <h3 class='mg-b' style='padding-top:10px;'>PUNTOS</h3>
+                <h3 class='mg-b' style='padding-top:10px;'>POINTS</h3>
             </center>
 
             <div>
@@ -137,7 +135,7 @@
                             <i class="fa fa-user blue"></i>
                         </a>
                     <div class="media-body">
-                         <a class="title" href="#">Puntos Totales </a>
+                         <a class="title" href="#">Total points </a>
                         <h3><strong>
                         @if($user->model == 'juridico')
                             @if($puntos_comprados)
@@ -168,7 +166,7 @@
                         <i class="fa fa-user "></i>
                     </a>
                     <div class="media-body" >
-                        <a class="title" href="#" style='color: white;'>Puntos Comprados</a>
+                        <a class="title" href="#" style='color: white;'>Bought points</a>
                         <h3><strong>
                         @if($puntos_comprados)
                             {{$puntos_comprados->puntos}}
@@ -183,7 +181,7 @@
                         <i class="fa fa-user green"></i>
                     </a>
                     <div class="media-body">
-                        <a class="title" href="#">Puntos Otorgados </a>
+                        <a class="title" href="#">Points awarded </a>
                         <h3><strong>
                             @if($puntos_otorgados)
                                 {{$puntos_otorgados->puntos}}
