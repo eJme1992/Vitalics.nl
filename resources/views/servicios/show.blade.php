@@ -69,7 +69,7 @@
                         <td>{{$s->lugar}}</td>
                         <td>
                             <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#myModal{{$s->id}}">Details</a>
-                            <a href="#" class="btn btn-md btn-success">Share</a>
+                            <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#enroll{{$s->id}}">Enroll</a>
                         </td>
                     </tr>
                     <!-- Modal detalles de sections -->
@@ -97,6 +97,30 @@
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                               <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
+                          </div>
+                        </div>
+                      </div>
+
+                       <!-- Modal inscripcion -->
+                      <div class="modal fade" id="enroll{{$s->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="myModalLabel"><strong>{{$s->descripcion}}</strong></h4>
+                            </div>
+                            <div class="modal-body">
+                              <form id="form_enroll">
+                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                <input type="hidden" name="section_id" value="{{$s->id}}">
+
+                                <h4 class="text-center"><strong>{{strtoupper(Auth::user()->name)}}</strong> Do you wish to register in this section?</h4>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <input type="submit" name="button" class="btn btn-primary" value="Register" id="submit_enroll">
+                              </div>
+                            </form>
                           </div>
                         </div>
                       </div>
@@ -134,7 +158,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary">Save changes</button>
+                              <button type="button" class="btn btn-primary">Register</button>
                             </div>
                           </div>
                         </div>
@@ -302,6 +326,7 @@
      
         event.preventDefault();
          var formData = new FormData($("#regiration_form")[0]);
+         //ajax de seccion
         $.ajax({
              headers: {
                 'X-CSRF-TOKEN': $('input[name="_token"]').val()
@@ -329,6 +354,32 @@
         
  
     }
+    });
+
+
+    $("#submit_enroll").click(function(event) {
+       event.preventDefault();
+         var formData = $("#form_enroll").serialize();
+
+      $.ajax({
+         headers: {
+                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+             },
+        url: '{{route('enroll.store')}}',
+        type: 'POST',
+        dataType: 'JSON',
+        data: formData,
+      })
+      .done(function() {
+        console.log("success");
+      })
+      .fail(function() {
+        console.log("error");
+      })
+      .always(function() {
+        console.log("complete");
+      });
+      
     });
  
   //checked total en realtime 

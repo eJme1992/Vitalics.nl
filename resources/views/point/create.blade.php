@@ -53,9 +53,9 @@
                 <tbody>
                     @foreach($payment as $p)
                     <tr>
-                        <td>{{$p->money_paid}}</td>
+                        <td>{{round($p->money_paid,2)}}</td>
                         <td>{{$p->created_at}}</td>
-                        <td>{{$p->purchased_points}}</td>
+                        <td>{{$p->purchased_points }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -83,7 +83,8 @@
             });
         
           $('#customButton').on('click', function(e) {
-            var amount = $("#points").val() / {{$point->price}} * 100 ;
+            let amount = $("#points").val() * {{$point->price}};
+                amount = amount * 100;
             // var amount = $("#points").val() * {{$point->price}} ;
             // alert(amount);
             $("#price").val(amount);

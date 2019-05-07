@@ -17,4 +17,8 @@ class section extends Model
     {
         return $this->belongsTo('App\Servicio','servicio_id');
     }
+    public function fecha()
+    {
+        return $this->belongsTo('App\Fecha','seccion_id');
+    }
 }

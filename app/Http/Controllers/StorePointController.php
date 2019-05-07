@@ -45,7 +45,7 @@ class StorePointController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
+        //dd($request->price / 100);
 
              try {
               Stripe::setApiKey(config('services.stripe.secret'));
@@ -56,7 +56,7 @@ class StorePointController extends Controller
 
                 $charge = Charge::create(array(
                     'customer' => $customer->id,
-                    'amount'   => $request->price,
+                    'amount'   => $request->price / 100,
                     'currency' => 'eur'
                 ));
 
@@ -68,7 +68,7 @@ class StorePointController extends Controller
                 $payment->default_source = $customer->default_source;
                 $payment->invoice_prefix = $customer->invoice_prefix;
                 $payment->purchased_points = $request->points;
-                $payment->money_paid = $request->price;
+                $payment->money_paid = $request->price / 100;
 
                 $user = PuntosComprados::where('usuario_id',Auth::user()->id)->first();
 

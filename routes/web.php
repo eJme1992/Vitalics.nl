@@ -77,4 +77,7 @@ Route::post('/search-employee', 'EmpresasController@filtro')->name('user.filtro'
 
 Route::post('/assign-points/{usuario}', 'UsersController@asignarPuntos')->name('user.puntos');
 
+//enroll
+Route::post('/enroll','EnrollController@enroll')->name('enroll.store');
+
 
