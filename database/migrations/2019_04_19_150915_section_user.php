@@ -17,8 +17,8 @@ class SectionUser extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->OnDelete('cascade');
-            $table->integer('servicio_id')->unsigned();
-            $table->foreign('servicio_id')->references('id')->on('servicios')->OnDelete('cascade');
+            $table->integer('sections_id')->unsigned();
+            $table->foreign('sections_id')->references('id')->on('sections')->OnDelete('cascade');
             $table->timestamps();
         });
     }

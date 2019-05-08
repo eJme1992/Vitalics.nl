@@ -30,6 +30,22 @@ class User extends Authenticatable
         return $this->hasOne('App\empresa_user','user_id');
     }
 
+    public function find_closest($array, $date)
+    {
+        //$count = 0;
+        foreach($array as $day)
+        {
+            //$interval[$count] = abs(strtotime($date) - strtotime($day));
+            $interval[] = abs(strtotime($date) - strtotime($day));
+            //$count++;
+        }
+
+        asort($interval);
+        $closest = key($interval);
+
+        echo $array[$closest];
+    }
+
 
 
 

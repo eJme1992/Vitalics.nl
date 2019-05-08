@@ -110,9 +110,13 @@
                               <h4 class="modal-title" id="myModalLabel"><strong>{{$s->descripcion}}</strong></h4>
                             </div>
                             <div class="modal-body">
+                              <div class="alert alert-danger hide" role="alert" id="message_error">
+                  
+                              </div>
                               <form id="form_enroll">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="hidden" name="section_id" value="{{$s->id}}">
+                                <input type="hidden" name="costo" value="{{$servicio->costo}}">
 
                                 <h4 class="text-center"><strong>{{strtoupper(Auth::user()->name)}}</strong> Do you wish to register in this section?</h4>
                               </div>
@@ -370,11 +374,13 @@
         dataType: 'JSON',
         data: formData,
       })
-      .done(function() {
-        console.log("success");
+      .done(function(data) {
+        alert(data.msg);
+
+            location.reload();
       })
-      .fail(function() {
-        console.log("error");
+      .fail(function(error) {
+         $('#message_error').removeClass('hide').html(error.responseJSON.msg);
       })
       .always(function() {
         console.log("complete");

@@ -127,14 +127,14 @@ class SectionsController extends Controller
             for ($i=0; $i < $user ; $i++) { 
                 $sectionUser = new SectionUser;
                 $sectionUser->user_id = $request->user[$i];
-                $sectionUser->servicio_id = $request->servicio_id;
+                $sectionUser->sections_id = $section->id;
                 $sectionUser->save();
 
                 //$sectionUser->restarPuntos($request->user[$i],$servicio->costo);
                 $sectionUser->restarPuntosEmpresa($servicio->costo,$request->empresa_id);
             }
 
-            return response()->json(['msg' => 'Registrado Correctamente', 'status' => true], 200);
+            return response()->json(['msg' => 'You have registered!', 'status' => true], 200);
 
         }
 
