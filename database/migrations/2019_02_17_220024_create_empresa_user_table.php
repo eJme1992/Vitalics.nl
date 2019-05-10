@@ -21,6 +21,7 @@ class CreateEmpresaUserTable extends Migration
             $table->foreign('empresa_id')->references('id')->on('empresas')->OnDelete('cascade');
             $table->string('cargo')->nullable();
             $table->string('estado')->nullable();
+            $table->string('puntos')->default('0');
             $table->timestamps();
         });
     }

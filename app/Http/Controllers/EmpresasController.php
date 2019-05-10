@@ -182,33 +182,24 @@ class EmpresasController extends Controller
 
             foreach ($request->id_user as $usuario_id) {
                 #Recorremos uno a uno los usuarios.
-                $cu = DB::table('puntos_totales')->where(['usuario_id' => $usuario_id, 'empresa_id' => $empresaID])->count(); //verificamos que la empresa no le haya asignado puntos anteriormente
+                $cu = DB::table('empresa_user')->where(['user_id' => $usuario_id, 'empresa_id' => $empresaID])->count(); //verificamos que la empresa no le haya asignado puntos anteriormente
                 
                 if ($cu > 0) { //Si existe, sumamos los nuevos puntos a los anteriores
                     
-                    $usuario = DB::table('puntos_totales')
-                            ->where(['usuario_id' => $usuario_id, 'empresa_id' => $empresaID])
+                    $usuario = DB::table('empresa_user')
+                            ->where(['user_id' => $usuario_id, 'empresa_id' => $empresaID])
                             ->first(); //buscamos los puntos anterior
                     $p_anterior = $usuario->puntos;
 
                     $puntos = $p_anterior + $request->puntos[$i];
 
-                    DB::table('puntos_totales')
-                        ->where(['usuario_id' => $usuario_id, 'empresa_id' => $empresaID])
+                    DB::table('empresa_user')
+                        ->where(['user_id' => $usuario_id, 'empresa_id' => $empresaID])
                         ->update([
                             'puntos' => $puntos
                         ]);
                     
 
-
-                }else{ //No existe, se crea la nueva relacion
-
-                    $usuario = DB::table('puntos_totales')->insert([
-                        'usuario_id' => $usuario_id,
-                        'empresa_id' => $empresaID, 
-                        'tipo' => 'asignado',
-                        'puntos' => $request->puntos[$i]
-                    ]);
 
                 }
 
@@ -229,7 +220,6 @@ class EmpresasController extends Controller
         }
 
 
-        // $puntos = DB::table('puntos_totales')->
 
     }
 
