@@ -37,7 +37,7 @@
         <div class="col-md-12">
             @include('usuarios.partials.message')
         </div>
-            @foreach($usuarios as $user)
+            @forelse($usuarios as $user)
                 @if($user->model != 'juridico')
                 <div class="col-md-4">
                     <div class="card card-profile">
@@ -67,8 +67,14 @@
                     </div>
                 </div>
                 @endif
-            
-            @endforeach
+            @empty
+            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                Has not registered employees
+            </div>
+            @endforelse
                 
 		<div class="col-md-12">
 			<ul class="pagination justify-content-center">

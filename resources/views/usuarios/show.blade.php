@@ -6,11 +6,11 @@
     </div>
     <div class="row " style='background-color: #424E5C;'>
         <div class="col-md-3" >
-             @if($user->profile == '')
+            @if($user->profile == '')
                 <img src="{{url('/')}}/img/profile.png" class="img-prueba img-circle"  id="img-prueba">
-                @else
+            @else
                 <img src="{{url('/')}}{{$user->profile}}"   class="img-prueba img-circle" id="img-prueba">
-                @endif
+            @endif
         </div>
         <div class="col-md-9 " style='border-left:#B6BEC9 2px solid;'>
             @if($user->model=='natural')
@@ -25,7 +25,6 @@
                 <div class="row" style='font-size:17px; '>
                     <div class="col-md-6">
                         Birthdate: {{$user->birthdate}}<br>
-                        Edad: 32 años<br>
                         Nationality: {{$user->nationality}}<br>
                     </div>
                     <div class="col-md-6">
@@ -78,7 +77,7 @@
             <center>
                 <h3 class='mg-b' style='padding-top:10px;'>OPEN SECTIONS</h3>
             </center>
-                @foreach($sections as $section)
+                @forelse($sections as $section)
                 <div class="x_panel">
                     <div class="x_content">
                         <article class="media event">
@@ -95,12 +94,22 @@
                         </article>
                     </div>
                 </div>
-                @endforeach
+                @empty
+                <div class="x_panel">
+                    <div class="x_content">
+                        <article class="media event">
+                            <div class="media-body">
+                                <a class="title" href="#">You have not registered any section</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                @endforelse
             @else
             <center>
                 <h3 class='mg-b' style='padding-top:10px;'>REGISTERED SERVICES</h3>
             </center>
-            @foreach($sections as $section)
+            @forelse($sections as $section)
                 <div class="x_panel">
                     <div class="x_content">
                         <article class="media event">
@@ -117,7 +126,17 @@
                         </article>
                     </div>
                 </div>
-                @endforeach
+            @empty
+                <div class="x_panel">
+                    <div class="x_content">
+                        <article class="media event">
+                            <div class="media-body">
+                                <a class="title" href="#">You have not registered any service</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            @endforelse
             @endif
             {{$sections->render()}}
             
@@ -188,8 +207,9 @@
                             @else
                                 0
                             @endif
+                            @if(Auth::user()->model == 'juridico')
                             <a href="#" class="pull-right btn btn-sm btn-warning" data-toggle="modal" data-target="#asignarPuntos" title='Assign points'>+</a>
-
+                            @endif
                         </strong></h3> 
                     </div>
                     </li>

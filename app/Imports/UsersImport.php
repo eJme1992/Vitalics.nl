@@ -74,6 +74,7 @@ class UsersImport implements ToModel
                     'empresa_id' => $empresaID, ##  CREO LA RELACION
                     'cargo' => $row[6], ##
                     'estado' => 'activo',
+                    'puntos' => 0
                     ]);
 
                     ##
@@ -116,18 +117,20 @@ class UsersImport implements ToModel
             $user->nationality = $row[3];
             $user->save();
             #Creo el nuevo usuario
-            DB::table('empresa_user')->insert(['user_id' => $user->id, ##
-            'empresa_id' => $empresaID, ##  CREO LA RELACION
-            'cargo' => $row[6], ##
-            'estado' => 'activo']);
+            DB::table('empresa_user')->insert([
+                'user_id' => $user->id, ##
+                'empresa_id' => $empresaID, ##  CREO LA RELACION
+                'cargo' => $row[6], ##
+                'estado' => 'activo',
+                'puntos' => 0
+            ]);
 
             DB::table('puntos_comprados')->insert(['usuario_id' => $user->id, ##
             'puntos' => '0', 'created_at' => '2019-04-25', 'updated_at' => '2019-04-25']);
-            DB::table('puntos_totales')->insert(['usuario_id' => $user->id, ##
-            'puntos' => '0','empresa_id' => $empresaID,'tipo' => 'asignados', 'created_at' => '2019-04-25', 'updated_at' => '2019-04-25']);
+            
             ## AHORA, ENVIAR CORREO CON SU PASSWORD
             
-            \Mail::to(row[5])->send(new Email($user, $uempresa, $password));
+            \Mail::to($row[5])->send(new Email($user, $uempresa, $password));
             // return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
             return $user;
         }
