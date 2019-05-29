@@ -14,7 +14,7 @@ class Fecha extends Model
              ];
 
 
-    public function secciones(){
+    public function sections(){
     	return  $this->belongsTo(section::class);
     }
 }

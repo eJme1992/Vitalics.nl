@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +17,6 @@ Route::get('/', function () {
 // Store Point
 Route::resource('/point','StorePointController');
 //Route::post('/pago', 'StorePointController@store');
-
 
 Route::get('/view-register', function () {
     return view('usuarios.register');
@@ -42,6 +40,7 @@ Route::resource('empresas', 'EmpresasController');
 Route::post('registrar_empresa', 'EmpresasController@nuevaempresa');
 Route::get('listadeempresas', 'EmpresasController@todasmisempresas');
 Route::get('verempresa/{id}', 'EmpresasController@verempresa');
+Route::get('lista_user_empresas/{id}', 'EmpresasController@lista_user_empresas');
 //Vamos a app/Http/Kernerl.php y desactivamos la línea \App\Http\Middleware\VerifyCsrfToken::class,
 Route::resource('servicios', 'serviciosController');
 Route::post('registrar_servicio', 'serviciosController@nuevoservicio');
@@ -55,16 +54,16 @@ Route::get('verservicio/{id}', 'serviciosController@verservicio');
  Route::get('listadeseccioness/{id}',    'SectionsController@todosmisseccioness');
  Route::get('versecciones/{id}',         'SectionsController@versecciones');
 
-
  Route::post('registrar_fechas', 'FechasController@nuevaFecha');
  Route::post('editar_fechas',    'FechasController@editfechas');
- Route::get('listadefechas/{id}',    'FechasController@todosmisfechas');
+ Route::get('listadefechas/{id}','FechasController@todosmisfechas');
  Route::get('verfechas/{id}',    'FechasController@verfechas');
 
 //Usuario Url
 Route::resource('usuarios', 'UsersController');
 Route::post('usuarios/nuevo', 'UsersController@crearusuario')->name('usuarios.nuevo');
 Route::delete('usuarios/delete/{usuario}','UsersController@delete')->name('usuarios.delete'); ##DESPEDIR USUARIO
+Route::post('editar_usuario', 'UsersController@update2');
 
 Route::post('servicios/filtrar', 'ServiciosController@filtros')->name('servicios.filtro');
 Route::resource('notificacion', 'NotificacionController');

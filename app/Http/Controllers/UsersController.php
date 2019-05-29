@@ -18,6 +18,12 @@ class UsersController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+       header('Origin: xxx.com');
+       header('Access-Control-Allow-Origin:*');
+       
+    }
     public function index() {
         $message = '';
         return view('usuarios.register', compact(['message']));
@@ -312,12 +318,104 @@ class UsersController extends Controller {
             }
         }
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+    public function update2(Request $request) {
+        $id = $request->id;
+        $usuario = DB::table('users')->where('id', $id)->first();
+       // dd($request);
+        if ($usuario->model == 'natural') {
+            if ($request->password == '') {
+                if ($request->file('profile')) {
+                    $file = $request->file('profile');
+                    $name = time() . $file->getClientOriginalName();
+                    $fn = new FuncionesRepetitivas();
+                    $name = $fn->limpiarCaracteresEspeciales($name);
+                    $file->move(public_path() . '/img/programa/', $name);
+                    $name = '/img/programa/' . $name;
+                    DB::table('users')->where('id', $id)->update(['profile' => $name, ]);
+                }
+                DB::table('users')->where('id', $id)->update(['name' => $request->name, 'birthdate' => $request->birthdate, 'nationality' => $request->nationality, 'phone' => $request->phone, 'address' => $request->address, 'email' => $request->email, 'email' => $request->email, ]);
+                $message = 'Successfully updated data';
+                return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
+            } else {
+                $validatedData = $request->validate(['password' => 'confirmed', ]);
+                // if($request->password == $request->password2){
+                DB::table('users')->where('id', $id)->update(['password' => Hash::make($request->password), ]);
+                $message = 'Passwords successfully changed';
+                return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
+                //return back()->with('message',$message);
+                // }else{
+                // $message = 'Las contraseñas no coinciden';
+                // return back()->with('message',$message);
+                // }
+                
+            }
+        } else {
+            // EMPRESA
+            $id_empresa = empresaID($id); //Id de la empresa
+            $user = User::findOrFail($id);
+            $empresa = Empresa::findOrFail($id_empresa);
+            if ($request->password == '') {
+                if ($request->file('file')) {
+                    $file = $request->file('file');
+                    $name = time() . $file->getClientOriginalName();
+                    $fn = new FuncionesRepetitivas();
+                    $name = $fn->limpiarCaracteresEspeciales($name);
+                    $file->move(public_path() . '/img/programa/', $name);
+                    $name = '/img/programa/' . $name;
+                    DB::table('users')->where('id', $id)->update(['profile' => $name, ]);
+                }
+              
+                if($user->email!=$request->email){
+                  $email =  User::where('email', $request->email)->count();
+                if ($email < 1) { 
+                    if($empresa->rif!=$request->rif){
+                      $rif = Empresa::where('rif', $request->rif)->count();
+                      if ($rif < 1) { 
+                         $empresa->rif = $request->rif;
+                        }else{
+                          return response()->json(['mensaje' => 'Mail is duplicated', 'status' => 0], 200);  
+                        }
+                      }
+                   $user->email = $request->email;
+                  }else{
+                    return response()->json(['mensaje' => 'Mail is duplicated', 'status' => 0], 200);  
+                  }
+                }else{
+                    $rif = Empresa::where('rif', $request->rif)->count();
+                    if($empresa->rif!=$request->rif){
+                    if ($rif < 1) { 
+                       $empresa->rif = $request->rif;
+                      }else{
+                        return response()->json(['mensaje' => 'Rif is duplicated', 'status' => 0], 200);  
+                      }
+                    }
+                }
+                $empresa->descripcion = $request->descripcion;
+                $empresa->save();
+                $user->name = $request->nombre;
+                $user->phone = $request->phone;
+                $user->address = $request->address;
+
+                $user->save();
+                $message = 'Successfully updated data';
+                return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
+            } else {
+                $validatedData = $request->validate(['password' => 'confirmed', ]);
+                // if($request->password == $request->password2){
+                DB::table('users')->where('id', $id)->update(['password' => Hash::make($request->password), ]);
+                $message = 'Passwords successfully changed';
+                return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
+                // }else{
+                //     $message = 'Las contraseñas no coinciden';
+                //     return back()->with('message',$message);
+                // }
+                
+            }
+        }
+   
+    }
+
     public function delete($id) {
 
         $empresaID = empresaID(Auth::user()->id); //Id de la empresa

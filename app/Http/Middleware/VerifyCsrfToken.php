@@ -22,7 +22,8 @@ class VerifyCsrfToken extends Middleware
         'registrar_empresa',
         'registrar_servicio',
         'registrar_secciones',
-        'registrar_fechas'
+        'registrar_fechas',
+        'editar_usuario'
     ];
 
 }

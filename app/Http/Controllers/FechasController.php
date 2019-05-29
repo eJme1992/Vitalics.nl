@@ -52,18 +52,10 @@ class FechasController extends Controller
 
         if($request->input('fecha')>date("Y-m-d")){
 
-        
-
         $Fechas = new Fecha();
-      
-        $seccion =  $Fechas->secciones;
+
+        $seccion =  $Fechas->sections();
        
-       /**
-        * undocumented constant
-        **/
-       dd($seccion);
-
-
         $Fechas->fecha       =    $request->input('fecha');
         $Fechas->hora        =    $request->input('hora');
         $Fechas->seccion_id  =    $request->input('seccion_id');
@@ -72,7 +64,8 @@ class FechasController extends Controller
         }else{
             $mensaje = 'A elegido una fecha que ya a pasado';
         }
-          return response()->json(['mensaje' => $mensaje, 'status' => 'ok'], 200);
+          //return response()->json(['mensaje' => $Fecha, 'status' => 'ok'], 400);
+        return dd($seccion);
     }
 
     /**
