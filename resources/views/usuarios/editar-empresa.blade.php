@@ -16,7 +16,7 @@
            
             
 
-            <form action="{{route('usuarios.update', $user->id)}}" enctype="multipart/form-data" method='POST' class="form-horizontal form-label-left input_mask">
+            <form id="editar_usuario" enctype="multipart/form-data" method='POST' class="form-horizontal form-label-left input_mask">
                @csrf
                 @method('PUT')
             <div class="col-md-12 col-xs-12 col-sm-12 mg-b">
@@ -67,11 +67,15 @@
                   <textarea name="descripcion" id="inputSuccess3"  class='form-control has-feedback-left' placeholder='Description' required>{{$empresa->descripcion}}</textarea>
                   <span class="fa fa-exclamation-circle form-control-feedback left" aria-hidden="true"></span>
                </div>
-                <div class="form-group">
-                <div class="col-xs-12 ">
-                    <button type="submit" class="btn btn-success btn-lg left">Submit</button>
-                </div>
-                </div>
+               <div class="col-lg-12">
+                  <div id="resultadoeditar_usuario"></div>
+               </div>
+               <div class="form-group">
+                  <div class="col-xs-12 " id="botoneditar_usuario">
+                     <a name="enviareditar_usuario" id="enviareditar_usuario" class="btn-dark btn-block btn" href="javascript:editar(1)">
+                     Submit <i class="fas fa-check"></i></a>
+                  </div>
+               </div>
           
 
             </form>
@@ -91,7 +95,7 @@
                   <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                </h1>
             </center>
-            <form action="{{route('usuarios.update', $user->id)}}" method='POST' class='form-horizontal form-label-left'>
+            <form  id="editar_pass" method='POST' class='form-horizontal form-label-left'>
                @csrf
                @method('PUT')
                <div class="row">
@@ -103,17 +107,18 @@
                <div class="row">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12">Repeat Password</label>
                   <div class="col-md-9 col-sm-9 col-xs-12">
-                     <input type="password" name='password_confirmation' class="form-control" required>
+                        <input type="password" name='password_confirmation' id="password-confirm" class="form-control" required>
                   </div>
                </div>
-               @if($message != '')
-               <span class="label label-danger">{{$message}}</span>
-               @endif
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div id="resultadoeditar_pass"></div>
+               </div>
                <div class="row">
                <div class="col-xs-8"></div>
                <div class='col-xs-1'>
                   <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-lg left">Submit</button>
+                     <a href="javascript:editar(2)" class="btn btn-success btn-lg left">Submit</a>
                   </div>
                 </div>
                </div>
@@ -152,5 +157,58 @@
    }   
    
    
+</script>
+<script type="text/javascript">
+    function editar(op){
+    if(op===1){  
+      
+             PFEditar('{{route('usuarios.update', $user->id)}}','editar_usuario',op);
+          }
+    if(op===2){  
+      
+             PFEditar('{{route('usuarios.update', $user->id)}}','editar_pass',op);
+     }      
+    };
+
+
+    
+    
+    function PFEditar(url,formulario,op){
+        var formData=new FormData(jQuery('#'+formulario)[0]);
+        var html='<a name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn" href="javascript:editar('+op+')" >Submit <i class="fas fa-check"></i></a>';
+        $.ajax({
+            url:url,
+            type:'POST',
+            contentType:false,
+            processData:false,
+            dataType:'json',
+            data:formData,
+            beforeSend:function(){
+                $("#resultado"+formulario).html('<div class="alert alert-success">Procesando...!</div>');
+                $("#boton"+formulario).html('<button disabled=""  type="button" name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn">Submit <i class="fa fa-spinner fa-spin fa-1x fa-fw"></i></button> ');
+                }
+            })
+            .done(function(data,textStatus,jqXHR){
+                var getData=jqXHR.responseJSON;
+                if(data.status=='ok'){
+                    $("#resultado"+formulario).html('<div class="alert alert-success">'+data.mensaje+' | <a href="javascript:location.reload();">Refresh</a></div>');
+                    $("#boton"+formulario).html(html);
+                }else{
+                    $("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR! </strong>'+data.mensaje+'</div>');
+                    $("#boton"+formulario).html(html);
+                }
+            })
+            .fail(function(data,textStatus,errorThrown){
+                var errorsHtml='';var errors=data.responseJSON;
+                $.each(errors,function(key,value){
+                    if(key!='message'){
+                        $.each(value,function(key1,value1){
+                            errorsHtml+=value1;
+                        });
+                    }});
+                    $("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR! </strong>'+errorsHtml+'</div>');
+                    $("#boton"+formulario).html(html);
+            })
+        };
 </script>
 @endsection

@@ -107,7 +107,7 @@
                             <div class="col-xs-8"></div>
                             <div class='col-xs-1'>
                                 <div class="form-group">
-                                    <a href="javascript:editar(2)" class="btn btn-success btn-lg left">Submit</a
+                                    <a href="javascript:editar(2)" class="btn btn-success btn-lg left">Submit</a>
                                 </div>
                             </div>
                         </div>
@@ -135,7 +135,43 @@
 
     
     
-        function PFEditar(url,formulario,op){var formData=new FormData(jQuery('#'+formulario)[0]);var html='<a name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn" href="javascript:editar('+op+')" >Submit <i class="fas fa-check"></i></a>';$.ajax({url:url,type:'POST',contentType:false,processData:false,dataType:'json',data:formData,beforeSend:function(){$("#resultado"+formulario).html('<div class="alert alert-success">Procesando...!</div>');$("#boton"+formulario).html('<button disabled=""  type="button" name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn">Submit <i class="fa fa-spinner fa-spin fa-1x fa-fw"></i></button> ');}}).done(function(data,textStatus,jqXHR){var getData=jqXHR.responseJSON;if(data.status=='ok'){$("#resultado"+formulario).html('<div class="alert alert-success">'+data.mensaje+' | <a href="javascript:location.reload();">Refresh</a></div>');$("#boton"+formulario).html(html);}else{$("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR! </strong>'+data.mensaje+'</div>');$("#boton"+formulario).html(html);}}).fail(function(data,textStatus,errorThrown){var errorsHtml='';var errors=data.responseJSON;$.each(errors,function(key,value){if(key!='message'){$.each(value,function(key1,value1){errorsHtml+=value1;});}});$("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR! </strong>'+errorsHtml+'</div>');$("#boton"+formulario).html(html);})};
+    function PFEditar(url,formulario,op){
+        var formData=new FormData(jQuery('#'+formulario)[0]);
+        var html='<a name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn" href="javascript:editar('+op+')" >Submit <i class="fas fa-check"></i></a>';
+        $.ajax({
+            url:url,
+            type:'POST',
+            contentType:false,
+            processData:false,
+            dataType:'json',
+            data:formData,
+            beforeSend:function(){
+                $("#resultado"+formulario).html('<div class="alert alert-success">Procesando...!</div>');
+                $("#boton"+formulario).html('<button disabled=""  type="button" name="enviar'+formulario+'" id="enviar'+formulario+'" class="btn-dark btn-block btn">Submit <i class="fa fa-spinner fa-spin fa-1x fa-fw"></i></button> ');
+                }
+            })
+            .done(function(data,textStatus,jqXHR){
+                var getData=jqXHR.responseJSON;
+                if(data.status=='ok'){
+                    $("#resultado"+formulario).html('<div class="alert alert-success">'+data.mensaje+' | <a href="javascript:location.reload();">Refresh</a></div>');
+                    $("#boton"+formulario).html(html);
+                }else{
+                    $("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR! </strong>'+data.mensaje+'</div>');
+                    $("#boton"+formulario).html(html);
+                }
+            })
+            .fail(function(data,textStatus,errorThrown){
+                var errorsHtml='';var errors=data.responseJSON;
+                $.each(errors,function(key,value){
+                    if(key!='message'){
+                        $.each(value,function(key1,value1){
+                            errorsHtml+=value1;
+                        });
+                    }});
+                    $("#resultado"+formulario).html('<div class="alert alert-danger"><strong>ERROR! </strong>'+errorsHtml+'</div>');
+                    $("#boton"+formulario).html(html);
+            })
+        };
 </script>
 <script type="text/javascript">
     var photo=document.getElementById("photo");var boton=document.getElementById("change-photo").addEventListener("click",()=>{photo.click()});var photoT=document.getElementById("img-prueba");photo.onchange=function(e){let reader=new FileReader();reader.readAsDataURL(e.target.files[0]);reader.onload=function(){let preview=document.getElementById('preview');image=document.createElement("img");image.src=reader.result;image.classList.add("img-p","img-circle");photoT.style.display="none";preview.appendChild(image);};}

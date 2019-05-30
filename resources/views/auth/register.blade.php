@@ -54,7 +54,7 @@ Register
 
            <div class="separator">
                 <p class="change_link">Are you already registered?
-                  <a href="{{url('/')}}/login" class="to_register"><b>Create Account<b></a>
+                  <a href="{{url('/')}}/login" class="to_register"><b>Log In<b></a>
                 </p>
 
                 <div class="clearfix"></div>
