@@ -8,6 +8,7 @@ use App\SectionUser;
 use App\Servicio;
 use Illuminate\Support\Facades\Auth;
 use App\PuntosComprados;
+use App\Fecha;
 
 class EnrollController extends Controller
 {
@@ -21,7 +22,9 @@ class EnrollController extends Controller
 
     	$existsEnroll = SectionUser::where('sections_id',$request->section_id)->where('user_id',$request->user_id)->exists();
 
-    	//dd($placesSections);
+        $fecha = Fecha::where('seccion_id',$request->section_id)->first();
+
+    	dd(date('Y-m-d'));
 
     	if ($request->costo > $points) { // puntos del usuario y el costo
     		 return response()->json(['msg' => 'You do not have the necessary points to register', 'status' => false], 422);
