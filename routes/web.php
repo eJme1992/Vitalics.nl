@@ -13,11 +13,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
 // Store Point
 Route::resource('/point','StorePointController');
 //Route::post('/pago', 'StorePointController@store');
-
 Route::get('/view-register', function () {
     return view('usuarios.register');
 });
@@ -30,7 +28,6 @@ Route::get('/user-empresa', function () {
 Route::get('/services', function () {
     return view('servicios.services-list');
 });
-
 //Rutas de autentificacion url
 Auth::routes();
 //Home Url
@@ -73,6 +70,8 @@ Route::post('/importando','ExcelController@importExcel')->name('excel.import');
 Route::get('/assign-points', 'EmpresasController@asignarPuntos')->name('asignar.puntos');
 Route::post('/save-puntos', 'EmpresasController@savePuntos')->name('save.puntos');
 Route::post('/search-employee', 'EmpresasController@filtro')->name('user.filtro');
+Route::get('verpuntos', 'StorePointController@ver');
+Route::post('actualizarpuntos', 'StorePointController@actualizarpuntos');
 
 Route::post('/assign-points/{usuario}', 'UsersController@asignarPuntos')->name('user.puntos');
 

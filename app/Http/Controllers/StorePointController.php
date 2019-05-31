@@ -10,9 +10,15 @@ use Stripe\Stripe;
 use Stripe\Customer;
 use Stripe\Charge;
 use Auth;
+use DB;
 
 class StorePointController extends Controller
 {
+    public function __construct()
+    {
+        header('Origin: xxx.com');
+        header('Access-Control-Allow-Origin:*');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -115,8 +121,27 @@ class StorePointController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
+
+    public function ver()
+    {
+        $punto = DB::table('point')
+                ->where(['id' => 1])
+                ->first();
+
+                return response()->json($punto, 200);
+    }
+    public function  actualizarpuntos(Request $request)
+    {
+    
+        $punto = DB::table('point')
+                ->where(['id' => 1])->update(['price' => $request->input('cost') ]);;
+
+        return response()->json(['mensaje' => 'Points Updater', 'status' => 'ok'], 200);
+    }
+
+   
 
     /**
      * Remove the specified resource from storage.
