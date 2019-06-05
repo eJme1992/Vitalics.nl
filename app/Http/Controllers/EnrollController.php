@@ -24,15 +24,12 @@ class EnrollController extends Controller
 
         $fecha = Fecha::where('seccion_id',$request->section_id)->first();
 
-<<<<<<< HEAD
-    	dd(date('Y-m-d'));
-=======
+
     	//dd(['fecha' =>date('Y-m-d'), 'fecha de BD' => $fecha->fecha]);
 
         if ($fecha->fecha < date('Y-m-d')) { //si fecha de la seccion es mayor a la fecha actual
              return response()->json(['msg' => 'You can not register this section started on '.$fecha->fecha, 'status' => false], 422);
         }
->>>>>>> abfc6478ef9c67c9fa8683c39264c010f4f652d8
 
     	if ($request->costo > $points) { // puntos del usuario y el costo
     		 return response()->json(['msg' => 'You do not have the necessary points to register', 'status' => false], 422);
