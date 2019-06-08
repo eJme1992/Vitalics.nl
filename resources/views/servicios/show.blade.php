@@ -69,7 +69,9 @@
                         <td>{{$s->lugar}}</td>
                         <td>
                             <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#myModal{{$s->id}}">Details</a>
-                            <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#enroll{{$s->id}}">Enroll</a>
+                            @if(Auth::user()->model != 'juridico')
+                              <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#enroll{{$s->id}}">Enroll</a>
+                            @endif
                         </td>
                     </tr>
                     <!-- Modal detalles de sections -->
@@ -136,7 +138,9 @@
                       <td>{{$sp->lugar}}</td>
                       <td>
                           <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#myModal{{$sp->id}}">Details</a>
-                          <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#enrollP{{$sp->id}}">Enroll</a>
+                          @if(Auth::user()->model != 'juridico')
+                            <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#enrollP{{$sp->id}}">Enroll</a>
+                          @endif
                       </td>
                   </tr>
                   <!-- Modal detalles de sections -->

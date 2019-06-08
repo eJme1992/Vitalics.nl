@@ -24,6 +24,7 @@ class EnrollController extends Controller
 
         $fecha = Fecha::where('seccion_id',$request->section_id)->first();
 
+
     	//dd(['fecha' =>date('Y-m-d'), 'fecha de BD' => $fecha->fecha]);
 
         if ($fecha->fecha < date('Y-m-d')) { //si fecha de la seccion es mayor a la fecha actual
