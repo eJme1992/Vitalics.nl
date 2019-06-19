@@ -11,7 +11,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 // Store Point
 Route::resource('/point','StorePointController');
@@ -39,11 +39,11 @@ Route::get('listadeempresas', 'EmpresasController@todasmisempresas');
 Route::get('verempresa/{id}', 'EmpresasController@verempresa');
 Route::get('lista_user_empresas/{id}', 'EmpresasController@lista_user_empresas');
 //Vamos a app/Http/Kernerl.php y desactivamos la línea \App\Http\Middleware\VerifyCsrfToken::class,
-Route::resource('servicios', 'serviciosController');
-Route::post('registrar_servicio', 'serviciosController@nuevoservicio');
-Route::post('editar_servicio', 'serviciosController@editservicio');
-Route::get('listadeservicios', 'serviciosController@todosmisservicios');
-Route::get('verservicio/{id}', 'serviciosController@verservicio');
+Route::resource('servicios', 'ServiciosController');
+Route::post('registrar_servicio', 'ServiciosController@nuevoservicio');
+Route::post('edit_servicio', 'ServiciosController@editservicio');
+Route::get('listadeservicios', 'ServiciosController@todosmisservicios');
+Route::get('verservicio/{id}', 'ServiciosController@verservicio');
 
  Route::resource('seccioness',           'SectionsController');
  Route::post('registrar_secciones',      'SectionsController@nuevosection');
@@ -61,6 +61,8 @@ Route::resource('usuarios', 'UsersController');
 Route::post('usuarios/nuevo', 'UsersController@crearusuario')->name('usuarios.nuevo');
 Route::delete('usuarios/delete/{usuario}','UsersController@delete')->name('usuarios.delete'); ##DESPEDIR USUARIO
 Route::post('editar_usuario', 'UsersController@update2');
+Route::get('lista_todos_usuarios', 'UsersController@lista_todos_usuarios');
+Route::get('Verusuarios/{id}', 'UsersController@ver_usuarios');
 
 Route::post('servicios/filtrar', 'ServiciosController@filtros')->name('servicios.filtro');
 Route::resource('notificacion', 'NotificacionController');
@@ -72,6 +74,8 @@ Route::post('/save-puntos', 'EmpresasController@savePuntos')->name('save.puntos'
 Route::post('/search-employee', 'EmpresasController@filtro')->name('user.filtro');
 Route::get('verpuntos', 'StorePointController@ver');
 Route::post('actualizarpuntos', 'StorePointController@actualizarpuntos');
+Route::get('verpoint/{id}', 'StorePointController@point');
+
 
 Route::post('/assign-points/{usuario}', 'UsersController@asignarPuntos')->name('user.puntos');
 

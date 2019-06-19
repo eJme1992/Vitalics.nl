@@ -113,7 +113,7 @@
                 <img class="card-img-top img-fluid img-profile-list" src="{{url('/')}}{{$servicio->imagen}}" alt="Card image" />
                 <div class="card-body">
                     <h4 class="card-title">{{$servicio->nombre}}</h4>
-                    <p class="card-text"> {{$servicio->descripcion}}</p>
+                    <p class="card-text" style="height: 150px; overflow: hidden;"> {{$servicio->descripcion}}</p>
                     <p class="card-text txt-cost"><b>{{$servicio->costo}} Points</b></p>
 
                     <a href="{{route('servicios.show', $servicio->id)}}" class="btn btn-primary btn-profile-list">Learn More</a>

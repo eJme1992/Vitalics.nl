@@ -24,7 +24,10 @@ class VerifyCsrfToken extends Middleware
         'registrar_secciones',
         'registrar_fechas',
         'editar_usuario',
-        'actualizarpuntos'
+        'actualizarpuntos',
+        'editar_secciones',
+        'edit_servicio'
+
     ];
 
 }

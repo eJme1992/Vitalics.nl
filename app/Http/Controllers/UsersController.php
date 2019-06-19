@@ -11,6 +11,7 @@ use App\Notificacion;
 use App\Mail\Email;
 use Auth;
 use Faker\Generator as Faker;
+
 use App\Http\Requests\UserRequest;
 class UsersController extends Controller {
     /**
@@ -28,6 +29,41 @@ class UsersController extends Controller {
         $message = '';
         return view('usuarios.register', compact(['message']));
     }
+
+    public function lista_todos_usuarios() {
+        $user = User::where('users.model','natural')->get();
+       
+        $i = 0; 
+        $array = array();
+        foreach($user as $key){
+        $array[$i]['datos'] = $key;
+        $empresa = User::join('empresa_user', 'empresa_user.user_id', '=', 'users.id')
+        ->join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')
+        ->select('empresas.*','users.*','empresa_user.*')
+        ->where('users.id',$key->id)
+        ->first(); 
+       
+        if($empresa!=null){
+        $Empresas = User::join('empresa_user', 'empresa_user.user_id', '=', 'users.id')
+        ->join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')
+        ->where('empresa_user.id',$empresa->empresa_id)
+        ->first(); 
+        $array[$i]['empresa'] = $Empresas->name;
+        }else{
+        $array[$i]['empresa'] = Null;   
+        }
+        $i++;
+        }
+        return response()->json(['mensaje' => $array], 200);
+    }
+
+    public function ver_usuarios($id) {
+        $user = User::where('users.id',$id)
+        ->first();
+       
+        return response()->json( $user, 200);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -334,7 +370,22 @@ class UsersController extends Controller {
                     $name = '/img/programa/' . $name;
                     DB::table('users')->where('id', $id)->update(['profile' => $name, ]);
                 }
-                DB::table('users')->where('id', $id)->update(['name' => $request->name, 'birthdate' => $request->birthdate, 'nationality' => $request->nationality, 'phone' => $request->phone, 'address' => $request->address, 'email' => $request->email, 'email' => $request->email, ]);
+                $user = User::where('id', $id)->first();
+                if($user->email!=$request->email){
+                    $email =  User::where('email', $request->email)->count();
+                  if ($email < 1) { 
+                      $user->email = $request->email; 
+                    }else{
+                      return response()->json(['mensaje' => 'Mail is duplicated', 'status' => 0], 200);  
+                    }
+                  }
+                $user->name = $request->name;
+                //$user->birthdate = $request->birthdate;
+                //$user->nationality = $request->nationality;
+                $user->phone = $request->phone;
+                $user->address =  $request->address;
+                $user->email = $request->email;
+                $user->save(); 
                 $message = 'Successfully updated data';
                 return response()->json(['mensaje' => $message, 'status' => 'ok'], 200);
             } else {

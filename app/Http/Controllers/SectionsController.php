@@ -36,8 +36,12 @@ class SectionsController extends Controller
         }
         $section->cupos        =  $request->input('cupos');
         $section->lugar        =  $request->input('lugar');
+        if ($request->input('lugar')=='Company') {
+            $section->empresa_id   =  $request->input('empresa');
+        }
         $section->servicio_id  =  $request->input('servicio_id');
-        $section->estado       =  'activo';
+        //activo cambio
+        $section->estado       =  'Active';
         $section->descripcion  =  $request->input('descripcion');
         $section->save();      
         return response()->json(['mensaje' => 'Record created with success', 'status' => 'ok'], 200);    
@@ -47,6 +51,16 @@ class SectionsController extends Controller
     {
         $section = section::where('id',$id)->first();
         return response()->json(['datos' => $section, 'status' => 'ok'], 200);
+    }
+
+    public function editsecciones(Request $request)
+    {
+       
+         $section = section::where('id',$request->input('id'))->first();
+         $section->cupos        =  $request->input('cupos');
+         $section->descripcion  =  $request->input('descripcion');
+         $section->save();    
+         return response()->json(['datos' => $section, 'status' => 'ok'], 200);
     }
     
     public function nuevoFecha(Request $request)

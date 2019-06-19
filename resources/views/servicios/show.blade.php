@@ -7,13 +7,13 @@
 <div class="container">
     <!-- <div class="row"> -->
     <div class="row">
-        <div class='col-md-8' style="padding-top:15.5px">
+        <div class='col-md-12' style="padding-top:15.5px">
             <form action="{{route('servicios.filtro')}}" method="post">
                 @csrf @method('POST')
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4">
-                            <h2 class="text-center">{{$servicio->nombre}}</h2>
+                        <div class="col-md-12">
+                            <h1 class="text-center">{{$servicio->nombre}}</h1>
                         </div>
                     </div>
                 </div>
@@ -35,21 +35,23 @@
     <hr>
 
     <div class="row">
-        <div class="col-md-4" style='margin-top: 20px;'>
+        <div class="col-md-6" style='margin-top: 20px;'>
             <div class="card card-profile">
-                <img class="card-img-top img-fluid img-profile-list" src="{{url($servicio->imagen)}}" alt="Card image" />
-                <div class="card-body">
-                    <h4 class="card-title">{{$servicio->nombre}}</h4>
-                    <p class="card-text"> {{$servicio->descripcion}}</p>
-                    <p class="card-text txt-cost"><b>{{$servicio->costo}}.Points</b></p>
+                <img class="panel-img-top img-fluid img-profile-list" src="{{url($servicio->imagen)}}" alt="Card image" />
+                <div class="panel-body row">
+                   
+                    <h4 class="card-title col-md-6">{{$servicio->nombre}}</h4>
+                    <h4 class="card-text txt-cost col-md-6"><b>{{$servicio->costo}}.Points</b></h4>
+                    <p class="card-text col-md-12 text-justify"><hr> {{$servicio->descripcion}}</p>
+                   
 
-                   {{--  <a href="{{route('servicios.show', $servicio->id)}}" class="btn btn-success btn-profile-list">Compartir Servicios con otros miembros</a>  --}}
-                    <center><a  href="#">Compartir Servicios Con Otros Miembros</a></center>
+                   <!--  <a href="{{route('servicios.show', $servicio->id)}}" class="btn btn-success btn-profile-list">Compartir Servicios con otros miembros</a>  --}}
+                    <center><a  href="#">Compartir Servicios Con Otros Miembros</a></center>-->
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <table class="table">
               <thead class="thead-dark">
                 @if(Auth::user()->model == 'juridico')

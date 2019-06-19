@@ -45,6 +45,9 @@
          width: 80%;
          height: 60px;
          }
+         .view-boton{
+            display: none;
+         }
          .main_menu .fas {
          width: 35px;
          opacity: .99;
@@ -143,7 +146,7 @@
                            <li>
                               <a><i class="fas fa-suitcase"></i> Services <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
-                                 <li><a href="{{route('servicios.index')}}">Mis servicios</a></li>
+                                 <li><a href="{{route('servicios.index')}}">My Services</a></li>
                                  <!-- <li><a href="#">Nuevo empleado</a></li> -->
                               </ul>
                            </li>
@@ -151,7 +154,7 @@
                            <li>
                               <a><i class="fas fa-shopping-bag"></i> Store points</span></a>
                                <ul class="nav child_menu">
-                                 <li><a href="{{route('point.create')}}">Comprar Puntos</a></li>
+                                 <li><a href="https://www.ejme.com.ve/trabajos">Buy points</a></li>
                                </ul>
                            </li>
                         </ul>
@@ -162,14 +165,14 @@
                             <li>
                               <a><i class="fas fa-suitcase"></i> Services <span class="fa fa-chevron-down"></span></a>
                               <ul class="nav child_menu">
-                                 <li><a href="{{route('servicios.index')}}">Mis servicios</a></li>
+                                 <li><a href="{{route('servicios.index')}}">My Services</a></li>
                                  <!-- <li><a href="#">Nuevo empleado</a></li> -->
                               </ul>
                            </li>
                              <li>
                               <a><i class="fas fa-shopping-bag"></i> Store points</span></a>
                                <ul class="nav child_menu">
-                                 <li><a href="{{route('point.create')}}">Comprar Puntos</a></li>
+                                 <li><a href="{{route('point.create')}}">Buy points</a></li>
                                </ul>
                            </li>
                         </ul>
@@ -236,7 +239,7 @@
                            <!--<li><a href="javascript:;">Help</a></li>-->
                            <li>
                               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                              <i class="fa fa-sign-out pull-right"></i>Cerrar sesión</a>
+                              <i class="fa fa-sign-out pull-right"></i>Close session</a>
                               </a>
                               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                  @csrf

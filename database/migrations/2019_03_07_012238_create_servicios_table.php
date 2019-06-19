@@ -19,7 +19,7 @@ class CreateServiciosTable extends Migration
             $table->string('tipo');
             $table->string('sesiones');
             $table->string('costo');
-            $table->string('descripcion')->nullable();
+            $table->text('descripcion')->nullable();
             $table->string('estado'); // Activo-inactivo 
             $table->string('imagen')->nullable();
             $table->timestamps();

@@ -263,9 +263,30 @@ class ServiciosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function editservicio(Request $request)
     {
-        //
+        $validatedData = $request->validate(['file' => 'required|image', 'nombre' => 'required', 'tipo' => 'required', 'sesiones' => 'required', 'costo' => 'required', 'descripcion' => 'required']);
+       
+        $servicio = Servicio::where('id', $request->input('id'))->first();
+        
+        if ($request->file('file')) {
+            $file = $request->file('file');
+            $name = time() . $file->getClientOriginalName();
+            $fn   = new FuncionesRepetitivas();
+            $name = $fn->limpiarCaracteresEspeciales($name);
+            $file->move(public_path() . '/img/programa/servicio/', $name);
+            $name = '/img/programa/servicio/' . $name;
+            $servicio->imagen      = $name;
+        }
+
+        $servicio->nombre      = $request->input('nombre');
+        $servicio->sesiones    = $request->input('sesiones');
+        $servicio->costo       = $request->input('costo');    
+        $servicio->tipo        = $request->input('tipo');
+        $servicio->descripcion = $request->input('descripcion');
+        $servicio->save();
+
+        return response()->json(['datos' => $servicio, 'status' => 'ok'], 200);
     }
 
     /**

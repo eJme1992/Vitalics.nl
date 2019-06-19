@@ -20,7 +20,7 @@ class CreateSectionsTable extends Migration
             $table->string('cupos');
             $table->string('lugar');
             $table->string('estado'); // Activo-inactivo
-            $table->string('descripcion')->nullable();
+            $table->text('descripcion')->nullable();
             $table->timestamps();
             $table->foreign('empresa_id')->references('id')->on('empresas');
             $table->foreign('servicio_id')->references('id')->on('servicios');

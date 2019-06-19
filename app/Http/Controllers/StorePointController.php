@@ -24,9 +24,10 @@ class StorePointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function point($id)
     {
-        //
+        $payment = Payment::where('user_id',$id)->get();
+        return response()->json($payment, 200);
     }
 
     /**
