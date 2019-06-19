@@ -229,7 +229,7 @@ class ServiciosController extends Controller
 
         
 
-        $sectionsPublic = section::where('lugar','Salons')->get();
+        $sectionsPublic = section::where('lugar','Salons')->where('servicio_id',$id)->get();
 
         $usuarios = User::
             join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
