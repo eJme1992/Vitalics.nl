@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
-                            <input type="text" class="form-control" id="inputSuccess5" name='phone' placeholder="Phone" required>
+                            <input type="text" maxlength='9' class="form-control" id="inputSuccess5" name='phone' placeholder="Phone" required>
                             <span class="fa fa-phone form-control-feedback right" aria-hidden="true"></span>
                         </div>
 

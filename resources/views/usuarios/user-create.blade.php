@@ -40,7 +40,7 @@
       </div>
       <div class="col-md-6 mg-b">
          <p>Cellphone</p>
-         <input type="text" name="phone" id="phone" class="form-control"/>
+         <input type="text" name="phone" maxlength='9' id="phone" class="form-control"/>
       </div>
       <div class="col-md-12">
          <p>Address</p>
