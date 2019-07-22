@@ -4359,6 +4359,23 @@ border-radius: .25rem
 }
 .txt-cost{
     text-align: center;
-    font-size: 1.2em;
-    color:#ff0000;
+    font-size: 1em;
+    margin: 13px 0;
+    color:#000;
+}
+/*Estilos por sofi*/
+.btn-vitalics{
+    background-color: #1eaae2;
+    color:#fff;
+}
+.btn-vitalics:hover{
+    background-color: #1eaae2;
+    color:#fff;
+}
+.card-color-title{
+    color: #1eaae2;
+    font-weight: bold;
+}
+.card-txt-color{
+    color:#727272;
 }

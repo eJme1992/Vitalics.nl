@@ -84,7 +84,7 @@
                         </div>
                        
                         <div class="col-md-2 ">
-                            <button type="submit" class='btn btn-success'>Search <i class="fas fa-search"></i></button>
+                            <button type="submit" class='btn btn-success btn-vitalics'>Search <i class="fas fa-search"></i></button>
                         </div>
 
 
@@ -111,12 +111,12 @@
         <div class="col-md-4" style='margin-top: 20px;'>
             <div class="card card-profile">
                 <img class="card-img-top img-fluid img-profile-list" src="{{url('/')}}{{$servicio->imagen}}" alt="Card image" />
-                <div class="card-body">
-                    <h4 class="card-title">{{$servicio->nombre}}</h4>
-                    <p class="card-text" style="height: 150px; overflow: hidden;"> {{$servicio->descripcion}}</p>
-                    <p class="card-text txt-cost"><b>{{$servicio->costo}} Points</b></p>
-
-                    <a href="{{route('servicios.show', $servicio->id)}}" class="btn btn-primary btn-profile-list">Learn More</a>
+                <div class="card-body row">
+                    <h4 class="card-title card-color-title">{{$servicio->nombre}}</h4>
+                    <p class="card-text card-txt-color" style="height: 150px; overflow: hidden;"> {{$servicio->descripcion}}</p>
+                   <div class="col-md-6"> <p class="card-text txt-cost "><b>{{$servicio->costo}} Points</b></p></div>    
+                    
+                   <div class="col-md-6"> <a href="{{route('servicios.show', $servicio->id)}}" class="btn btn-vitalics btn-profile-list">Learn More</a></div>
                 </div>
             </div>
         </div>
