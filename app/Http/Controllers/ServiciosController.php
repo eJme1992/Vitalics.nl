@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\FuncionesRepetitivas;
 use App\Servicio;
 use App\User;
+use App\Fecha;
 use App\section;
 use DB;
 use Illuminate\Http\Request;
@@ -228,16 +229,50 @@ class ServiciosController extends Controller
     {
         $servicio = Servicio::findOrFail($id);
         $empresaID = empresaID(Auth::user()->id);
-       
+        $array;
+        $usuarios;
        if($empresaID){
-       $section = section::where('servicio_id',$id)->get();
-       }else{
+
         $section = section::where('servicio_id',$id)->where('empresa_id',$id)->get();
+
+        var_dump($section);
+     
+      $i=0;
+          foreach ($section as $value) {
+            $fecha =  fecha::where('seccion_id',$value->id)->min('fecha');
+           
+            if($fecha>date('Y-m-d')){
+               $value->SetFecha($fecha);
+               $array[$i] = $value;
+
+               $i++;
+            }
+          }
+
+          $usuarios = User::
+            join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
+            join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
+            select('users.*', 'empresa_user.*')->
+            where('empresas.id', $empresaID)->
+            where('users.model', 'natural')->
+            where('empresa_user.estado', 'activo')->
+            get();
+
+       }else{
+         $i=0;
+          foreach ($section as $value) {
+            $fecha =  fecha::where('seccion_id',$value->id)->min('fecha');
+           
+            if($fecha>date('Y-m-d')){
+               $value->SetFecha($fecha);
+               $array[$i] = $value;
+        
+            }
+          }
        }
 
-       dd($section);
         
-        return view('servicios.show', ['servicio' => $servicio, 'usuarios' => $usuarios,'sectionsUser' => $sectionsUser,'sectionsPublic' => $sectionsPublic]);
+        return view('servicios.show', ['servicio' => $servicio, 'usuarios' => $usuarios,'sectionsUser' => $array]);
     }
 
    

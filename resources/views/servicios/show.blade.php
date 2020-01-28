@@ -39,6 +39,7 @@
             <div class="card card-profile">
                 <img class="panel-img-top img-fluid img-profile-list" src="{{url($servicio->imagen)}}" alt="Card image" />
                 <div class="panel-body row">
+
                    
                     <h4 class="card-title col-md-6">{{$servicio->nombre}}</h4>
                     <h4 class="card-text txt-cost col-md-6"><b>{{$servicio->costo}}.Points</b></h4>
@@ -70,6 +71,13 @@
                 </tr>
               </thead>
               <tbody>
+           
+                   @foreach($sectionsUser AS $row)
+                    <tr>
+                       <td> {{$row->inicio}} </td>
+                    </tr>
+                  
+                   @endforeach
 
               </tbody>
             </table>
