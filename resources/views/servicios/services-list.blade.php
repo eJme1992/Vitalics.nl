@@ -6,11 +6,12 @@
             <form action="{{route('servicios.filtro')}}" method="post">
                 @csrf @method('POST')
                 <div class="container">
-
+<!--
                     <div class="row">
                         <div class="btn-group " style='float:left; '>
                             <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-expanded="false"><span class='fa fa-filter'></span><span class="caret"></span>
-						</button>
+                        </button>
+                            
                             <ul role="menu" class="dropdown-menu " style='width: 500px; overflow:hidden;'>
                                 <div class="row panel-body" style='margin-top:10px; '>
                                     <div class="col-md-9 grid_slider">
@@ -55,6 +56,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            
                                 <div class="row" style='padding:10px; border-top: solid 2px #D7DCDE;'>
                                     <div class="col-md-9">
                                         <select class="select2_single form-control" name='tipo' tabindex="-1">
@@ -77,8 +79,10 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </ul>
                         </div>
+                        -->
                         <div class="col-md-3 ">
                             <input type="text" name="buscar" class='form-control' placeholder='Search for services'>
                         </div>
@@ -109,7 +113,7 @@
     <div class="row">
         @foreach($servicios as $servicio)
         <div class="col-md-4" style='margin-top: 20px;'>
-            <div class="card card-profile">
+            <div class="card card-profile img-service">
                 <img class="card-img-top img-fluid img-profile-list" src="{{url('/')}}{{$servicio->imagen}}" alt="Card image" />
                 <div class="card-body row">
                     <h4 class="card-title card-color-title">{{$servicio->nombre}}</h4>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\section;
+use App\Fecha;
 use App\SectionUser;
 use App\Servicio;
 use App\PuntosComprados;
@@ -160,9 +161,15 @@ class SectionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id )
     {
-        //
+        
+        $section  = section::where('id',$id)->first();
+        $servicio = Servicio::where('id',$section->servicio_id)->first();
+        $fechas   = Fecha::where('seccion_id',$id)->get();
+        
+
+        return view('sections.show', ['servicio' => $servicio,'fechas' => $fechas,'section' => $section]);
     }
 
     /**

@@ -13,7 +13,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1 class="text-center">{{$servicio->nombre}}</h1>
+                            <h1 class="text-center"> {{$servicio->nombre}}  <span style="color:red;"><b>( {{$servicio->costo}} Points.)</b></span></h1>
                         </div>
                     </div>
                 </div>
@@ -52,156 +52,25 @@
         </div>
 
         <div class="col-md-6">
-            <table class="table">
-              <thead class="thead-dark">
-                @if(Auth::user()->model == 'juridico')
-                    <span class="pull-right"><button class="btn btn-primary btn-md" data-toggle="modal" data-target="#newSections">New Sections</button></span>
+                 @if(Auth::user()->model == 'juridico')
+                    <span class="pull-right">
+                      <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#newSections">
+                        New Sections <i class="fas fa-plus"></i>
+                      </button>
+                    </span>
                  @endif
+
+              <table class="table">
+              <thead class="thead-dark">
                 <tr>
+                  <th scope="col">Start date</th>
                   <th scope="col">Section</th>
                   <th scope="col">Type</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                @if($sectionsUser)
-                  @foreach($sectionsUser as $s)
-                    <tr>
-                        <td>{{$s->descripcion}}</td>
-                        <td>{{$s->lugar}}</td>
-                        <td>
-                            <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#myModal{{$s->id}}">Details</a>
-                            @if(Auth::user()->model != 'juridico')
-                              <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#enroll{{$s->id}}">Enroll</a>
-                            @endif
-                        </td>
-                    </tr>
-                    <!-- Modal detalles de sections -->
-                      <div class="modal fade" id="myModal{{$s->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                              <h4 class="modal-title" id="myModalLabel">Sections <strong>{{$s->descripcion}}</strong></h4>
-                            </div>
-                            <div class="modal-body">
-                              <h2>Service</h2>
-                              <p><strong>Service Name: </strong>{{$s->service->name}}</p>
-                              <p><strong>Service Kind: </strong>{{$s->service->tipo}}</p>
-                              <p><strong>SErvice Sessions: </strong>{{$s->service->sesiones}}</p>
-                              <p><strong>Service Cost: </strong>{{$s->service->costo}}</p>
-                              <p><strong>Service Description: </strong>{{$s->service->descripcion?$s->service->descripcion:'Not Description'}}</p>
-                              <p><strong>Service Status: </strong>{{$s->service->estado}}</p>
-                              <h2>Section</h2>
-                              <p><strong>Section Kind: </strong>{{$s->lugar}}</p>
-                              <p><strong>Section Places: </strong>{{$s->cupos}}</p>
-                               <p><strong>Section Sttatus: </strong>{{$s->estado}}</p>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
-                       <!-- Modal inscripcion -->
-                      <div class="modal fade" id="enroll{{$s->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                              <h4 class="modal-title" id="myModalLabel"><strong>{{$s->descripcion}}</strong></h4>
-                            </div>
-                            <div class="modal-body">
-                              <div class="alert alert-danger hide" role="alert" id="message_error">
-                  
-                              </div>
-                              <form id="form_enroll">
-                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                                <input type="hidden" name="section_id" value="{{$s->id}}">
-                                <input type="hidden" name="costo" value="{{$servicio->costo}}">
-
-                                <h4 class="text-center"><strong>{{strtoupper(Auth::user()->name)}}</strong> Do you wish to register in this section?</h4>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <input type="submit" name="button" class="btn btn-primary" value="Register" id="submit_enroll">
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                  @endforeach
-                @endif
-                @foreach($sectionsPublic as $sp)
-                  <tr>
-                      <td>{{$sp->descripcion}}</td>
-                      <td>{{$sp->lugar}}</td>
-                      <td>
-                          <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#myModal{{$sp->id}}">Details</a>
-                          @if(Auth::user()->model != 'juridico')
-                            <a href="#" class="btn btn-md btn-success" data-toggle="modal" data-target="#enrollP{{$sp->id}}">Enroll</a>
-                          @endif
-                      </td>
-                  </tr>
-                  <!-- Modal detalles de sections -->
-                      <div class="modal fade" id="myModal{{$sp->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                              <h4 class="modal-title" id="myModalLabel">Sections <strong>{{$sp->descripcion}}</strong></h4>
-                            </div>
-                            <div class="modal-body">
-                              <h2>Service</h2>
-                              <p><strong>Service Name: </strong>{{$sp->service->name}}</p>
-                              <p><strong>Service Kind: </strong>{{$sp->service->tipo}}</p>
-                              <p><strong>SErvice Sessions: </strong>{{$sp->service->sesiones}}</p>
-                              <p><strong>Service Cost: </strong>{{$sp->service->costo}}</p>
-                              <p><strong>Service Description: </strong>{{$sp->service->descripcion?$sp->service->descripcion:'Not Description'}}</p>
-                              <p><strong>Service Status: </strong>{{$sp->service->estado}}</p>
-                              <h2>Section</h2>
-                              <p><strong>Section Kind: </strong>{{$sp->lugar}}</p>
-                              <p><strong>Section Places: </strong>{{$sp->cupos}}</p>
-                               <p><strong>Section Sttatus: </strong>{{$sp->estado}}</p>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              {{-- <button type="button" class="btn btn-primary">Register</button> --}}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                         <!-- Modal inscripcion -->
-                      <div class="modal fade" id="enrollP{{$sp->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                              <h4 class="modal-title" id="myModalLabel"><strong>{{$sp->descripcion}}</strong></h4>
-                            </div>
-                            <div class="modal-body">
-                              <div class="alert alert-danger hide" role="alert" id="message_error">
-                  
-                              </div>
-                              <form id="form_enroll">
-                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                                <input type="hidden" name="section_id" value="{{$sp->id}}">
-                                <input type="hidden" name="costo" value="{{$servicio->costo}}">
-
-                                <h4 class="text-center"><strong>{{strtoupper(Auth::user()->name)}}</strong> Do you wish to register in this section?</h4>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <input type="submit" name="button" class="btn btn-primary" value="Register" id="submit_enroll">
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                @endforeach
               </tbody>
             </table>
         </div>

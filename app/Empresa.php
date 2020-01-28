@@ -1,9 +1,9 @@
 <?php
-
+//pruebad
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+//ddd
 class Empresa extends Model
 {
       

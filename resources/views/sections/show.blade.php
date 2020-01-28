@@ -9,9 +9,26 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+    <div class="col-md-5">
+        <div class="card-header"><h4>Section: <b>{{$servicio->nombre}}</b></h4></div>
+         <hr>
+         <h4>Descriptions</h4>
+         {{$section->descripcion}}
+       
+        </div>
+        <div class="col-md-2">
+        <div class="card-header"><h4>Date</h4></div>
+         <hr>
+         <ul>
+         @foreach($fechas as $fecha)
+         <li>{{$fecha->fecha}} ( {{$fecha->hora}} )</li>       
+        @endforeach
+         </ul>
+        </div>
+
+        <div class="col-md-5">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header"><h4>Section</h4></div>
                 <hr>
 
                 <div class="card-body">
@@ -25,6 +42,9 @@
                 </div>
             </div>
         </div>
+       
+       
+        
     </div>
 </div>
 @endsection
@@ -52,10 +72,10 @@
       businessHours: true, // display business hours
       editable: true,
       events: [
-        @foreach($servicios as $servicio)
+        @foreach($fechas as $fecha)
         {
           title: '{{$servicio->nombre}}',
-          start: '{{$servicio->fecha}}',
+          start: '{{$fecha->fecha}}',
           constraint: '{{$servicio->nombre}}'
           //start: '2019-06-18',
          // end: '2019-06-20'

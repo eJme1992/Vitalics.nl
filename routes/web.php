@@ -1,4 +1,5 @@
 <?php
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +45,7 @@ Route::post('registrar_servicio', 'ServiciosController@nuevoservicio');
 Route::post('edit_servicio', 'ServiciosController@editservicio');
 Route::get('listadeservicios', 'ServiciosController@todosmisservicios');
 Route::get('verservicio/{id}', 'ServiciosController@verservicio');
+Route::get('servicioswordpress', 'ServiciosController@serviciosWordpress');
 
  Route::resource('seccioness',           'SectionsController');
  Route::post('registrar_secciones',      'SectionsController@nuevosection');
@@ -61,6 +63,7 @@ Route::resource('usuarios', 'UsersController');
 Route::post('usuarios/nuevo', 'UsersController@crearusuario')->name('usuarios.nuevo');
 Route::delete('usuarios/delete/{usuario}','UsersController@delete')->name('usuarios.delete'); ##DESPEDIR USUARIO
 Route::post('editar_usuario', 'UsersController@update2');
+Route::post('editar_usuario_pass', 'UsersController@updatepass');
 Route::get('lista_todos_usuarios', 'UsersController@lista_todos_usuarios');
 Route::get('Verusuarios/{id}', 'UsersController@ver_usuarios');
 

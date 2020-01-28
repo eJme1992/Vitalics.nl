@@ -27,7 +27,7 @@ class FechasController extends Controller
         //
     }
     public function todosmisfechas($id) {
-     $fecha = fecha::where('seccion_id',$id)->get();
+     $fecha = fecha::where('seccion_id',$id)->orderBy('fecha', 'desc')->get();
      return response()->json(['datos' => $fecha, 'status' => 'ok'], 200);
     }
 

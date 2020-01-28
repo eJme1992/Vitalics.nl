@@ -47,7 +47,7 @@ class EmpresasController extends Controller
         $usuarios = User::
             join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
             join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
-            select('users.*','empresa_user.*')->
+            select('users.*','empresa_user.id as id_empresa')->
             where('empresas.id', $empresaID)->
             where('users.model','natural')->
             where('empresa_user.estado','activo')->

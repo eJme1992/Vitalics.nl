@@ -40,6 +40,7 @@
       <!-- Custom Theme Style -->
       <link href="{{ asset('') }}panel/build/css/custom.min.css" rel="stylesheet">
       <link href="{{ asset('') }}panel/build/css/custom.css" rel="stylesheet">
+      @yield('css')
       <style type="text/css">
          .img-circle.profile_img {
          width: 80%;
@@ -77,7 +78,20 @@
           .logo2{
             display: block;
          }
-          }
+         .img-profile-list{
+            max-height: 333px;
+         }
+         }
+         .img-service .img-profile-list{
+            height: 15vw;
+         }
+         @media only screen and (max-width: 990px) {
+            .img-service .img-profile-list{
+            height: 50vw;
+         }
+}
+
+        
       </style>
       <script type="text/javascript">
       function myFunction() {
@@ -154,7 +168,7 @@
                            <li>
                               <a><i class="fas fa-shopping-bag"></i> Store points</span></a>
                                <ul class="nav child_menu">
-                                 <li><a href="https://www.ejme.com.ve/trabajos">Buy points</a></li>
+                                 <li><a href="{{route('point.create')}}">Buy points</a></li>
                                </ul>
                            </li>
                         </ul>
@@ -178,7 +192,7 @@
                         </ul>
                         @endif
                          <ul class="nav side-menu">
-                           <li><a href="{{url('/')}}"><i class="fas fa-shopping-cart"></i> Shop</span></a></li>
+                           <li><a href="http://vt.positiva360.com"><i class="fas fa-shopping-cart"></i> Shop</span></a></li>
                         </ul>
                      </div>
                   </div>
@@ -224,7 +238,7 @@
                         @if(Auth::user()->profile  == '')
                         <img src="{{url('/')}}/img/profile.png" >
                         @else
-                        <img src="{{Auth::user()->profile }}"   alt="{{ Auth::user()->name }}">
+                        <img src="{{url('/')}}{{Auth::user()->profile }}"   alt="{{ Auth::user()->name }}">
                         @endif
                         {{ Auth::user()->name }}
                         <span class=" fa fa-angle-down"></span>

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\FuncionesRepetitivas;
@@ -47,7 +48,7 @@ class ServiciosController extends Controller
         $servicio->sesiones    = $request->input('sesiones');
         $servicio->costo       = $request->input('costo');
         $servicio->imagen      = $name;
-        $servicio->estado      = 'activo';
+        $servicio->estado      = 'active';
         $servicio->tipo        = $request->input('tipo');
         $servicio->descripcion = $request->input('descripcion');
         $servicio->save();
@@ -57,6 +58,7 @@ class ServiciosController extends Controller
     }
     public function verservicio($id)
     {
+      
         $servicio = Servicio::where('id', $id)->first();
         return response()->json(['datos' => $servicio, 'status' => 'ok'], 200);
     }
@@ -70,6 +72,13 @@ class ServiciosController extends Controller
         //
         $servicios = Servicio::paginate(8);
         return view('servicios.services-list', compact(['servicios']));
+    }
+
+    public function serviciosWordpress()
+    {
+        //
+        $servicios = Servicio::paginate(3);
+        return response()->json($servicios, 200);
     }
 
     /**
@@ -218,39 +227,21 @@ class ServiciosController extends Controller
     public function show($id)
     {
         $servicio = Servicio::findOrFail($id);
-
         $empresaID = empresaID(Auth::user()->id);
+       
+       if($empresaID){
+       $section = section::where('servicio_id',$id)->get();
+       }else{
+        $section = section::where('servicio_id',$id)->where('empresa_id',$id)->get();
+       }
 
-        if ($empresaID) {
-            $sectionsUser = Auth::user()->company->empresa->sections;
-        }else{
-            $sectionsUser = false;
-        }
-
+       dd($section);
         
-
-        $sectionsPublic = section::where('lugar','Salons')->where('servicio_id',$id)->get();
-
-        $usuarios = User::
-            join('empresa_user', 'empresa_user.user_id', '=', 'users.id')->
-            join('empresas', 'empresas.id', '=', 'empresa_user.empresa_id')->
-            select('users.*', 'empresa_user.*')->
-            where('empresas.id', $empresaID)->
-            where('users.model', 'natural')->
-            where('empresa_user.estado', 'activo')->
-            get();
-
-        //dd($usuarios);
-
         return view('servicios.show', ['servicio' => $servicio, 'usuarios' => $usuarios,'sectionsUser' => $sectionsUser,'sectionsPublic' => $sectionsPublic]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
+
     public function edit($id)
     {
         //

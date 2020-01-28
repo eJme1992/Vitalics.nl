@@ -26,7 +26,8 @@ class VerifyCsrfToken extends Middleware
         'editar_usuario',
         'actualizarpuntos',
         'editar_secciones',
-        'edit_servicio'
+        'edit_servicio',
+        'editar_usuario_pass'
 
     ];
 

@@ -78,22 +78,40 @@
                 <h3 class='mg-b' style='padding-top:10px;'>OPEN SECTIONS</h3>
             </center>
                 @forelse($sections as $section)
+                <?php // dd($section); ?>
                 <div class="x_panel">
                     <div class="x_content">
                         <article class="media event">
                             <a class="pull-left date">
-                                <p class="month">quotas</p>
-                                <p class="day">{{$section->cupos}}</p>
+                                <p class="month" style='font-size: 10px;'>Section number</p>
+                                <p class="day">{{$section->id}}</p>
                             </a>
                             <div class="media-body">
-                            <a class="title" href="#">{{$section->estado}}</a>
-                            <p>{{$section->descripcion}}</p>
-                            <em>{{$section->lugar}}</em>
+                            <a class="title" href="{{url('/')}}/servicios/{{$section->id}}">{{$section->nombre}}</a>
+                            <p><?= substr($section->descripcion, 0, 80); ?></p>
+                            <em><a href="#" data-toggle="modal" data-target="#myModall{{$section->id}}"> Read more</a></em>
                             
                             </div>
                         </article>
                     </div>
                 </div>
+                    <!--  Read more -->
+                    <div class="modal fade" id="myModall{{$section->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              </div>
+                              <div class="modal-body text-justify">
+                                <p>{{$section->descripcion}}</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                {{-- <button type="button" class="btn btn-primary">Register</button> --}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                 @empty
                 <div class="x_panel">
                     <div class="x_content">
@@ -105,27 +123,46 @@
                     </div>
                 </div>
                 @endforelse
+
             @else
             <center>
                 <h3 class='mg-b' style='padding-top:10px;'>REGISTERED SERVICES</h3>
             </center>
             @forelse($sections as $section)
+            <?php // dd($section); ?>
                 <div class="x_panel">
                     <div class="x_content">
                         <article class="media event">
                             <a class="pull-left date">
-                                <p class="month" style='font-size: 10px;'>Sessions</p>
-                                <p class="day">{{$section->sesiones}}</p>
+                                <p class="month" style='font-size: 10px;'>Section number</p>
+                                <p class="day">{{$section->id}}</p>
                             </a>
                             <div class="media-body">
-                            <a class="title" href="#">{{$section->estado}}</a>
-                            <p>{{$section->descripcion}}</p>
-                            <em>{{$section->nombre}}</em>
+                            <a class="title" href="{{url('/')}}/seccioness/{{$section->id}}">{{$section->nombre}}</a>
+                            <p><?= substr($section->descripcion, 0, 80); ?></p>
+                            <em><a href="#" data-toggle="modal" data-target="#myModall{{$section->id}}"> Read more</a></em>
                             
                             </div>
                         </article>
                     </div>
                 </div>
+                    <!--  Read more -->
+                    <div class="modal fade" id="myModall{{$section->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              </div>
+                              <div class="modal-body text-justify">
+                                <p>{{$section->descripcion}}</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                {{-- <button type="button" class="btn btn-primary">Register</button> --}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
             @empty
                 <div class="x_panel">
                     <div class="x_content">

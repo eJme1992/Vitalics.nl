@@ -26,7 +26,10 @@ class EnrollController extends Controller
 
 
     	//dd(['fecha' =>date('Y-m-d'), 'fecha de BD' => $fecha->fecha]);
-
+		if (isset($fecha->fecha)==false) { //si fecha de la seccion es mayor a la fecha actual
+			return response()->json(['msg' => 'the section is not open since no dates have been set yet ','status' => false], 422);
+	    }
+		
         if ($fecha->fecha < date('Y-m-d')) { //si fecha de la seccion es mayor a la fecha actual
              return response()->json(['msg' => 'You can not register this section started on '.$fecha->fecha, 'status' => false], 422);
         }

@@ -18,7 +18,7 @@
                             <center>
                                 @if($user->profile == '')
                                 <img src="{{url('/')}}/img/profile.png" class="img-pp img-circle" id="img-prueba"> @else
-                                <img src="{{$user->profile}}" width="156px" height="156px" class="img-pp img-circle" id="img-prueba"> @endif
+                                <img src="{{url('/')}}{{$user->profile}}" width="156px" height="156px" class="img-pp img-circle" id="img-prueba"> @endif
                                 <div id="preview"></div>
                                 <button type="button" id="change-photo" class="btn btn-profile">Change profile photo</button>
                                 <input type="file" class="form-control hide" name="profile" id="photo" />
@@ -174,6 +174,36 @@
         };
 </script>
 <script type="text/javascript">
-    var photo=document.getElementById("photo");var boton=document.getElementById("change-photo").addEventListener("click",()=>{photo.click()});var photoT=document.getElementById("img-prueba");photo.onchange=function(e){let reader=new FileReader();reader.readAsDataURL(e.target.files[0]);reader.onload=function(){let preview=document.getElementById('preview');image=document.createElement("img");image.src=reader.result;image.classList.add("img-p","img-circle");photoT.style.display="none";preview.appendChild(image);};}
+    var photo=document.getElementById("photo");
+    var btn_change = document.getElementById("change-photo");
+    btn_change.addEventListener("click",()=>{photo.click()});
+    var photoT=document.getElementById("img-prueba");
+     var btn_C = document.getElementById('change-photo');
+     var cont = 1;
+     photo.onchange = function(e) {
+     // Creamos el objeto de la clase FileReader
+      let reader = new FileReader();
+   
+     // Leemos el archivo subido y se lo pasamos a nuestro fileReader
+     reader.readAsDataURL(e.target.files[0]);
+     
+     // Le decimos que cuando este listo ejecute el código interno
+     reader.onload = function(){
+        btn_C.value = cont;
+       let preview = document.getElementById('preview');
+         image = document.createElement("img");
+         console.log(btn_C.value);
+     if( btn_C.value == 1){ 
+       image.src = reader.result;
+       image.classList.add("img-p", "img-circle");
+       photoT.style.display ="none";  
+       preview.appendChild(image);
+         }  else {
+        preview.firstChild.src = reader.result;
+     }
+    cont++;
+     };
+
+}
 </script>
 @endsection
